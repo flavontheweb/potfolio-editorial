@@ -1,0 +1,555 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+
+const menuLinks = [
+  { href: "#hero", label: "Accueil", index: "01" },
+  { href: "#experience", label: "Expérience", index: "02" },
+  { href: "#competences", label: "Compétences", index: "03" },
+  { href: "#photos", label: "Photographie", index: "04" },
+  { href: "#vie", label: "Hors écran", index: "05" },
+  { href: "#contact", label: "Contact", index: "06" },
+];
+---
+
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fragment+Mono&display=swap"
+    />
+  </head>
+  <body data-load-state="loading">
+    <a class="skip-link" href="#main">Aller au contenu</a>
+
+    <!-- Loader rideau — première visite uniquement -->
+    <div class="loader" data-loader aria-hidden="true">
+      <div class="loader__panel" data-loader-panel>
+        <div class="loader__monogram" aria-hidden="true">
+          <span class="loader__slot"><span data-loader-char>F</span></span>
+          <span class="loader__slot"><span data-loader-char>G</span></span>
+        </div>
+        <p class="loader__meta meta" data-loader-meta>Portfolio — 2026</p>
+      </div>
+      <div class="loader__curve" data-loader-curve></div>
+    </div>
+
+    <!-- Transition de page : panneau rouille (seule grande surface d'accent) -->
+    <div class="transition" data-transition aria-hidden="true">
+      <div class="transition__panel" data-transition-panel></div>
+    </div>
+
+    <!-- Header progressive blur -->
+    <header class="site-header">
+      <div class="site-header__blur" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <div class="site-header__bar container">
+        <a href="#hero" class="site-header__brand display" data-nav-link>FG</a>
+        <p class="site-header__clock meta" aria-hidden="true">
+          ANNECY — <span data-clock>00:00</span>
+        </p>
+        <div class="site-header__actions">
+          <a href="#contact" class="site-header__cta meta roll" data-nav-link>
+            <span data-roll-copy>Contact</span>
+            <span data-roll-copy aria-hidden="true">Contact</span>
+          </a>
+          <button
+            class="site-header__burger"
+            data-menu-toggle
+            aria-expanded="false"
+            aria-label="Ouvrir le menu"
+            aria-controls="site-menu"
+          >
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Menu underlay : vit SOUS la page -->
+    <nav class="menu" id="site-menu" data-menu aria-hidden="true">
+      <div class="menu__inner container">
+        <ul class="menu__links">
+          {
+            menuLinks.map((link) => (
+              <li class="menu__item">
+                <a
+                  href={link.href}
+                  class="menu__link display"
+                  data-nav-link
+                  data-menu-link
+                >
+                  <span class="menu__index meta">{link.index}</span>
+                  <span class="mask-line">
+                    <span data-menu-label>{link.label}</span>
+                  </span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+        <div class="menu__meta">
+          <div>
+            <p class="meta meta--accent">Contact</p>
+            <a href="mailto:contact@flavien-gaujard.fr" class="meta roll">
+              <span data-roll-copy>contact@flavien-gaujard.fr</span>
+              <span data-roll-copy aria-hidden="true"
+                >contact@flavien-gaujard.fr</span
+              >
+            </a>
+          </div>
+          <div>
+            <p class="meta meta--accent">Réseaux</p>
+            <a
+              href="https://github.com/flavontheweb"
+              class="meta roll"
+              rel="noopener"
+              target="_blank"
+            >
+              <span data-roll-copy>GitHub ↗</span>
+              <span data-roll-copy aria-hidden="true">GitHub ↗</span>
+            </a>
+            <a
+              href="https://www.linkedin.com/"
+              class="meta roll"
+              rel="noopener"
+              target="_blank"
+            >
+              <span data-roll-copy>LinkedIn ↗</span>
+              <span data-roll-copy aria-hidden="true">LinkedIn ↗</span>
+            </a>
+          </div>
+          <div>
+            <p class="meta meta--accent">Statut</p>
+            <p class="meta">Open to work — 2026</p>
+            <p class="meta">EST. 2000 — Annecy, FR</p>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page (glisse pour révéler le menu) -->
+    <div class="page" data-page>
+      <main id="main">
+        <slot />
+      </main>
+
+      <!-- Footer reveal parallaxe : le footer vit sous la page -->
+      <footer class="site-footer" data-footer id="contact">
+        <div class="site-footer__inner container" data-footer-inner>
+          <p class="meta meta--accent">Une idée, un projet, un poste ?</p>
+          <a
+            href="mailto:contact@flavien-gaujard.fr"
+            class="site-footer__cta display"
+          >
+            <span class="mask-line"><span>Écrivez-moi&nbsp;→</span></span>
+          </a>
+          <div class="site-footer__grid">
+            <div>
+              <p class="meta meta--accent">Mail</p>
+              <a href="mailto:contact@flavien-gaujard.fr" class="meta roll">
+                <span data-roll-copy>contact@flavien-gaujard.fr</span>
+                <span data-roll-copy aria-hidden="true"
+                  >contact@flavien-gaujard.fr</span
+                >
+              </a>
+            </div>
+            <div>
+              <p class="meta meta--accent">Réseaux</p>
+              <a
+                href="https://github.com/flavontheweb"
+                class="meta roll"
+                rel="noopener"
+                target="_blank"
+              >
+                <span data-roll-copy>GitHub — flavontheweb</span>
+                <span data-roll-copy aria-hidden="true"
+                  >GitHub — flavontheweb</span
+                >
+              </a>
+              <a
+                href="https://www.linkedin.com/"
+                class="meta roll"
+                rel="noopener"
+                target="_blank"
+              >
+                <span data-roll-copy>LinkedIn — Flavien Gaujard</span>
+                <span data-roll-copy aria-hidden="true"
+                  >LinkedIn — Flavien Gaujard</span
+                >
+              </a>
+            </div>
+            <div>
+              <p class="meta meta--accent">Statut</p>
+              <p class="site-footer__pill meta">
+                <span class="site-footer__dot" aria-hidden="true"></span>
+                Open to work — 2026
+              </p>
+            </div>
+          </div>
+          <div class="site-footer__legal">
+            <p class="meta">© 2026 Flavien Gaujard</p>
+            <p class="meta">EST. 2000 — ANNECY, FR</p>
+            <p class="meta">Design & code — FG</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <div class="grain" aria-hidden="true"></div>
+
+    <script>
+      import "../scripts/motion.js";
+    </script>
+  </body>
+</html>
+
+<style>
+  /* ---------- Loader ---------- */
+  .loader {
+    position: fixed;
+    inset: 0;
+    z-index: 150;
+    pointer-events: none;
+  }
+
+  .loader__panel {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    gap: var(--space-4);
+    background: var(--ink-950);
+  }
+
+  .loader__monogram {
+    display: flex;
+    gap: var(--space-2);
+    justify-content: center;
+  }
+
+  .loader__slot {
+    display: block;
+    overflow: hidden;
+    font-family: var(--font-display);
+    font-size: var(--text-h1);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: var(--paper-50);
+  }
+
+  .loader__slot > span {
+    display: block;
+  }
+
+  .loader__meta {
+    text-align: center;
+  }
+
+  .loader__curve {
+    position: absolute;
+    top: 100%;
+    left: -5%;
+    width: 110%;
+    height: 20vw;
+    background: var(--ink-950);
+    border-radius: 0 0 50% 50%;
+    transform-origin: top center;
+  }
+
+  body:not([data-load-state="loading"]) .loader {
+    display: none;
+  }
+
+  /* ---------- Transition ---------- */
+  .transition {
+    position: fixed;
+    inset: 0;
+    z-index: 140;
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  .transition__panel {
+    position: absolute;
+    inset: -2% 0;
+    background: var(--rust-500);
+    transform: translateY(102%);
+  }
+
+  /* ---------- Header ---------- */
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 100;
+    transition: opacity 0.4s var(--ease-out);
+  }
+
+  .site-header__blur {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .site-header__blur span {
+    position: absolute;
+    inset: 0;
+  }
+
+  .site-header__blur span:nth-child(1) {
+    backdrop-filter: blur(1px);
+    mask-image: linear-gradient(to bottom, black 0%, black 60%, transparent 100%);
+  }
+  .site-header__blur span:nth-child(2) {
+    backdrop-filter: blur(2px);
+    mask-image: linear-gradient(to bottom, black 0%, black 45%, transparent 85%);
+  }
+  .site-header__blur span:nth-child(3) {
+    backdrop-filter: blur(4px);
+    mask-image: linear-gradient(to bottom, black 0%, black 30%, transparent 70%);
+  }
+  .site-header__blur span:nth-child(4) {
+    backdrop-filter: blur(8px);
+    mask-image: linear-gradient(to bottom, black 0%, black 18%, transparent 50%);
+  }
+  .site-header__blur span:nth-child(5) {
+    backdrop-filter: blur(16px);
+    mask-image: linear-gradient(to bottom, black 0%, transparent 30%);
+  }
+
+  .site-header__bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: var(--space-4);
+  }
+
+  .site-header__brand {
+    font-size: var(--text-lg);
+    color: var(--paper-50);
+  }
+
+  .site-header__clock {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .site-header__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+  }
+
+  .site-header__cta {
+    color: var(--paper-100);
+  }
+
+  .site-header__burger {
+    display: grid;
+    gap: 6px;
+    padding: var(--space-3);
+    margin: calc(var(--space-3) * -1);
+    min-width: 44px;
+    min-height: 44px;
+    align-content: center;
+    justify-items: end;
+  }
+
+  .site-header__burger span {
+    display: block;
+    width: 28px;
+    height: 1.5px;
+    background: var(--paper-100);
+    transition: transform var(--dur-roll) var(--ease-out),
+      width var(--dur-roll) var(--ease-out);
+  }
+
+  .site-header__burger span:last-child {
+    width: 18px;
+  }
+
+  .site-header__burger:hover span:last-child {
+    width: 28px;
+  }
+
+  .site-header__burger[aria-expanded="true"] span:first-child {
+    transform: translateY(4px) rotate(45deg);
+    width: 28px;
+  }
+
+  .site-header__burger[aria-expanded="true"] span:last-child {
+    transform: translateY(-3.5px) rotate(-45deg);
+    width: 28px;
+  }
+
+  /* ---------- Menu underlay ---------- */
+  .menu {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    background: var(--ink-900);
+    overflow: hidden;
+  }
+
+  .menu[aria-hidden="true"] {
+    visibility: hidden;
+  }
+
+  .menu__inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: var(--space-6);
+    height: 55vh;
+    padding-block: calc(var(--space-7) + var(--space-4)) var(--space-5);
+  }
+
+  .menu__links {
+    list-style: none;
+  }
+
+  .menu__item + .menu__item {
+    border-top: 1px solid var(--ink-600);
+  }
+
+  .menu__link {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-4);
+    padding-block: var(--space-2);
+    font-size: clamp(1.75rem, 4vw, 3.4375rem);
+    color: var(--paper-50);
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+
+  .menu__link:hover {
+    color: var(--rust-400);
+  }
+
+  .menu__index {
+    min-width: 2ch;
+  }
+
+  .menu__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-6);
+    margin-top: auto;
+  }
+
+  .menu__meta > div {
+    display: grid;
+    gap: var(--space-2);
+    justify-items: start;
+  }
+
+  .menu__meta .meta:not(.meta--accent) {
+    color: var(--paper-100);
+  }
+
+  /* ---------- Page ---------- */
+  .page {
+    position: relative;
+    z-index: 10;
+    background: var(--ink-950);
+    transition: opacity 0.4s var(--ease-out);
+  }
+
+  /* ---------- Footer ---------- */
+  .site-footer {
+    position: relative;
+    overflow: hidden;
+    background: var(--ink-900);
+    border-top: 1px solid var(--ink-600);
+  }
+
+  .site-footer__inner {
+    display: grid;
+    gap: var(--space-6);
+    padding-block: var(--space-7) var(--space-5);
+    will-change: transform;
+  }
+
+  .site-footer__cta {
+    font-size: var(--text-hero);
+    color: var(--paper-50);
+    width: fit-content;
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+
+  .site-footer__cta:hover {
+    color: var(--rust-400);
+  }
+
+  .site-footer__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-5);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--ink-600);
+  }
+
+  .site-footer__grid > div {
+    display: grid;
+    gap: var(--space-2);
+    justify-items: start;
+  }
+
+  .site-footer__grid .meta:not(.meta--accent) {
+    color: var(--paper-100);
+  }
+
+  .site-footer__pill {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--ink-600);
+    border-radius: 999px;
+  }
+
+  .site-footer__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--ok);
+  }
+
+  .site-footer__legal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--ink-600);
+  }
+
+  @media (max-width: 640px) {
+    .site-header__clock {
+      display: none;
+    }
+  }
+</style>

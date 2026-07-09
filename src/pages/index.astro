@@ -1,0 +1,1024 @@
+---
+import Base from "../layouts/Base.astro";
+import backgroundVideo from "../assets/background.mp4";
+
+const experiences = [
+  {
+    index: "01",
+    company: "Buawei",
+    role: "Apprenti manager de l’ingénierie numérique",
+    dates: "Sept. 2024 — Juil. 2026",
+    place: "Annecy, FR",
+    missions: [
+      "Conception et développement de fonctionnalités pour une plateforme SaaS d’inférence et d’entraînement de modèles d’IA.",
+      "Refonte UI/UX de plusieurs interfaces et optimisation de la gestion des données.",
+      "Lead de la conception d’une librairie de composants React partagée — UI, UX et DX unifiées entre les projets.",
+      "Refonte complète de l’iconographie pour une identité visuelle cohérente.",
+      "Maquettes Figma pour l’ensemble des produits, réduction de la dette technique.",
+    ],
+  },
+  {
+    index: "02",
+    company: "O’Rabbit Graphic Design",
+    role: "Stagiaire en développement web & web design",
+    dates: "Fév. 2024 — Avril 2024",
+    place: "Chartres, FR",
+    missions: [
+      "Développement de sites web et déclinaisons d’identités visuelles pour les clients du studio.",
+      "Intégration de maquettes et travail quotidien au contact de graphistes.",
+    ],
+  },
+];
+
+const education = [
+  {
+    index: "01",
+    school: "ISCOD",
+    diploma: "Mastère en ingénierie avancée du logiciel — RNCP niv. 7",
+    dates: "2025 — 2027",
+  },
+  {
+    index: "02",
+    school: "ISCOD",
+    diploma: "Bachelor Concepteur Développeur d’Application — RNCP niv. 6",
+    dates: "2024 — 2025",
+  },
+  {
+    index: "03",
+    school: "Wild Code School",
+    diploma: "Développeur Web et Web Mobile — RNCP niv. 5",
+    dates: "2023 — 2024",
+  },
+  {
+    index: "04",
+    school: "École 42",
+    diploma: "Tronc commun — Paris",
+    dates: "2018 — 2020",
+  },
+];
+
+const skills = [
+  {
+    index: "01",
+    title: "Architecture",
+    stack: "Monolithes — Micro-services — Design patterns",
+    text: "Conception d’architectures web et structuration de projets selon l’Atomic Design ou l’architecture en couches, avec une attention particulière portée à la maintenabilité et à la DX.",
+  },
+  {
+    index: "02",
+    title: "Frontend",
+    stack: "TypeScript — React — Angular — Astro — SCSS — Tailwind",
+    text: "Interfaces web interactives et responsives, conception avancée avec des librairies UI, gestion du flux de données côté client, tests end-to-end avec Cypress.",
+  },
+  {
+    index: "03",
+    title: "Backend",
+    stack: "Java — SpringBoot — Node — NestJS — PostgreSQL",
+    text: "API REST et systèmes d’authentification, logique métier et accès aux données sécurisé, tests unitaires avec Jest.",
+  },
+  {
+    index: "04",
+    title: "DevOps & qualité",
+    stack: "Docker — GitLab CI/CD — Nginx — SonarQube",
+    text: "Conteneurisation, pipelines CI/CD pour l’automatisation du flux de travail, configuration de serveurs, gestion de version avec Git.",
+  },
+  {
+    index: "05",
+    title: "UI, UX, DX",
+    stack: "Figma — Design systems — Storybook — Shadcn",
+    text: "Design systems, wireframing et prototyping. Conception et développement de librairies de composants frontend.",
+  },
+];
+
+const stackChapters = [
+  {
+    index: "01",
+    title: "Frontend",
+    desc: "L’interface comme terrain d’expression — du pixel au flux de données.",
+    items: ["TypeScript", "React", "Vite", "Angular", "Redux", "Tanstack Query", "SCSS", "Bootstrap", "Tailwind", "Shadcn", "Cypress", "Storybook", "Astro"],
+  },
+  {
+    index: "02",
+    title: "Backend",
+    desc: "La logique métier, les API et la donnée — sécurisées et testées.",
+    items: ["Java", "SpringBoot", "PostgreSQL", "TypeScript", "Node", "Bun", "ExpressJS", "NestJS", "Jest"],
+  },
+  {
+    index: "03",
+    title: "DevOps & Qualité",
+    desc: "Du commit à la prod : automatiser, conteneuriser, mesurer.",
+    items: ["Git", "GitLab CI/CD", "Docker", "Nginx", "SonarQube", "SonarLint", "ESLint", "Prettier"],
+  },
+  {
+    index: "04",
+    title: "Outils",
+    desc: "Organiser, maquetter, documenter — le quotidien du métier.",
+    items: ["ClickUp", "Figma", "Obsidian", "Suite Microsoft", "Suite Google"],
+  },
+];
+
+const photos = [
+  { seed: "fg-darkroom-01", w: 1500, h: 1000, alt: "Photographie — brume matinale sur le lac d’Annecy", label: "Brume sur le lac", exif: "F/2.8 — 1/250 — ISO 400", place: "Annecy, 2025" },
+  { seed: "fg-darkroom-02", w: 1200, h: 1500, alt: "Photographie — portrait en contre-jour", label: "Contre-jour", exif: "F/1.8 — 1/125 — ISO 800", place: "Chartres, 2024" },
+  { seed: "fg-darkroom-03", w: 1200, h: 1500, alt: "Photographie — scène urbaine de nuit", label: "Trame urbaine", exif: "F/4 — 1/500 — ISO 200", place: "Paris, 2024" },
+  { seed: "fg-darkroom-04", w: 1500, h: 1000, alt: "Photographie — ligne de crête au Semnoz", label: "Ligne de crête", exif: "F/8 — 1/1000 — ISO 100", place: "Semnoz, 2025" },
+  { seed: "fg-darkroom-05", w: 1500, h: 1000, alt: "Photographie — basse lumière en ville", label: "Basse lumière", exif: "F/1.4 — 1/60 — ISO 1600", place: "Annecy, 2026" },
+  { seed: "fg-darkroom-06", w: 1200, h: 1500, alt: "Photographie — texture et matière", label: "Texture", exif: "F/2 — 1/320 — ISO 400", place: "Lyon, 2025" },
+];
+---
+
+<Base
+  title="Flavien Gaujard — Développeur & designer d’interfaces"
+  description="Portfolio de Flavien Gaujard, développeur full-stack et designer d’interfaces à Annecy. React, TypeScript, Java, design systems et photographie."
+>
+  <!-- ====================== HÉROS ====================== -->
+  <section class="hero" id="hero">
+    <figure class="hero__frame">
+      <div class="hero__media" data-hero-parallax>
+        <video
+          src={backgroundVideo}
+          autoplay
+          muted
+          loop
+          playsinline
+        />
+      </div>
+      <div class="hero__overlay" aria-hidden="true"></div>
+    </figure>
+
+    <p class="hero__corner hero__corner--tl meta" data-reveal>
+      Portfolio — Index 01
+    </p>
+    <p class="hero__corner hero__corner--tr meta" data-reveal>
+      Développeur × Designer
+    </p>
+
+    <div class="hero__content container">
+      <h1 class="hero__title display">
+        <span class="mask-line"><span data-hero-line>Flavien Gaujard</span></span>
+      </h1>
+      <p class="hero__tagline" data-reveal>
+        Ingénieur logiciel full-stack. Je conçois des interfaces avec la
+        rigueur d’un développeur et l’œil d’un photographe.
+      </p>
+    </div>
+
+    <p class="hero__corner hero__corner--bl meta" data-reveal>
+      Annecy, FR — DEPUIS 2024
+    </p>
+    <p class="hero__corner hero__corner--b hero__pill meta" data-reveal>
+      <span class="hero__dot" aria-hidden="true"></span>
+      Open to work — 2026
+    </p>
+    <p class="hero__corner hero__corner--br meta" data-reveal>Scroll ↓</p>
+  </section>
+
+  <!-- ====================== MANIFESTE ====================== -->
+  <section class="manifesto section container">
+    <p class="meta meta--accent" data-reveal>À propos — 01</p>
+    <h2 class="manifesto__text display">
+      <span class="mask-line"
+        ><span data-manifesto-line
+          >Du design system au pipeline CI/CD,</span
+        ></span
+      >
+      <span class="mask-line"
+        ><span data-manifesto-line
+          >je construis des produits web maintenables,</span
+        ></span
+      >
+      <span class="mask-line"
+        ><span data-manifesto-line>précis et sensibles.</span></span
+      >
+    </h2>
+    <p class="manifesto__note" data-reveal>
+      Apprenti manager de l’ingénierie numérique chez Buawei, en Mastère
+      d’ingénierie avancée du logiciel. Vingt-cinq ans, basé entre lac et
+      montagnes — la suite du récit se passe aussi hors écran.
+    </p>
+  </section>
+
+  <!-- ====================== EXPÉRIENCE ====================== -->
+  <section class="experience section container" id="experience">
+    <header class="section-head">
+      <p class="meta meta--accent" data-reveal>Expérience — 02</p>
+      <h2 class="section-title display" data-reveal>Parcours</h2>
+    </header>
+
+    <ul class="xp-list">
+      {
+        experiences.map((xp) => (
+          <li class="xp-item" data-reveal>
+            <details class="xp-details">
+              <summary class="xp-summary">
+                <span class="xp-summary__index meta">({xp.index})</span>
+                <span class="xp-summary__company display">{xp.company}</span>
+                <span class="xp-summary__role">{xp.role}</span>
+                <span class="xp-summary__dates meta">{xp.dates}</span>
+                <span class="xp-summary__arrow" aria-hidden="true">↓</span>
+              </summary>
+              <div class="xp-body">
+                <p class="meta">{xp.place}</p>
+                <ul class="xp-missions">
+                  {xp.missions.map((m) => (
+                    <li>{m}</li>
+                  ))}
+                </ul>
+              </div>
+            </details>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="education">
+      <p class="meta meta--accent" data-reveal>Formations</p>
+      <ul class="edu-list">
+        {
+          education.map((ed) => (
+            <li class="edu-item" data-reveal>
+              <span class="meta">({ed.index})</span>
+              <span class="edu-item__school">{ed.school}</span>
+              <span class="edu-item__diploma">{ed.diploma}</span>
+              <span class="meta">{ed.dates}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- ====================== COMPÉTENCES ====================== -->
+  <section class="skills section container" id="competences">
+    <header class="section-head">
+      <p class="meta meta--accent" data-reveal>Compétences — 03</p>
+      <h2 class="section-title display" data-reveal>
+        Ce que je sais faire
+      </h2>
+    </header>
+
+    <ul class="skills-list">
+      {
+        skills.map((skill) => (
+          <li class="skill-item" data-reveal>
+            <span class="skill-item__index meta">({skill.index})</span>
+            <div class="skill-item__main">
+              <h3 class="skill-item__title display">{skill.title}</h3>
+              <p class="skill-item__stack meta">{skill.stack}</p>
+            </div>
+            <p class="skill-item__text">{skill.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <!-- ====================== BOÎTE À OUTILS (chapitres pinnés) ====================== -->
+  <section class="stack section" id="stack" data-stack data-bg="#141110">
+    <div class="stack__pin container">
+      <header class="section-head stack__head">
+        <div class="stack__head-main">
+          <p class="meta meta--accent" data-reveal>Boîte à outils — 04</p>
+          <h2 class="section-title display" data-reveal>
+            Avec quoi je travaille
+          </h2>
+        </div>
+      </header>
+
+      <div class="stack__chapters">
+        {
+          stackChapters.map((chapter) => (
+            <article class="stack__chapter" data-stack-chapter>
+              <div class="stack__chapter-head">
+                <p class="meta meta--accent">{chapter.index} / 04</p>
+                <h3 class="mask-line">
+                  <span class="stack__title display" data-stack-title>
+                    {chapter.title}
+                  </span>
+                </h3>
+                <p class="stack__desc" data-stack-desc>
+                  {chapter.desc}
+                </p>
+              </div>
+              <ul class="stack__list">
+                {chapter.items.map((item) => (
+                  <li class="stack__item" data-stack-item>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))
+        }
+      </div>
+
+      <div class="stack__progress"><span data-stack-progress></span></div>
+    </div>
+  </section>
+
+  <!-- ====================== MARQUEE ====================== -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track" data-marquee-track>
+      <span>Concevoir — Développer — Photographier — Mixer&nbsp;—&nbsp;</span>
+      <span>Concevoir — Développer — Photographier — Mixer&nbsp;—&nbsp;</span>
+    </div>
+  </div>
+
+  <!-- ====================== GALERIE PHOTO (travelling horizontal) ====================== -->
+  <section class="gallery section" id="photos" data-gallery data-bg="#0b0a09">
+    <div class="gallery__pin">
+      <header class="section-head gallery__head container">
+        <p class="meta meta--accent" data-reveal>Photographie — 05</p>
+        <h2 class="section-title display" data-reveal>La chambre noire</h2>
+        <p class="gallery__intro" data-reveal>
+          Derrière l’écran, un boîtier. La pellicule défile — argentique et
+          numérique.
+        </p>
+      </header>
+
+      <div class="gallery__wrap">
+        <div class="gallery__track" data-gallery-track>
+          {
+            photos.map((photo, i) => (
+              <figure class="gallery__frame" data-gallery-frame>
+                <p class="gallery__frame-head meta">
+                  <span>N°{String(i + 1).padStart(2, "0")}</span>
+                  <span>{photo.place}</span>
+                </p>
+                <div class="gallery__media">
+                  <img
+                    src={`https://picsum.photos/seed/${photo.seed}/${photo.w}/${photo.h}`}
+                    alt={photo.alt}
+                    width={photo.w}
+                    height={photo.h}
+                    loading="lazy"
+                  />
+                </div>
+                <figcaption class="gallery__caption meta">
+                  <span>{photo.label}</span>
+                  <span>{photo.exif}</span>
+                </figcaption>
+              </figure>
+            ))
+          }
+          <div class="gallery__frame gallery__frame--end">
+            <p class="meta meta--accent">Fin de pellicule</p>
+            <a href="#contact" class="gallery__end-link display" data-nav-link>
+              La suite s’écrit ensemble&nbsp;→
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery__hud container">
+        <p class="meta">
+          <span data-gallery-current>01</span> / {String(photos.length).padStart(2, "0")}
+        </p>
+        <div class="gallery__progress"><span data-gallery-progress></span></div>
+        <p class="meta">Défiler&nbsp;↓</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== HORS ÉCRAN ====================== -->
+  <section class="life section container" id="vie" data-bg="#1c1815">
+    <header class="section-head">
+      <p class="meta meta--accent" data-reveal>Hors écran — 06</p>
+      <h2 class="section-title display" data-reveal>Ce qui nourrit le regard</h2>
+    </header>
+
+    <div class="life__grid">
+      <div class="life-block" data-reveal>
+        <p class="meta meta--accent">(01)</p>
+        <h3 class="life-block__title display">L’oreille et l’œil</h3>
+        <ul class="life-block__list">
+          <li>DJing & M.A.O</li>
+          <li>Photographie</li>
+          <li>Cinéma, séries & documentaires</li>
+          <li>Littérature</li>
+        </ul>
+        <p class="life-block__note">
+          Le mix m’a appris le tempo, la photo le cadrage. Deux choses qui
+          servent tous les jours en interface.
+        </p>
+      </div>
+      <div class="life-block" data-reveal>
+        <p class="meta meta--accent">(02)</p>
+        <h3 class="life-block__title display">Le souffle</h3>
+        <ul class="life-block__list">
+          <li>Course à pied</li>
+          <li>Vélo</li>
+          <li>Randonnée</li>
+        </ul>
+        <p class="life-block__note">Entre lac et montagnes, Annecy s’y prête.</p>
+      </div>
+      <div class="life-block" data-reveal>
+        <p class="meta meta--accent">(03)</p>
+        <h3 class="life-block__title display">Le collectif</h3>
+        <ul class="life-block__list">
+          <li>Président — PSK, association socio-culturelle (Chartres)</li>
+          <li>Membre — La Gentiane, monnaie locale (Annecy)</li>
+        </ul>
+        <p class="life-block__note">
+          Le web est un sport d’équipe. La vie associative aussi.
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* ---------- Sections & storytelling ---------- */
+  /* ---------- Section head commun ---------- */
+  .section-head {
+    display: grid;
+    gap: var(--space-3);
+    margin-bottom: var(--space-6);
+  }
+
+  .section-title {
+    font-size: var(--text-h2);
+    color: var(--paper-50);
+  }
+
+  /* ---------- Héros ---------- */
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: grid;
+    align-items: end;
+    padding-block: var(--space-7) var(--space-6);
+  }
+
+  .hero__frame {
+    position: absolute;
+    inset: var(--space-4);
+    top: 0;
+
+    overflow: hidden;
+    border-radius: 0 0 1.5rem 1.5rem;
+    isolation: isolate;
+  }
+
+  .hero__media {
+    position: absolute;
+    inset: -12% 0;
+    will-change: transform;
+    border-radius: inherit;
+    overflow: hidden;
+  }
+
+  .hero__media video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.85) sepia(0.12) contrast(1.02);
+    border-radius: inherit;
+  }
+
+  .hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      color-mix(in srgb, var(--ink-950) 92%, transparent) 0%,
+      color-mix(in srgb, var(--ink-950) 45%, transparent) 38.2%,
+      color-mix(in srgb, var(--ink-950) 18%, transparent) 100%
+    );
+  }
+
+  .hero__content {
+    position: relative;
+    z-index: 2;
+    width: min-content;
+    display: grid;
+    gap: var(--space-4);
+    justify-items: start;
+    padding-bottom: var(--space-5);
+  }
+
+  .hero__title {
+    font-size: var(--text-hero);
+    color: var(--paper-50);
+    width: 100%;
+    text-wrap: nowrap;
+  }
+
+  .hero__tagline {
+    font-size: var(--text-lg);
+    color: var(--paper-100);
+    text-wrap: balance;
+  }
+
+  .hero__pill {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--ink-600);
+    border-radius: 999px;
+    color: var(--paper-100);
+  }
+
+  .hero__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--ok);
+  }
+
+  .hero__corner {
+    position: absolute;
+    z-index: 2;
+  }
+
+  .hero__corner--tl { top: 25%; left: var(--margin-x); }
+  .hero__corner--tr { top: 25%; right: var(--margin-x); }
+  .hero__corner--bl { bottom: var(--space-5); left: var(--margin-x); }
+  .hero__corner--br { bottom: var(--space-5); right: var(--margin-x); }
+  .hero__corner--b { bottom: var(--space-5); left: 50%; transform: translateX(-50%); }
+  
+  /* ---------- Manifeste ---------- */
+  .manifesto {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .manifesto__text {
+    font-size: var(--text-h2);
+    max-width: 24ch;
+    color: var(--paper-50);
+  }
+
+  .manifesto__note {
+    max-width: 55ch;
+    margin-left: auto;
+    color: var(--ink-300);
+  }
+
+  /* ---------- Expérience ---------- */
+  .xp-list {
+    list-style: none;
+  }
+
+  .xp-item {
+    border-top: 1px solid var(--ink-600);
+  }
+
+  .xp-item:last-child {
+    border-bottom: 1px solid var(--ink-600);
+  }
+
+  .xp-summary {
+    display: grid;
+    grid-template-columns: 4ch 1fr 1.618fr auto auto;
+    align-items: baseline;
+    gap: var(--space-4);
+    padding-block: var(--space-4);
+    cursor: pointer;
+    list-style: none;
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+
+  .xp-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .xp-summary:hover .xp-summary__company {
+    color: var(--rust-400);
+  }
+
+  .xp-summary__company {
+    font-size: var(--text-h3);
+    color: var(--paper-50);
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+
+  .xp-summary__role {
+    color: var(--ink-300);
+  }
+
+  .xp-summary__arrow {
+    color: var(--rust-500);
+    transition: transform var(--dur-roll) var(--ease-out);
+  }
+
+  .xp-details[open] .xp-summary__arrow {
+    transform: rotate(180deg);
+  }
+
+  .xp-body {
+    display: grid;
+    gap: var(--space-3);
+    padding: 0 0 var(--space-5) var(--space-6);
+    max-width: 70ch;
+  }
+
+  .xp-missions {
+    display: grid;
+    gap: var(--space-2);
+    padding-left: 1.2em;
+    color: var(--paper-100);
+  }
+
+  /* ---------- Formations ---------- */
+  .education {
+    display: grid;
+    gap: var(--space-4);
+    margin-top: var(--space-7);
+  }
+
+  .edu-list {
+    list-style: none;
+  }
+
+  .edu-item {
+    display: grid;
+    grid-template-columns: 4ch 1fr 2fr auto;
+    align-items: baseline;
+    gap: var(--space-4);
+    padding-block: var(--space-3);
+    border-top: 1px solid var(--ink-600);
+  }
+
+  .edu-item:last-child {
+    border-bottom: 1px solid var(--ink-600);
+  }
+
+  .edu-item__school {
+    color: var(--paper-50);
+  }
+
+  .edu-item__diploma {
+    color: var(--ink-300);
+    font-size: var(--text-sm);
+  }
+
+  /* ---------- Compétences ---------- */
+  .skills-list {
+    list-style: none;
+  }
+
+  .skill-item {
+    display: grid;
+    grid-template-columns: 4ch 1.618fr 2.618fr;
+    gap: var(--space-4);
+    align-items: start;
+    padding-block: var(--space-5);
+    border-top: 1px solid var(--ink-600);
+  }
+
+  .skill-item:last-child {
+    border-bottom: 1px solid var(--ink-600);
+  }
+
+  .skill-item__main {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .skill-item__title {
+    font-size: var(--text-h3);
+    color: var(--paper-50);
+  }
+
+  .skill-item__text {
+    max-width: 55ch;
+    color: var(--ink-300);
+  }
+
+  /* ---------- Boîte à outils (chapitres pinnés) ---------- */
+  .stack[data-enhanced] {
+    padding-block: 0;
+  }
+
+  .stack__pin {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .stack[data-enhanced] .stack__pin {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-block: var(--space-6);
+  }
+
+  .stack__head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+
+  .stack__head-main {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .stack__chapters {
+    display: grid;
+    gap: var(--space-7);
+  }
+
+  .stack[data-enhanced] .stack__chapters {
+    display: block;
+    position: relative;
+    min-height: min(52vh, 480px);
+  }
+
+  .stack__chapter {
+    display: grid;
+    grid-template-columns: 1fr 1.618fr;
+    gap: var(--space-5) var(--space-6);
+    align-items: start;
+  }
+
+  .stack[data-enhanced] .stack__chapter {
+    position: absolute;
+    inset: 0;
+  }
+
+  .stack__chapter-head {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .stack__title {
+    font-size: var(--text-h2);
+    color: var(--paper-50);
+  }
+
+  .stack__desc {
+    max-width: 34ch;
+    color: var(--ink-300);
+  }
+
+  .stack__list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    align-content: start;
+  }
+
+  .stack__item {
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--ink-600);
+    font-family: var(--font-mono);
+    font-size: var(--text-meta);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--paper-100);
+  }
+
+  .stack__progress {
+    display: none;
+    height: 1px;
+    background: var(--ink-600);
+  }
+
+  .stack[data-enhanced] .stack__progress {
+    display: block;
+  }
+
+  .stack__progress span {
+    display: block;
+    height: 100%;
+    background: var(--rust-500);
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  /* ---------- Marquee ---------- */
+  .marquee {
+    overflow: hidden;
+    padding-block: var(--space-5);
+    margin-block: var(--space-6);
+    border-block: 1px solid var(--ink-800);
+  }
+
+  .marquee__track {
+    display: flex;
+    gap: var(--space-4);
+    width: max-content;
+    white-space: nowrap;
+    font-family: var(--font-display);
+    font-size: clamp(2.6rem, 7vw, 6rem);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: var(--ink-600);
+  }
+
+  /* ---------- Galerie (travelling horizontal) ---------- */
+  .gallery[data-enhanced] {
+    padding-block: 0;
+    overflow: hidden;
+  }
+
+  .gallery__pin {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .gallery[data-enhanced] .gallery__pin {
+    height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-block: var(--space-6) var(--space-5);
+  }
+
+  .gallery__head {
+    margin-bottom: 0;
+  }
+
+  .gallery__intro {
+    max-width: 45ch;
+    color: var(--ink-300);
+  }
+
+  .gallery__wrap {
+    overflow-x: auto;
+    scrollbar-width: none;
+    scroll-snap-type: x proximity;
+  }
+
+  .gallery__wrap::-webkit-scrollbar {
+    display: none;
+  }
+
+  .gallery[data-enhanced] .gallery__wrap {
+    overflow: visible;
+  }
+
+  .gallery__track {
+    display: flex;
+    gap: var(--space-6);
+    width: max-content;
+    padding-inline: var(--margin-x);
+    align-items: center;
+  }
+
+  .gallery__frame {
+    display: grid;
+    gap: var(--space-2);
+    scroll-snap-align: center;
+  }
+
+  .gallery__frame-head,
+  .gallery__caption {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+
+  .gallery__media {
+    overflow: hidden;
+    background: var(--ink-800);
+  }
+
+  .gallery__media img {
+    height: min(52vh, 520px);
+    width: auto;
+    object-fit: cover;
+    filter: saturate(0.85) sepia(0.1);
+  }
+
+  .gallery__frame--end {
+    align-self: center;
+    align-content: center;
+    gap: var(--space-4);
+    padding-inline: var(--space-6) var(--space-7);
+  }
+
+  .gallery__end-link {
+    font-size: var(--text-h3);
+    color: var(--paper-50);
+    max-width: 14ch;
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+
+  .gallery__end-link:hover {
+    color: var(--rust-400);
+  }
+
+  .gallery__hud {
+    display: none;
+    align-items: center;
+    gap: var(--space-5);
+  }
+
+  .gallery[data-enhanced] .gallery__hud {
+    display: flex;
+  }
+
+  .gallery__progress {
+    flex: 1;
+    height: 1px;
+    background: var(--ink-600);
+  }
+
+  .gallery__progress span {
+    display: block;
+    height: 100%;
+    background: var(--rust-500);
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  /* ---------- Hors écran ---------- */
+  .life__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6) var(--gutter);
+  }
+
+  .life-block {
+    display: grid;
+    gap: var(--space-3);
+    align-content: start;
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--ink-600);
+  }
+
+  .life-block__title {
+    font-size: var(--text-h3);
+    color: var(--paper-50);
+  }
+
+  .life-block__list {
+    list-style: none;
+    display: grid;
+    gap: var(--space-2);
+    color: var(--paper-100);
+  }
+
+  .life-block__note {
+    max-width: 34ch;
+    font-size: var(--text-sm);
+    color: var(--ink-300);
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 1024px) {
+    .xp-summary {
+      grid-template-columns: 4ch 1fr auto;
+    }
+
+    .xp-summary__role {
+      grid-column: 2;
+      grid-row: 2;
+    }
+
+    .xp-summary__dates {
+      grid-column: 3;
+    }
+
+    .skill-item {
+      grid-template-columns: 4ch 1fr;
+    }
+
+    .skill-item__text {
+      grid-column: 2;
+    }
+
+    .stack__chapter {
+      grid-template-columns: 1fr;
+    }
+
+    .stack[data-enhanced] .stack__chapters {
+      min-height: min(64vh, 560px);
+    }
+
+    .life__grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-5);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .hero__frame {
+      inset: var(--space-2);
+    }
+
+    .xp-body {
+      padding-left: 0;
+    }
+
+    .edu-item {
+      grid-template-columns: 4ch 1fr;
+    }
+
+    .edu-item__diploma,
+    .edu-item .meta:last-child {
+      grid-column: 2;
+    }
+
+    .gallery__media img {
+      height: min(44vh, 380px);
+    }
+  }
+</style>
