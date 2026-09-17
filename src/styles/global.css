@@ -1,10 +1,10 @@
 /* ==========================================================================
-   Portfolio Flavien Gaujard — « Darkroom éditorial »
-   Tokens & styles globaux (cf. charte-graphique.md)
+  Portfolio Flavien Gaujard — "Editorial Darkroom"
+  Global tokens & styles (see charte-graphique.md)
    ========================================================================== */
 
 :root {
-  /* Couleurs */
+  /* Colors */
   --ink-950: #141110;
   --ink-900: #1c1815;
   --ink-800: #292320;
@@ -18,7 +18,7 @@
   --ok: #7a9b6d;
   --err: #c24444;
 
-  /* Typographie */
+  /* Typography */
   --font-display: 'General Sans', system-ui, sans-serif;
   --font-body: 'General Sans', system-ui, sans-serif;
   --font-mono: 'Fragment Mono', monospace;
@@ -32,7 +32,7 @@
   --text-sm: 0.875rem;
   --text-meta: 0.8125rem;
 
-  /* Espacement (Fibonacci) */
+  /* Spacing (Fibonacci) */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 13px;
@@ -42,7 +42,7 @@
   --space-7: 89px;
   --space-8: 144px;
 
-  /* Grille */
+  /* Grid */
   --gutter: 21px;
   --margin-x: clamp(21px, 5vw, 89px);
 
@@ -111,7 +111,7 @@ button {
 }
 
 /* --------------------------------------------------------------------------
-   Typo utilitaires
+  Utility typography
    -------------------------------------------------------------------------- */
 
 .display {
@@ -134,7 +134,7 @@ button {
   color: var(--rust-400);
 }
 
-/* Filet horizontal 1px */
+/* 1px horizontal rule */
 .rule {
   border: none;
   border-top: 1px solid var(--ink-600);
@@ -174,7 +174,7 @@ button {
 }
 
 /* --------------------------------------------------------------------------
-   Grain argentique (overlay global)
+  Film grain (global overlay)
    -------------------------------------------------------------------------- */
 
 .grain {
@@ -187,7 +187,7 @@ button {
 }
 
 /* --------------------------------------------------------------------------
-   Masques de reveal (lignes / caractères)
+  Reveal masks (lines / characters)
    -------------------------------------------------------------------------- */
 
 .mask-line {
@@ -200,7 +200,7 @@ button {
   will-change: transform;
 }
 
-/* Text roll : deux copies empilées dans un conteneur masqué */
+/* Text roll: two copies stacked in a masked container */
 .roll {
   position: relative;
   display: inline-block;
@@ -219,7 +219,7 @@ button {
 }
 
 /* --------------------------------------------------------------------------
-   États de chargement (pilotés par data-load-state sur <body>)
+  Loading states (controlled by data-load-state on <body>)
    -------------------------------------------------------------------------- */
 
 body[data-load-state='loading'] .site-header,
@@ -232,7 +232,7 @@ body[data-load-state='ready'] .page {
   opacity: 1;
 }
 
-/* Reduced motion : tout visible, pas de smooth scroll */
+/* Reduced motion: everything visible, no smooth scroll */
 @media (prefers-reduced-motion: reduce) {
   body[data-load-state] .site-header,
   body[data-load-state] .page {

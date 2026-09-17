@@ -40,7 +40,7 @@ const menuLinks = [
     />
   </head>
   <body data-load-state="loading">
-    <!-- Loader rideau — première visite uniquement -->
+    <!-- Curtain loader — first visit only -->
     <div class="loader" data-loader aria-hidden="true">
       <div class="loader__panel" data-loader-panel>
         <div class="loader__monogram" aria-hidden="true">
@@ -58,12 +58,12 @@ const menuLinks = [
       <div class="loader__curve" data-loader-curve></div>
     </div>
 
-    <!-- Transition de page : panneau rouille (seule grande surface d'accent) -->
+    <!-- Page transition: rust panel (the only large accent surface) -->
     <div class="transition" data-transition aria-hidden="true">
       <div class="transition__panel" data-transition-panel></div>
     </div>
 
-    <!-- Header progressive blur -->
+    <!-- Progressive blur header -->
     <header class="site-header">
       <div class="site-header__blur" aria-hidden="true">
         <span></span>
@@ -94,7 +94,7 @@ const menuLinks = [
       </div>
     </header>
 
-    <!-- Menu overlay : couvre la page avec volets en cascade -->
+    <!-- Menu overlay: covers the page with cascading panels -->
     <nav class="menu" id="site-menu" data-menu aria-hidden="true">
       <div class="menu__panels" aria-hidden="true">
         <span class="menu__panel menu__panel--deep" data-menu-panel></span>
@@ -189,13 +189,13 @@ const menuLinks = [
       </div>
     </nav>
 
-    <!-- Page (glisse pour révéler le menu) -->
+    <!-- Page (slides to reveal the menu) -->
     <div class="page" data-page>
       <main id="main">
         <slot />
       </main>
 
-      <!-- Footer reveal parallaxe : le footer vit sous la page -->
+      <!-- Parallax footer reveal: the footer lives beneath the page -->
       <footer class="site-footer" data-footer id="contact">
         <div class="site-footer__inner container" data-footer-inner>
           <p class="meta meta--accent">Une idée, un projet, un poste ?</p>

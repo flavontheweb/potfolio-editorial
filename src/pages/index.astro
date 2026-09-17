@@ -50,7 +50,7 @@ const education = [
     diploma: 'Mastère en ingénierie avancée du logiciel',
     diplomaLvl: 'RNCP niv. 7 | Bac +5',
     from: '2025',
-    to: '2027',
+    to: 'AUJ.',
     skills: [
       'Architecture',
       'Frontend',
@@ -97,37 +97,37 @@ const skills = [
   {
     index: '01',
     title: 'Architecture',
-    label: 'Modèles & méthodes',
-    stack: ['Monolithes', 'Micro-services', 'Design patterns'],
     desc: 'Conception d’architectures web et structuration de projets selon l’Atomic Design ou l’architecture en couches, avec une attention particulière portée à la maintenabilité et à la DX.',
+    label: 'Organisation des systèmes',
+    stack: ['Monolithes', 'Micro-services', 'Design patterns'],
   },
   {
     index: '02',
     title: 'Frontend',
-    label: 'Technologies & interfaces',
-    stack: ['TypeScript', 'React', 'Angular', 'Astro', 'SCSS', 'Tailwind', 'Shadcn'],
     desc: 'Interfaces web interactives et responsives, conception avancée avec des librairies UI, gestion du flux de données côté client, tests end-to-end avec Cypress.',
+    label: 'Langages, frameworks & librairies',
+    stack: ['TypeScript', 'React', 'Angular', 'Astro', 'SCSS', 'Tailwind', 'Shadcn'],
   },
   {
     index: '03',
     title: 'Backend',
-    label: 'Technologies & données',
-    stack: ['Java', 'SpringBoot', 'Node', 'Bun', 'NestJS', 'PostgreSQL'],
     desc: 'API REST et systèmes d’authentification, logique métier et accès aux données sécurisé, tests unitaires avec Jest.',
+    label: 'Langages, frameworks & bases de données',
+    stack: ['Java', 'SpringBoot', 'Node', 'Bun', 'NestJS', 'PostgreSQL'],
   },
   {
     index: '04',
     title: 'DevOps & qualité',
-    label: 'Infrastructure & qualité',
-    stack: ['Docker', 'GitLab CI/CD', 'Nginx', 'SonarQube'],
     desc: 'Conteneurisation, pipelines CI/CD pour l’automatisation du flux de travail, configuration de serveurs, gestion de version avec Git.',
+    label: 'Infrastructure & Outils',
+    stack: ['Docker', 'GitLab CI/CD', 'Nginx', 'SonarQube'],
   },
   {
     index: '05',
     title: 'UI, UX, DX',
-    label: 'Conception & systèmes',
-    stack: ['Figma', 'Design systems', 'Storybook'],
     desc: 'Design systems, wireframing et prototyping. Conception et développement de librairies de composants frontend.',
+    label: "Conception & documentation d'interfaces",
+    stack: ['Figma', 'Design systems', 'Storybook'],
   },
 ];
 
@@ -300,8 +300,8 @@ const photos = await Promise.all(
 ---
 
 <Base
-  title="Flavien Gaujard — Développeur & designer d’interfaces"
-  description="Portfolio de Flavien Gaujard, développeur full-stack et designer d’interfaces à Annecy. React, TypeScript, Java, design systems et photographie."
+  title="Flavien Gaujard — Portfolio"
+  description="Ingénieur logiciel full-stack avec un intérêt singulier pour le design, la photographie, la musique et bien d'autres disciplines."
 >
   <!-- ====================== HERO ====================== -->
   <section class="hero" id="hero">
@@ -327,7 +327,7 @@ const photos = await Promise.all(
       </h1>
       <p class="hero__tagline" data-reveal>
         Ingénieur logiciel full-stack avec un intérêt singulier pour le design, la photographie, la
-        musique et bien d'autres disciplines artistiques.
+        musique et bien d'autres disciplines.
       </p>
     </div>
 
@@ -2201,7 +2201,7 @@ const photos = await Promise.all(
       gap: var(--space-5);
     }
 
-    /* Mosaïque justifiée : chaque photo grandit selon son ratio, les rangées se remplissent */
+    /* Justified mosaic: each photo grows according to its ratio as rows fill up */
     .gallery__wrap {
       overflow: visible;
       scroll-snap-type: none;

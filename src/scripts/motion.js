@@ -1,6 +1,6 @@
 /* ==========================================================================
-   Portfolio Flavien Gaujard — chorégraphie motion
-   GSAP + Lenis, patterns vérifiés (skill editorial-portfolio-design)
+  Portfolio Flavien Gaujard — motion choreography
+  GSAP + Lenis, verified patterns (editorial-portfolio-design skill)
    ========================================================================== */
 
 import gsap from 'gsap';
@@ -13,7 +13,7 @@ const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => gsap.utils.toArray(sel, root);
 
 /* --------------------------------------------------------------------------
-   Horloge locale (méta layer) — indépendante du motion
+  Local clock (meta layer) — independent from motion
    -------------------------------------------------------------------------- */
 
 function initClock() {
@@ -82,7 +82,7 @@ function initAccordions() {
 }
 
 /* --------------------------------------------------------------------------
-   Loader rideau — première visite uniquement, ≤ 2 s
+  Curtain loader — first visit only, <= 2 s
    -------------------------------------------------------------------------- */
 
 const VISITED_KEY = 'fg-visited';
@@ -95,7 +95,7 @@ function playLoader(onComplete) {
 
   const tl = gsap.timeline({ onComplete });
 
-  // Monogramme « slot machine » dans colonnes masquées
+  // "Slot machine" monogram in masked columns
   tl.from(chars, {
     yPercent: 110,
     duration: 0.6,
@@ -103,8 +103,8 @@ function playLoader(onComplete) {
     stagger: 0.08,
   })
     .from(meta, { opacity: 0, y: 8, duration: 0.4, ease: 'power2.out' }, '-=0.2')
-    .to({}, { duration: 0.35 }) // temps de lecture
-    // Levée du rideau : le bord bas se courbe (scaleY → 0, origin top)
+    .to({}, { duration: 0.35 }) // reading time
+    // Curtain lift: the bottom edge curves (scaleY -> 0, top origin)
     .to(loader, { y: '-100vh', duration: 0.85, ease: 'power4.inOut' })
     .to(curve, { scaleY: 0, duration: 0.85, ease: 'power4.inOut' }, '<')
     .set(loader, { display: 'none' });
@@ -113,7 +113,7 @@ function playLoader(onComplete) {
 }
 
 /* --------------------------------------------------------------------------
-   Reveals d'entrée (héros) — après le loader
+  Intro reveals (hero) — after the loader
    -------------------------------------------------------------------------- */
 
 function playIntro() {
@@ -169,7 +169,7 @@ function playMobileIntro() {
 }
 
 /* --------------------------------------------------------------------------
-  Menu overlay — volets en cascade, sans déplacer la page
+  Menu overlay — cascading panels without moving the page
   -------------------------------------------------------------------------- */
 
 function createMenu({ lenis, reduced }) {
@@ -182,7 +182,7 @@ function createMenu({ lenis, reduced }) {
   const metaBlocks = $$('.menu__meta > div');
   if (!toggle || !menu || !content || !panels.length) return { close: () => {} };
 
-  // Evite les doubles listeners si init est relance (HMR/navigation client).
+  // Avoid duplicate listeners if init runs again (HMR/client navigation).
   menu.__menuAbortController?.abort();
   const listeners = new AbortController();
   menu.__menuAbortController = listeners;
@@ -427,7 +427,7 @@ function createMenu({ lenis, reduced }) {
 }
 
 /* --------------------------------------------------------------------------
-   Transition « panneau rouille » — la seule grande surface d'accent
+  Transition "rust panel" — the only large accent surface
    -------------------------------------------------------------------------- */
 
 function createTransition({ lenis, reduced }) {
@@ -470,7 +470,7 @@ function createTransition({ lenis, reduced }) {
 }
 
 /* --------------------------------------------------------------------------
-   Navigation par ancres
+  Anchor navigation
    -------------------------------------------------------------------------- */
 
 function initNavigation({ lenis, menu, transition, reduced }) {
@@ -484,7 +484,7 @@ function initNavigation({ lenis, menu, transition, reduced }) {
 
       const fromMenu = link.dataset.menuLink !== undefined;
       if (fromMenu) {
-        // Fermeture du menu puis scroll direct, sans panneau rouille.
+        // Close the menu, then scroll directly without the rust panel.
         menu.close(() => {
           if (lenis) lenis.scrollTo(target, { duration: 1.1 });
           else target.scrollIntoView();
@@ -1001,13 +1001,13 @@ function initPhotoLightbox({ reduced = false, lenis = null } = {}) {
 }
 
 /* --------------------------------------------------------------------------
-   Grammaire scroll (calme) : reveals, parallaxe, footer
+  Calm scroll grammar: reveals, parallax, footer
    -------------------------------------------------------------------------- */
 
 function initScrollMotion() {
-  // Sections : fade + lift
+  // Sections: fade + lift
   $$('[data-reveal]').forEach((el) => {
-    if (el.closest('.hero')) return; // le héros est géré par l'intro
+    if (el.closest('.hero')) return; // The hero is handled by the intro.
     gsap.from(el, {
       opacity: 0,
       y: 24,
@@ -1017,7 +1017,7 @@ function initScrollMotion() {
     });
   });
 
-  // Manifeste : reveal ligne à ligne masqué
+  // Manifesto: masked line-by-line reveal
   const manifestoLines = $$('[data-manifesto-line]');
   if (manifestoLines.length) {
     gsap.from(manifestoLines, {
@@ -1033,7 +1033,7 @@ function initScrollMotion() {
     });
   }
 
-  // Parallaxe héros (±10 %)
+  // Hero parallax (±10%)
   const heroMedia = $('[data-hero-parallax]');
   if (heroMedia) {
     gsap.fromTo(
@@ -1047,7 +1047,7 @@ function initScrollMotion() {
     );
   }
 
-  // Parallaxe médias (galerie) — profondeur clampée 2-14 %
+  // Media parallax (gallery) — depth clamped to 2-14%
   $$('[data-parallax]').forEach((el) => {
     const depth = gsap.utils.clamp(2, 14, Number(el.dataset.parallaxDepth || 8));
     gsap.fromTo(
@@ -1062,7 +1062,7 @@ function initScrollMotion() {
     );
   });
 
-  // Footer reveal parallaxe : contenu contre-translaté
+  // Parallax footer reveal: counter-translated content
   const footerInner = $('[data-footer-inner]');
   if (footerInner) {
     gsap.fromTo(
@@ -1081,7 +1081,7 @@ function initScrollMotion() {
     );
   }
 
-  // Storytelling : chapitres pinnés, travelling galerie, marquee, drift de fond
+  // Storytelling: pinned chapters, gallery travelling, marquee, background drift
   initStackPin();
   initGalleryPin();
   initMarquee();
@@ -1261,7 +1261,7 @@ function initMobileReveals() {
 }
 
 /* --------------------------------------------------------------------------
-   Boîte à outils — chapitres pinnés qui se succèdent au scroll
+  Toolbox — pinned chapters that follow one another on scroll
    -------------------------------------------------------------------------- */
 
 const pad2 = (n) => String(n).padStart(2, '0');
@@ -1275,12 +1275,12 @@ function initStackPin() {
 
   const bar = $('[data-stack-progress]', section);
 
-  // États initiaux : chapitre 1 visible, les suivants cachés
+  // Initial states: chapter 1 visible, the others hidden
   chapters.forEach((chapter, i) => {
     gsap.set(chapter, { autoAlpha: i === 0 ? 1 : 0 });
   });
 
-  // Entrée du premier chapitre à l'approche de la section (avant le pin)
+  // First chapter enters as the section approaches (before pinning)
   const first = chapters[0];
   const firstSurfaces = [
     ...first.querySelectorAll('[data-stack-panel]'),
@@ -1397,7 +1397,7 @@ function initStackPin() {
 }
 
 /* --------------------------------------------------------------------------
-   Galerie — travelling horizontal pinné (la pellicule défile)
+  Gallery — pinned horizontal travelling (the film strip scrolls)
    -------------------------------------------------------------------------- */
 
 function initGalleryPin() {
@@ -1434,7 +1434,7 @@ function initGalleryPin() {
 }
 
 /* --------------------------------------------------------------------------
-   Marquee éditorial — dérive horizontale liée au scroll
+  Editorial marquee — horizontal drift linked to scroll
    -------------------------------------------------------------------------- */
 
 function initMarquee() {
@@ -1458,7 +1458,7 @@ function initMarquee() {
 }
 
 /* --------------------------------------------------------------------------
-   Drift d'ambiance — le fond respire entre les chapitres
+  Ambient drift — the background breathes between chapters
    -------------------------------------------------------------------------- */
 
 function initBackgroundDrift() {
@@ -1545,12 +1545,12 @@ function init() {
     };
   };
 
-  // Mode reduced motion desktop : contenu statique, pas de smooth scroll ni loader
+  // Desktop reduced-motion mode: static content, no smooth scroll or loader
   mm.add('(min-width: 768px) and (prefers-reduced-motion: reduce)', () => {
     initStaticExperience();
   });
 
-  // Mobile : interactions conservées, effets de scroll et smooth scroll désactivés.
+  // Mobile: interactions preserved, scroll effects and smooth scroll disabled.
   mm.add('(max-width: 767px)', () => {
     return initMobileExperience();
   });
@@ -1560,7 +1560,7 @@ function init() {
   });
 
   mm.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
-    // Fondation : Lenis + ScrollTrigger, un seul driver
+    // Foundation: Lenis + ScrollTrigger, a single driver
     const lenis = new Lenis({ lerp: 0.1 });
     lenis.on('scroll', ScrollTrigger.update);
     const tick = (time) => lenis.raf(time * 1000);
@@ -1574,7 +1574,7 @@ function init() {
     initProjectsCarousel({ reduced: false });
     initPhotoLightbox({ reduced: false, lenis });
 
-    // Loader : première visite seulement
+    // Loader: first visit only
     const firstVisit = !sessionStorage.getItem(VISITED_KEY);
     if (firstVisit) {
       sessionStorage.setItem(VISITED_KEY, '1');
