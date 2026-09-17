@@ -84,7 +84,7 @@ const education = [
     from: '2018',
     to: '2020',
     skills: [
-      'Bases de la programmation algorithmique',
+      'Programmation algorithmique',
       'Résolution de problèmes',
       'Autonomie',
       'Collaboration',
@@ -105,14 +105,14 @@ const skills = [
     index: '02',
     title: 'Frontend',
     desc: 'Interfaces web interactives et responsives, conception avancée avec des librairies UI, gestion du flux de données côté client, tests end-to-end avec Cypress.',
-    label: 'Langages, frameworks & librairies',
+    label: 'Langages,\u00a0frameworks\u00a0& librairies',
     stack: ['TypeScript', 'React', 'Angular', 'Astro', 'SCSS', 'Tailwind', 'Shadcn'],
   },
   {
     index: '03',
     title: 'Backend',
     desc: 'API REST et systèmes d’authentification, logique métier et accès aux données sécurisé, tests unitaires avec Jest.',
-    label: 'Langages, frameworks & bases de données',
+    label: 'Langages,\u00a0frameworks\u00a0& bases de données',
     stack: ['Java', 'SpringBoot', 'Node', 'Bun', 'NestJS', 'PostgreSQL'],
   },
   {
@@ -1032,7 +1032,8 @@ const photos = await Promise.all(
     transform: rotate(0);
   }
 
-  .xp-body {
+  .xp-body,
+  .edu-body {
     display: grid;
     gap: var(--space-3);
     padding: 0 0 0 calc(24ch + var(--space-4));
@@ -1048,15 +1049,24 @@ const photos = await Promise.all(
       padding-bottom 420ms var(--ease-out);
   }
 
-  .xp-details[open] .xp-body {
-    max-height: 40rem;
+  .xp-details[open] .xp-body,
+  .edu-details[open] .edu-body {
     opacity: 1;
     transform: translateY(0);
     padding-bottom: var(--space-5);
     animation: accordion-reveal 520ms var(--ease-out);
   }
 
-  .xp-details.is-closing .xp-body {
+  .xp-details[open] .xp-body {
+    max-height: 40rem;
+  }
+
+  .edu-details[open] .edu-body {
+    max-height: 26rem;
+  }
+
+  .xp-details.is-closing .xp-body,
+  .edu-details.is-closing .edu-body {
     max-height: 0;
     opacity: 0;
     transform: translateY(-0.35rem);
@@ -1080,11 +1090,12 @@ const photos = await Promise.all(
 
   .edu-summary__diploma {
     color: var(--ink-300);
-    font-size: var(--text-sm);
     line-height: 1.5;
     display: flex;
+    flex-wrap: wrap;
     align-items: baseline;
     gap: var(--space-3);
+    container-type: inline-size;
   }
 
   .edu-summary__level {
@@ -1098,36 +1109,14 @@ const photos = await Promise.all(
     color: var(--rust-500);
   }
 
-  .edu-body {
-    display: grid;
-    gap: var(--space-3);
-    padding: 0 0 0 calc(24ch + var(--space-4));
-    width: 100%;
-    max-height: 0;
-    opacity: 0;
-    overflow: hidden;
-    transform: translateY(-0.35rem);
-    transition:
-      max-height 420ms var(--ease-out),
-      opacity 280ms var(--ease-out),
-      transform 420ms var(--ease-out),
-      padding-bottom 420ms var(--ease-out);
-  }
+  @media (max-width: 1410px) {
+    .edu-summary__level {
+      flex-basis: 100%;
+    }
 
-  .edu-details[open] .edu-body {
-    max-height: 26rem;
-    opacity: 1;
-    transform: translateY(0);
-    padding-bottom: var(--space-5);
-    animation: accordion-reveal 520ms var(--ease-out);
-  }
-
-  .edu-details.is-closing .edu-body {
-    max-height: 0;
-    opacity: 0;
-    transform: translateY(-0.35rem);
-    padding-bottom: 0;
-    animation: none;
+    .edu-summary__level::before {
+      content: none;
+    }
   }
 
   @keyframes accordion-reveal {
@@ -1642,11 +1631,17 @@ const photos = await Promise.all(
   }
 
   .stack__sheet {
+    --stack-guide-offset: clamp(4.5rem, 11vw, 8rem);
+    --stack-sheet-padding: var(--space-5);
+
     z-index: 1;
     display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      calc(var(--stack-guide-offset) - var(--stack-sheet-padding) + var(--space-4));
     grid-template-rows: auto 1fr;
     gap: var(--space-4);
-    padding: var(--space-5);
+    padding: var(--stack-sheet-padding);
     overflow: hidden;
     background: var(--paper-100);
     color: var(--ink-950);
@@ -1657,7 +1652,7 @@ const photos = await Promise.all(
     content: '';
     position: absolute;
     top: 0;
-    right: clamp(4.5rem, 11vw, 8rem);
+    right: var(--stack-guide-offset);
     width: 1px;
     height: 100%;
     background: color-mix(in srgb, var(--ink-950) 14%, transparent);
@@ -1666,6 +1661,7 @@ const photos = await Promise.all(
   .stack__sheet-head {
     position: relative;
     z-index: 1;
+    grid-column: 1 / -1;
   }
 
   .stack__sheet-head {
@@ -1673,6 +1669,7 @@ const photos = await Promise.all(
     align-items: start;
     justify-content: space-between;
     gap: var(--space-4);
+    padding-right: calc(var(--stack-guide-offset) - var(--stack-sheet-padding) + var(--space-4));
     padding-bottom: var(--space-3);
     border-bottom: 1px solid color-mix(in srgb, var(--ink-950) 28%, transparent);
   }
@@ -1681,6 +1678,7 @@ const photos = await Promise.all(
     list-style: none;
     position: relative;
     z-index: 1;
+    grid-column: 1 / -1;
     display: grid;
     align-content: start;
     margin: 0;
@@ -1689,7 +1687,9 @@ const photos = await Promise.all(
 
   .stack__item {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns:
+      minmax(0, 1fr)
+      calc(var(--stack-guide-offset) - var(--stack-sheet-padding) + var(--space-4));
     align-items: center;
     gap: var(--space-3);
     padding-block: 0.75rem;
@@ -1697,7 +1697,7 @@ const photos = await Promise.all(
     font-family: var(--font-display);
     font-size: clamp(1.05rem, 1.75vw, 1.75rem);
     line-height: 1.1;
-    white-space: nowrap;
+    white-space: normal;
   }
 
   .stack__progress {
@@ -1961,6 +1961,17 @@ const photos = await Promise.all(
   }
 
   /* ---------- Responsive ---------- */
+  @media (max-width: 1605px) {
+    .project-slide {
+      flex-basis: 100%;
+    }
+
+    .projects-carousel__viewport::before,
+    .projects-carousel__viewport::after {
+      display: none;
+    }
+  }
+
   @media (max-width: 1024px) {
     .xp-summary {
       grid-template-columns: minmax(15ch, 20ch) minmax(0, 1fr) auto;
@@ -1999,7 +2010,7 @@ const photos = await Promise.all(
     }
 
     .project-slide {
-      flex-basis: min(92vw, 980px);
+      flex-basis: 100%;
     }
 
     .project-card {
@@ -2181,11 +2192,12 @@ const photos = await Promise.all(
     }
 
     .stack__sheet {
-      padding: var(--space-4);
+      --stack-sheet-padding: var(--space-4);
+      --stack-guide-offset: 4.25rem;
     }
 
     .stack__sheet::after {
-      right: 4.25rem;
+      right: var(--stack-guide-offset);
     }
 
     .stack__item {

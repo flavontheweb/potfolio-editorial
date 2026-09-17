@@ -31,6 +31,12 @@ function initClock() {
 
 function initAccordions() {
   const mobileQuery = window.matchMedia('(max-width: 767px)');
+  let refreshTimer;
+
+  const refreshScrollTriggers = () => {
+    window.clearTimeout(refreshTimer);
+    refreshTimer = window.setTimeout(() => ScrollTrigger.refresh(), 0);
+  };
 
   $$('.xp-details, .edu-details').forEach((details) => {
     const summary = $('summary', details);
@@ -47,6 +53,10 @@ function initAccordions() {
 
     syncMode();
     mobileQuery.addEventListener('change', syncMode);
+    details.addEventListener('toggle', refreshScrollTriggers);
+    body.addEventListener('transitionend', (event) => {
+      if (event.propertyName === 'max-height') refreshScrollTriggers();
+    });
 
     summary.addEventListener('click', (event) => {
       if (mobileQuery.matches) {
@@ -69,6 +79,7 @@ function initAccordions() {
         body.removeEventListener('transitionend', onTransitionEnd);
         details.open = false;
         details.classList.remove('is-closing');
+        refreshScrollTriggers();
       };
 
       const onTransitionEnd = (transitionEvent) => {
