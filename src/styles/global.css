@@ -19,9 +19,9 @@
   --err: #c24444;
 
   /* Typographie */
-  --font-display: "General Sans", system-ui, sans-serif;
-  --font-body: "General Sans", system-ui, sans-serif;
-  --font-mono: "Fragment Mono", monospace;
+  --font-display: 'General Sans', system-ui, sans-serif;
+  --font-body: 'General Sans', system-ui, sans-serif;
+  --font-mono: 'Fragment Mono', monospace;
 
   --text-hero: clamp(3.4375rem, 7.5vw, 6.875rem); /* 55 → 110px */
   --text-h1: clamp(3.4375rem, 6.2vw, 5.5625rem); /* 89px cap */
@@ -97,6 +97,7 @@ button {
   background: none;
   border: none;
   cursor: pointer;
+  touch-action: manipulation;
 }
 
 ::selection {
@@ -221,13 +222,13 @@ button {
    États de chargement (pilotés par data-load-state sur <body>)
    -------------------------------------------------------------------------- */
 
-body[data-load-state="loading"] .site-header,
-body[data-load-state="loading"] .page {
+body[data-load-state='loading'] .site-header,
+body[data-load-state='loading'] .page {
   opacity: 0;
 }
 
-body[data-load-state="ready"] .site-header,
-body[data-load-state="ready"] .page {
+body[data-load-state='ready'] .site-header,
+body[data-load-state='ready'] .page {
   opacity: 1;
 }
 
@@ -243,5 +244,24 @@ body[data-load-state="ready"] .page {
   *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --text-hero: 2.75rem;
+    --text-h1: 2.75rem;
+    --text-h2: 2.125rem;
+    --text-h3: 1.5rem;
+    --text-lg: 1.125rem;
+    --margin-x: 16px;
+  }
+
+  .section {
+    padding-block: var(--space-7);
+  }
+
+  .display {
+    letter-spacing: 0;
   }
 }

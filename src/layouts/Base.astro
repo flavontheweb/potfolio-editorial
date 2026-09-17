@@ -13,9 +13,10 @@ const menuLinks = [
   { href: '#experiences', label: 'Expériences', index: '02' },
   { href: '#skills', label: 'Compétences', index: '03' },
   { href: '#projects', label: 'Projets réalisés', index: '04' },
-  { href: '#photos', label: 'Photographie', index: '05' },
-  { href: '#offscreen', label: 'Hors écran', index: '06' },
-  { href: '#contact', label: 'Contact', index: '07' },
+  { href: '#offscreen', label: 'Hors écran', index: '05' },
+  { href: '#photos', label: 'Photographie', index: '06' },
+  { href: '#music', label: 'Musique', index: '07' },
+  { href: '#contact', label: 'Contact', index: '08' },
 ];
 ---
 
@@ -277,8 +278,11 @@ const menuLinks = [
           </div>
           <div class="site-footer__legal">
             <p class="meta-copyright">
-              <span class="meta-copyright-icon">©</span> {new Date().getFullYear()} GAUJARD Flavien
-              — Tous droits réservés
+              <span class="meta-copyright-line">
+                <span class="meta-copyright-icon">©</span>{' '}
+                <span>{new Date().getFullYear()} GAUJARD Flavien.</span>
+              </span>
+              <span class="meta-copyright-line">Tous droits réservés.</span>
             </p>
           </div>
         </div>
@@ -450,19 +454,12 @@ const menuLinks = [
   .site-header__burger span {
     display: block;
     width: 28px;
-    height: 1.5px;
+    height: 2px;
     background: var(--paper-100);
-    transition:
-      transform var(--dur-roll) var(--ease-out),
-      width var(--dur-roll) var(--ease-out);
   }
 
   .site-header__burger span:last-child {
     width: 18px;
-  }
-
-  .site-header__burger:hover span:last-child {
-    width: 28px;
   }
 
   .site-header__burger[aria-expanded='true'] span:first-child {
@@ -703,14 +700,89 @@ const menuLinks = [
     color: var(--ink-300);
   }
 
+  .meta-copyright-line {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    flex-wrap: wrap;
+  }
+
   .meta-copyright-icon {
     font-size: var(--text-lg);
     translate: 0 1px;
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 767px) {
     .site-header__clock {
       display: none;
+    }
+
+    .site-header__bar {
+      padding-block: var(--space-3);
+    }
+
+    .menu {
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    .menu__inner {
+      min-height: 100dvh;
+      gap: var(--space-5);
+      padding-block: var(--space-7) 0;
+    }
+
+    .menu__link {
+      gap: var(--space-3);
+      padding-block: var(--space-2);
+      font-size: 1.75rem;
+    }
+
+    .menu__meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-4);
+      margin-top: 0;
+    }
+
+    .menu__meta > div:last-child {
+      grid-column: 1 / -1;
+    }
+
+    .menu__meta a,
+    .site-footer a {
+      overflow-wrap: anywhere;
+    }
+
+    .site-footer__inner {
+      gap: var(--space-5);
+      padding-block: var(--space-6) var(--space-4);
+      will-change: auto;
+    }
+
+    .site-footer__cta {
+      width: 100%;
+      font-size: 2.5rem;
+    }
+
+    .site-footer__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-4);
+    }
+
+    .site-footer__grid > div:last-child {
+      grid-column: 1 / -1;
+    }
+
+    .meta-copyright {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      font-size: var(--text-meta);
+    }
+
+    .meta-copyright-line {
+      width: 100%;
     }
   }
 </style>

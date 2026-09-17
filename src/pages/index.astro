@@ -1,4 +1,5 @@
 ---
+import { Image, getImage } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import backgroundVideo from '../assets/background.mp4';
 import img1 from '../assets/pictures/IMG1.jpg';
@@ -46,7 +47,8 @@ const experiences = [
 const education = [
   {
     school: 'ISCOD',
-    diploma: 'Mastère en ingénierie avancée du logiciel — RNCP niv. 7',
+    diploma: 'Mastère en ingénierie avancée du logiciel',
+    diplomaLvl: 'RNCP niv. 7 | Bac +5',
     from: '2025',
     to: '2027',
     skills: [
@@ -61,21 +63,24 @@ const education = [
   },
   {
     school: 'ISCOD',
-    diploma: 'Bachelor Concepteur Développeur d’Application — RNCP niv. 6',
+    diploma: 'Bachelor Concepteur Développeur d’Application',
+    diplomaLvl: 'RNCP niv. 6 | Bac +3/4',
     from: '2024',
     to: '2025',
     skills: ['Architecture', 'Frontend', 'Backend', 'DevOps & qualité', 'UI, UX, DX'],
   },
   {
     school: 'Wild Code School',
-    diploma: 'Développeur Web et Web Mobile — RNCP niv. 5',
+    diploma: 'Développeur Web et Web Mobile',
+    diplomaLvl: 'RNCP niv. 5 | Bac +2',
     from: '2023',
     to: '2024',
     skills: ['Frontend', 'Backend', 'UI, UX', 'Travail en équipe'],
   },
   {
     school: 'École 42',
-    diploma: 'Tronc commun — Paris',
+    diploma: 'Tronc commun',
+    diplomaLvl: '',
     from: '2018',
     to: '2020',
     skills: [
@@ -92,30 +97,35 @@ const skills = [
   {
     index: '01',
     title: 'Architecture',
+    label: 'Modèles & méthodes',
     stack: ['Monolithes', 'Micro-services', 'Design patterns'],
     desc: 'Conception d’architectures web et structuration de projets selon l’Atomic Design ou l’architecture en couches, avec une attention particulière portée à la maintenabilité et à la DX.',
   },
   {
     index: '02',
     title: 'Frontend',
+    label: 'Technologies & interfaces',
     stack: ['TypeScript', 'React', 'Angular', 'Astro', 'SCSS', 'Tailwind', 'Shadcn'],
     desc: 'Interfaces web interactives et responsives, conception avancée avec des librairies UI, gestion du flux de données côté client, tests end-to-end avec Cypress.',
   },
   {
     index: '03',
     title: 'Backend',
+    label: 'Technologies & données',
     stack: ['Java', 'SpringBoot', 'Node', 'Bun', 'NestJS', 'PostgreSQL'],
     desc: 'API REST et systèmes d’authentification, logique métier et accès aux données sécurisé, tests unitaires avec Jest.',
   },
   {
     index: '04',
     title: 'DevOps & qualité',
+    label: 'Infrastructure & qualité',
     stack: ['Docker', 'GitLab CI/CD', 'Nginx', 'SonarQube'],
     desc: 'Conteneurisation, pipelines CI/CD pour l’automatisation du flux de travail, configuration de serveurs, gestion de version avec Git.',
   },
   {
     index: '05',
     title: 'UI, UX, DX',
+    label: 'Conception & systèmes',
     stack: ['Figma', 'Design systems', 'Storybook'],
     desc: 'Design systems, wireframing et prototyping. Conception et développement de librairies de composants frontend.',
   },
@@ -177,99 +187,116 @@ const projects = [
   },
 ];
 
-const photos = [
+const rawPhotos = [
   {
-    src: img1.src,
+    image: img1,
     alt: 'Photographie — Versailles',
     label: '',
     exif: '50mm 1/250s F3.2 200ISO',
     place: 'Versailles, FR',
   },
   {
-    src: img2.src,
+    image: img2,
     alt: 'Photographie — Versailles',
     label: '',
     exif: '50mm 1/250s F3.2 200ISO',
     place: 'Versailles, FR',
   },
   {
-    src: img3.src,
+    image: img3,
     alt: 'Photographie — Saint-Malo argentique',
     label: '',
     exif: 'Argentique',
     place: 'Saint-Malo, FR',
   },
   {
-    src: img4.src,
+    image: img4,
     alt: 'Photographie — Saint-Malo argentique',
     label: '',
     exif: 'Argentique',
     place: 'Saint-Malo, FR',
   },
   {
-    src: img5.src,
+    image: img5,
     alt: 'Photographie — Saint-Malo argentique',
     label: '',
     exif: 'Argentique',
     place: 'Saint-Malo, FR',
   },
   {
-    src: img6.src,
+    image: img6,
     alt: 'Photographie — Chartres',
     label: '',
     exif: '210mm 1/640s F8 100ISO',
     place: 'Chartres, FR',
   },
   {
-    src: img7.src,
+    image: img7,
     alt: 'Photographie — Chartres',
     label: '',
     exif: '210mm 1/1600s F6.3 320ISO',
     place: 'Chartres, FR',
   },
   {
-    src: img8.src,
+    image: img8,
     alt: 'Photographie — Paris',
     label: '',
     exif: '20mm 1/10s F3.5 400ISO',
     place: 'Paris, FR',
   },
   {
-    src: img9.src,
+    image: img9,
     alt: 'Photographie — Chartres',
     label: '',
     exif: '152mm 1/200s F5.6 800ISO',
     place: 'Chartres, FR',
   },
   {
-    src: img10.src,
+    image: img10,
     alt: 'Photographie — Mainvilliers',
     label: '',
     exif: '50mm 1/40s F1.8 1600ISO',
     place: 'Mainvilliers, FR',
   },
   {
-    src: img11.src,
+    image: img11,
     alt: 'Photographie — Mainvilliers',
     label: '',
     exif: '50mm 1/40s F1.8 800ISO',
     place: 'Mainvilliers, FR',
   },
   {
-    src: img12.src,
+    image: img12,
     alt: 'Photographie — Chartres',
     label: '',
     exif: '210mm 1/400s F6.3 640ISO',
     place: 'Chartres, FR',
   },
   {
-    src: img13.src,
+    image: img13,
     alt: 'Photographie — Chartres',
     label: '',
     exif: '50mm 1/125s F2.8 200ISO',
     place: 'Chartres, FR',
   },
 ];
+
+const photos = await Promise.all(
+  rawPhotos.map(async (photo) => {
+    const lightbox = await getImage({
+      src: photo.image,
+      width: Math.min(photo.image.width, 1800),
+      format: 'webp',
+    });
+
+    return {
+      ...photo,
+      src: photo.image.src,
+      lightboxSrc: lightbox.src,
+      ratio: Number((photo.image.width / photo.image.height).toFixed(4)),
+    };
+  }),
+);
 ---
 
 <Base
@@ -317,7 +344,7 @@ const photos = [
   </section>
 
   <!-- ====================== MANIFESTO ====================== -->
-  <section class="manifesto section container">
+  <section class="manifesto section container" data-bg="#1c1815">
     <p class="meta meta--accent" data-reveal>
       À propos — 01
     </p>
@@ -339,7 +366,7 @@ const photos = [
   </section>
 
   <!-- ====================== EXPERIENCES ====================== -->
-  <section class="experience section container" id="experiences">
+  <section class="experience section container" id="experiences" data-bg="#1c1815">
     <header class="section-head">
       <p class="meta meta--accent" data-reveal>
         Expérience — 02
@@ -392,7 +419,10 @@ const photos = [
                   <span>{ed.to}</span>
                 </span>
                 <span class="edu-summary__school display">{ed.school}</span>
-                <span class="edu-summary__diploma">{ed.diploma}</span>
+                <span class="edu-summary__diploma">
+                  <span>{ed.diploma}</span>
+                  {ed.diplomaLvl && <span class="edu-summary__level meta">{ed.diplomaLvl}</span>}
+                </span>
                 <span class="edu-summary__arrow" aria-hidden="true">
                   ↓
                 </span>
@@ -412,7 +442,7 @@ const photos = [
   </section>
 
   <!-- ====================== SKILLS ====================== -->
-  <section class="stack section" id="skills" data-stack data-bg="#141110">
+  <section class="stack section" id="skills" data-stack data-bg="#1c1815">
     <div class="stack__pin container">
       <header class="section-head stack__head">
         <div class="stack__head-main">
@@ -439,13 +469,24 @@ const photos = [
                 {skill.desc}
               </p>
             </div>
-            <ul class="stack__list">
-              {skill.stack.map((item) => (
-                <li class="stack__item" data-stack-item>
-                  {item}
-                </li>
-              ))}
-            </ul>
+            <div class="stack__toolbox">
+              <div class="stack__panels" aria-hidden="true">
+                <span class="stack__panel stack__panel--deep" data-stack-panel></span>
+                <span class="stack__panel stack__panel--rust" data-stack-panel></span>
+              </div>
+              <div class="stack__sheet" data-stack-sheet>
+                <div class="stack__sheet-head">
+                  <p class="meta">{skill.label}</p>
+                </div>
+                <ul class="stack__list">
+                  {skill.stack.map((item) => (
+                    <li class="stack__item" data-stack-item>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </article>
         ))}
       </div>
@@ -457,7 +498,7 @@ const photos = [
   </section>
 
   <!-- ====================== PROJECTS ====================== -->
-  <section class="projects section container" id="projects" data-bg="#181412">
+  <section class="projects section container" id="projects" data-bg="#1c1815">
     <header class="section-head">
       <p class="meta meta--accent" data-reveal>
         Projets réalisés — 04
@@ -473,7 +514,37 @@ const photos = [
 
     <div class="projects-carousel" data-projects-carousel data-reveal>
       <div class="projects-carousel__head">
+        <div class="timer-combined" data-projects-timer aria-hidden="true">
+          <span class="timer-digits" data-projects-seconds>
+            05s
+          </span>
+          <div class="projects-carousel__timer">
+            <span class="projects-carousel__timer-fill"></span>
+          </div>
+        </div>
+        <div class="projects-stepper" data-projects-stepper hidden>
+          {projects.map((project) => (
+            <button
+              type="button"
+              class="projects-stepper__dot"
+              data-projects-step
+              aria-label={`Afficher ${project.title}`}
+            ></button>
+          ))}
+        </div>
         <div class="projects-carousel__controls">
+          <button
+            type="button"
+            class="projects-carousel__arrow"
+            data-projects-pause
+            aria-label="Mettre le défilement automatique en pause"
+            title="Mettre le défilement automatique en pause"
+            hidden
+          >
+            <span data-projects-pause-icon aria-hidden="true">
+              Ⅱ
+            </span>
+          </button>
           <button
             type="button"
             class="projects-carousel__arrow"
@@ -556,30 +627,73 @@ const photos = [
   <!-- ====================== MARQUEE ====================== -->
   <div class="marquee" aria-hidden="true">
     <div class="marquee__track" data-marquee-track>
-      <span>Concevoir — Développer — Photographier — Mixer&nbsp;—&nbsp;</span>
-      <span>Concevoir — Développer — Photographier — Mixer&nbsp;—&nbsp;</span>
+      <span>Concevoir · Développer · Photographier · Mixer&nbsp;·&nbsp;</span>
+      <span>Concevoir · Développer · Photographier · Mixer&nbsp;·&nbsp;</span>
     </div>
   </div>
+
+  <!-- ====================== OFF SCREEN ====================== -->
+  <section class="life section container" id="offscreen" data-bg="#1c1815">
+    <header class="section-head">
+      <p class="meta meta--accent" data-reveal>
+        Hors écran — 05
+      </p>
+      <h2 class="section-title display" data-reveal>
+        Éveil et exutoire
+      </h2>
+    </header>
+
+    <div class="life__grid">
+      <div class="life-block" data-reveal>
+        <p class="meta meta--accent">(01)</p>
+        <h3 class="life-block__title display">L’oreille et l’œil</h3>
+        <ul class="life-block__list">
+          <li>DJing & M.A.O</li>
+          <li>Photographie</li>
+          <li>Cinéma, séries & documentaires</li>
+          <li>Littérature</li>
+        </ul>
+      </div>
+      <div class="life-block" data-reveal>
+        <p class="meta meta--accent">(02)</p>
+        <h3 class="life-block__title display">Le corps et le souffle</h3>
+        <ul class="life-block__list">
+          <li>Course à pied</li>
+          <li>Vélo</li>
+          <li>Randonnée</li>
+        </ul>
+      </div>
+      <div class="life-block" data-reveal>
+        <p class="meta meta--accent">(03)</p>
+        <h3 class="life-block__title display">La communauté</h3>
+        <ul class="life-block__list">
+          <li>Président — PSK, association socio-culturelle (Chartres)</li>
+          <li>Membre — La Gentiane, monnaie locale (Annecy)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
   <!-- ====================== PHOTO GALLERY (horizontal travelling) ====================== -->
   <section class="gallery section" id="photos" data-gallery data-bg="#0b0a09">
     <div class="gallery__pin">
       <header class="section-head gallery__head container">
         <p class="meta meta--accent" data-reveal>
-          Photographie — 05
+          Photographie — 06
         </p>
         <h2 class="section-title display" data-reveal>
           La chambre noire
         </h2>
         <p class="gallery__intro" data-reveal>
-          Derrière l’écran, un boîtier. La pellicule défile — argentique et numérique.
+          Capturer la lumière des instants éphémères, vacances, évènements et tendres moments, figés
+          à travers l’objectif.
         </p>
       </header>
 
       <div class="gallery__wrap">
         <div class="gallery__track" data-gallery-track>
           {photos.map((photo, i) => (
-            <figure class="gallery__frame" data-gallery-frame>
+            <figure class="gallery__frame" data-gallery-frame style={`--ar:${photo.ratio}`}>
               <p class="gallery__frame-head meta">
                 <span>N°{String(i + 1).padStart(2, '0')}</span>
                 <span>{photo.place}</span>
@@ -590,7 +704,15 @@ const photos = [
                 data-photo-zoom
                 aria-label={`Agrandir la photo ${String(i + 1).padStart(2, '0')}`}
               >
-                <img src={photo.src} alt={photo.alt} loading="lazy" />
+                <Image
+                  src={photo.image}
+                  alt={photo.alt}
+                  widths={[240, 360, 540, 720, 960, 1280]}
+                  sizes="(max-width: 767px) 50vw, 38vw"
+                  loading="lazy"
+                  decoding="async"
+                  data-photo-lightbox-src={photo.lightboxSrc}
+                />
               </button>
               <figcaption class="gallery__caption meta">
                 <span>{photo.label}</span>
@@ -619,6 +741,39 @@ const photos = [
     </div>
   </section>
 
+  <!-- ====================== MUSIC ====================== -->
+  <section class="music section" id="music" data-bg="#141110">
+    <div class="music__inner container">
+      <header class="section-head music__head">
+        <p class="meta meta--accent" data-reveal>
+          Musique — 07
+        </p>
+        <h2 class="section-title display" data-reveal>
+          Le home studio
+        </h2>
+        <p class="music__intro" data-reveal>
+          La musique est certainement la discipline qui m'est le plus difficile. Pourtant c'est
+          également celle qui me procure le plus d'émotions.
+        </p>
+      </header>
+
+      <div class="music__feature" data-reveal>
+        <div class="music__feature-meta">
+          <p class="meta">Projet 001</p>
+          <p class="meta meta--accent">En cours</p>
+        </div>
+        <div class="music__player-wrap">
+          <iframe
+            title="Écouter Untilted Project 001 sur SoundCloud"
+            src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/tribaldistrict/untilted-project-001&color=%23c4552a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"
+            loading="lazy"
+            allow="autoplay"
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <div class="photo-lightbox" data-photo-lightbox aria-hidden="true">
     <figure class="photo-lightbox__frame">
       <img class="photo-lightbox__image" data-photo-lightbox-image alt="" />
@@ -632,48 +787,6 @@ const photos = [
       </button>
     </figure>
   </div>
-
-  <!-- ====================== OFF SCREEN ====================== -->
-  <section class="life section container" id="offscreen" data-bg="#1c1815">
-    <header class="section-head">
-      <p class="meta meta--accent" data-reveal>
-        Hors écran — 06
-      </p>
-      <h2 class="section-title display" data-reveal>
-        Éveil et exutoire
-      </h2>
-    </header>
-
-    <div class="life__grid">
-      <div class="life-block" data-reveal>
-        <p class="meta meta--accent">(01)</p>
-        <h3 class="life-block__title display">L’oreille et l’œil</h3>
-        <ul class="life-block__list">
-          <li>DJing & M.A.O</li>
-          <li>Photographie</li>
-          <li>Cinéma, séries & documentaires</li>
-          <li>Littérature</li>
-        </ul>
-      </div>
-      <div class="life-block" data-reveal>
-        <p class="meta meta--accent">(02)</p>
-        <h3 class="life-block__title display">Le souffle</h3>
-        <ul class="life-block__list">
-          <li>Course à pied</li>
-          <li>Vélo</li>
-          <li>Randonnée</li>
-        </ul>
-      </div>
-      <div class="life-block" data-reveal>
-        <p class="meta meta--accent">(03)</p>
-        <h3 class="life-block__title display">Le collectif</h3>
-        <ul class="life-block__list">
-          <li>Président — PSK, association socio-culturelle (Chartres)</li>
-          <li>Membre — La Gentiane, monnaie locale (Annecy)</li>
-        </ul>
-      </div>
-    </div>
-  </section>
 </Base>
 
 <style>
@@ -835,19 +948,23 @@ const photos = [
   }
 
   /* ---------- Experiences ---------- */
-  .xp-list {
+  .xp-list,
+  .edu-list {
     list-style: none;
   }
 
-  .xp-item {
+  .xp-item,
+  .edu-item {
     border-top: 1px solid var(--ink-600);
   }
 
-  .xp-item:last-child {
+  .xp-item:last-child,
+  .edu-item:last-child {
     border-bottom: 1px solid var(--ink-600);
   }
 
-  .xp-summary {
+  .xp-summary,
+  .edu-summary {
     display: grid;
     grid-template-columns: minmax(18ch, 24ch) minmax(0, 1fr) minmax(0, 1.618fr) auto;
     align-items: end;
@@ -858,30 +975,36 @@ const photos = [
     transition: color var(--dur-fast) var(--ease-out);
   }
 
-  .xp-summary__dates {
+  .xp-summary__dates,
+  .edu-summary__dates {
     display: grid;
     gap: 0.1rem;
     line-height: 1.2;
   }
 
-  .xp-summary__dates > span {
+  .xp-summary__dates > span,
+  .edu-summary__dates > span {
     display: block;
     white-space: nowrap;
   }
 
-  .xp-summary__dates > span + span {
+  .xp-summary__dates > span + span,
+  .edu-summary__dates > span + span {
     padding-left: 2ch;
   }
 
-  .xp-summary::-webkit-details-marker {
+  .xp-summary::-webkit-details-marker,
+  .edu-summary::-webkit-details-marker {
     display: none;
   }
 
-  .xp-summary:hover .xp-summary__company {
+  .xp-summary:hover .xp-summary__company,
+  .edu-summary:hover .edu-summary__school {
     color: var(--rust-400);
   }
 
-  .xp-summary__company {
+  .xp-summary__company,
+  .edu-summary__school {
     font-size: var(--text-h3);
     color: var(--paper-50);
     transition: color var(--dur-fast) var(--ease-out);
@@ -891,22 +1014,29 @@ const photos = [
     color: var(--ink-300);
   }
 
-  .xp-summary__arrow {
+  .xp-summary__arrow,
+  .edu-summary__arrow {
     font-size: var(--text-h3);
     color: var(--rust-500);
     align-self: start;
     transition: transform var(--dur-roll) var(--ease-out);
   }
 
-  .xp-details[open] .xp-summary__arrow {
+  .xp-details[open] .xp-summary__arrow,
+  .edu-details[open] .edu-summary__arrow {
     transform: rotate(180deg);
+  }
+
+  .xp-details.is-closing .xp-summary__arrow,
+  .edu-details.is-closing .edu-summary__arrow {
+    transform: rotate(0);
   }
 
   .xp-body {
     display: grid;
     gap: var(--space-3);
     padding: 0 0 0 calc(24ch + var(--space-4));
-    max-width: 70ch;
+    width: 100%;
     max-height: 0;
     opacity: 0;
     overflow: hidden;
@@ -926,6 +1056,14 @@ const photos = [
     animation: accordion-reveal 520ms var(--ease-out);
   }
 
+  .xp-details.is-closing .xp-body {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-0.35rem);
+    padding-bottom: 0;
+    animation: none;
+  }
+
   .xp-missions {
     display: grid;
     gap: var(--space-2);
@@ -940,82 +1078,31 @@ const photos = [
     margin-top: var(--space-7);
   }
 
-  .edu-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  .edu-item {
-    border-top: 1px solid var(--ink-600);
-  }
-
-  .edu-item:last-child {
-    border-bottom: 1px solid var(--ink-600);
-  }
-
-  .edu-summary {
-    display: grid;
-    grid-template-columns: minmax(18ch, 24ch) minmax(0, 1fr) minmax(0, 1.618fr) auto;
-    align-items: end;
-    gap: var(--space-4);
-    padding-block: var(--space-4);
-    cursor: pointer;
-    list-style: none;
-    transition: color var(--dur-fast) var(--ease-out);
-  }
-
-  .edu-summary::-webkit-details-marker {
-    display: none;
-  }
-
-  .edu-summary__dates {
-    display: grid;
-    gap: 0.1rem;
-    line-height: 1.2;
-  }
-
-  .edu-summary__dates > span {
-    display: block;
-    white-space: nowrap;
-  }
-
-  .edu-summary__dates > span + span {
-    padding-left: 2ch;
-  }
-
-  .edu-summary:hover .edu-summary__school {
-    color: var(--rust-400);
-  }
-
-  .edu-summary__school {
-    font-size: var(--text-h3);
-    color: var(--paper-50);
-    transition: color var(--dur-fast) var(--ease-out);
-  }
-
   .edu-summary__diploma {
     color: var(--ink-300);
     font-size: var(--text-sm);
     line-height: 1.5;
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
   }
 
-  .edu-summary__arrow {
-    font-size: var(--text-h3);
+  .edu-summary__level {
+    white-space: nowrap;
+    color: var(--ink-300);
+  }
+
+  .edu-summary__level::before {
+    content: '—';
+    margin-right: var(--space-3);
     color: var(--rust-500);
-    align-self: start;
-    transition: transform var(--dur-roll) var(--ease-out);
-  }
-
-  .edu-details[open] .edu-summary__arrow {
-    transform: rotate(180deg);
   }
 
   .edu-body {
     display: grid;
     gap: var(--space-3);
     padding: 0 0 0 calc(24ch + var(--space-4));
-    max-width: 70ch;
+    width: 100%;
     max-height: 0;
     opacity: 0;
     overflow: hidden;
@@ -1033,6 +1120,14 @@ const photos = [
     transform: translateY(0);
     padding-bottom: var(--space-5);
     animation: accordion-reveal 520ms var(--ease-out);
+  }
+
+  .edu-details.is-closing .edu-body {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-0.35rem);
+    padding-bottom: 0;
+    animation: none;
   }
 
   @keyframes accordion-reveal {
@@ -1086,13 +1181,124 @@ const photos = [
 
   .projects-carousel__head {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: var(--space-3);
+    gap: var(--space-4);
   }
 
   .projects-carousel__count {
     color: var(--ink-300);
+  }
+
+  .projects-carousel__timer {
+    width: 100%;
+    height: 4px;
+    background: var(--ink-600);
+  }
+
+  .projects-carousel__timer-fill {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: var(--rust-400);
+    transform: scaleX(var(--timer-progress, 1));
+    transform-origin: left center;
+  }
+
+  .timer-digits {
+    font-family: var(--font-mono);
+    font-size: 2.5rem;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0;
+    color: var(--rust-400);
+    width: 3ch;
+  }
+
+  .timer-combined {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    flex: 1 1 16rem;
+    min-width: 0;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .timer-combined[hidden] {
+    display: none;
+  }
+
+  .projects-stepper {
+    display: none;
+  }
+
+  .projects-stepper[hidden] {
+    display: none;
+  }
+
+  @media (max-width: 767px) {
+    .projects-carousel__head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: var(--space-3);
+    }
+
+    .timer-combined {
+      display: grid;
+      grid-column: 1;
+      grid-template-columns: auto minmax(0, 1fr);
+      width: 100%;
+      gap: var(--space-3);
+    }
+
+    .timer-digits {
+      font-size: 1.55rem;
+    }
+
+    .projects-stepper:not([hidden]) {
+      grid-column: 1;
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      min-width: 0;
+    }
+
+    .projects-stepper__dot {
+      --step-width: clamp(1.15rem, 6vw, 1.65rem);
+      --step-active-width: clamp(2rem, 12vw, 3rem);
+      --step-fill-start: var(--ink-800);
+      --step-fill-end: var(--ink-900);
+      --step-border: var(--ink-600);
+
+      flex: 0 0 var(--step-width);
+      width: var(--step-width);
+      height: 0.35rem;
+      border: 1px solid var(--step-border);
+      background: linear-gradient(180deg, var(--step-fill-start), var(--step-fill-end));
+      opacity: 0.72;
+      transition:
+        width 360ms var(--ease-out),
+        flex-basis 360ms var(--ease-out),
+        opacity 260ms var(--ease-out),
+        border-color 360ms var(--ease-out);
+    }
+
+    .projects-stepper__dot[aria-current='true'] {
+      --step-fill-start: var(--rust-400);
+      --step-fill-end: var(--rust-500);
+      --step-border: var(--rust-400);
+
+      flex-basis: var(--step-active-width);
+      width: var(--step-active-width);
+      opacity: 1;
+    }
+
+    .projects-carousel__controls {
+      grid-column: 2;
+      margin-left: 0;
+      justify-self: end;
+    }
   }
 
   .projects-carousel__controls {
@@ -1371,14 +1577,14 @@ const photos = [
   .stack[data-enhanced] .stack__chapters {
     display: block;
     position: relative;
-    min-height: min(52vh, 480px);
+    min-height: min(60vh, 540px);
   }
 
   .stack__chapter {
     display: grid;
-    grid-template-columns: 1fr 1.618fr;
+    grid-template-columns: minmax(0, 1fr) minmax(22rem, 1.618fr);
     gap: var(--space-5) var(--space-6);
-    align-items: start;
+    align-items: center;
   }
 
   .stack[data-enhanced] .stack__chapter {
@@ -1389,6 +1595,7 @@ const photos = [
   .stack__chapter-head {
     display: grid;
     gap: var(--space-3);
+    align-content: center;
   }
 
   .stack__title {
@@ -1397,31 +1604,105 @@ const photos = [
   }
 
   .stack__desc {
-    max-width: 34ch;
+    max-width: 60ch;
     color: var(--ink-300);
+  }
+
+  .stack__toolbox {
+    position: relative;
+    min-height: min(56vh, 500px);
+    perspective: 1600px;
+  }
+
+  .stack__panels,
+  .stack__panel,
+  .stack__sheet {
+    position: absolute;
+    inset: 0;
+  }
+
+  .stack__panels {
+    pointer-events: none;
+  }
+
+  .stack__panel {
+    display: block;
+    transform-origin: right center;
+  }
+
+  .stack__panel--deep {
+    background: var(--ink-700);
+    transform: translate(18px, -18px);
+  }
+
+  .stack__panel--rust {
+    inset: 0 0 0 8px;
+    background: var(--rust-500);
+    transform: translate(9px, -9px);
+  }
+
+  .stack__sheet {
+    z-index: 1;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: var(--space-4);
+    padding: var(--space-5);
+    overflow: hidden;
+    background: var(--paper-100);
+    color: var(--ink-950);
+    border: 1px solid color-mix(in srgb, var(--ink-950) 16%, transparent);
+  }
+
+  .stack__sheet::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: clamp(4.5rem, 11vw, 8rem);
+    width: 1px;
+    height: 100%;
+    background: color-mix(in srgb, var(--ink-950) 14%, transparent);
+  }
+
+  .stack__sheet-head {
+    position: relative;
+    z-index: 1;
+  }
+
+  .stack__sheet-head {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid color-mix(in srgb, var(--ink-950) 28%, transparent);
   }
 
   .stack__list {
     list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-3);
+    position: relative;
+    z-index: 1;
+    display: grid;
     align-content: start;
+    margin: 0;
+    padding: 0;
   }
 
   .stack__item {
-    padding: var(--space-2) var(--space-3);
-    border: 1px solid var(--ink-600);
-    font-family: var(--font-mono);
-    font-size: var(--text-meta);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--paper-100);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: center;
+    gap: var(--space-3);
+    padding-block: 0.75rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--ink-950) 20%, transparent);
+    font-family: var(--font-display);
+    font-size: clamp(1.05rem, 1.75vw, 1.75rem);
+    line-height: 1.1;
+    white-space: nowrap;
   }
 
   .stack__progress {
     display: none;
-    height: 1px;
+    height: 2px;
     background: var(--ink-600);
   }
 
@@ -1473,7 +1754,8 @@ const photos = [
     height: 100svh;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
+    gap: calc(var(--space-4) * 6);
     padding-block: var(--space-6) var(--space-5);
   }
 
@@ -1571,7 +1853,7 @@ const photos = [
 
   .gallery__progress {
     flex: 1;
-    height: 1px;
+    height: 2px;
     background: var(--ink-600);
   }
 
@@ -1581,6 +1863,68 @@ const photos = [
     background: var(--rust-500);
     transform: scaleX(0);
     transform-origin: left;
+  }
+
+  /* ---------- Music ---------- */
+  .music {
+    background: transparent;
+  }
+
+  .music__inner {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .music__head {
+    max-width: 58rem;
+  }
+
+  .music__intro {
+    max-width: 52ch;
+    color: var(--ink-300);
+  }
+
+  .music__feature {
+    display: grid;
+    grid-template-columns: minmax(8rem, 1fr) minmax(0, 2.618fr);
+    gap: var(--space-5);
+    align-items: start;
+    padding-block: var(--space-4);
+    border-top: 1px solid var(--ink-600);
+  }
+
+  .music__feature-meta {
+    display: grid;
+    gap: var(--space-2);
+    align-content: start;
+  }
+
+  .music__player-wrap {
+    position: relative;
+    width: calc(100% - 9px);
+    min-width: 0;
+    overflow: hidden;
+    background: var(--ink-950);
+    border: 1px solid var(--ink-600);
+    isolation: isolate;
+    box-shadow: 9px -9px 0 var(--rust-500);
+    margin-top: 9px;
+  }
+
+  .music__player-wrap::before {
+    content: '';
+    position: absolute;
+    inset: var(--space-2);
+    z-index: -1;
+    border: 1px solid var(--rust-500);
+    pointer-events: none;
+  }
+
+  .music__player-wrap iframe {
+    display: block;
+    width: 100%;
+    height: 166px;
+    border: 0;
   }
 
   /* ---------- Off screen ---------- */
@@ -1672,7 +2016,11 @@ const photos = [
     }
 
     .stack[data-enhanced] .stack__chapters {
-      min-height: min(64vh, 560px);
+      min-height: min(72vh, 650px);
+    }
+
+    .stack__toolbox {
+      min-height: min(50vh, 460px);
     }
 
     .life__grid {
@@ -1681,13 +2029,72 @@ const photos = [
     }
   }
 
-  @media (max-width: 640px) {
-    .hero__frame {
-      inset: var(--space-2);
+  @media (max-width: 767px) {
+    .section-head {
+      margin-bottom: var(--space-5);
     }
 
-    .xp-body {
-      padding-left: 0;
+    .education {
+      gap: var(--space-5);
+    }
+
+    .hero {
+      height: var(--mobile-viewport-height, 100svh);
+      min-height: var(--mobile-viewport-height, 100svh);
+      padding-block: var(--space-7) calc(var(--space-7) + var(--space-5));
+    }
+
+    .hero__frame {
+      inset: var(--space-2);
+      top: 0;
+      border-radius: 0 0 1rem 1rem;
+    }
+
+    .hero__media {
+      inset: 0;
+      transform: none !important;
+      will-change: auto;
+    }
+
+    .hero__media video {
+      transform: none !important;
+      object-position: center center;
+    }
+
+    .hero__content {
+      width: 100%;
+      gap: var(--space-3);
+      padding-bottom: 0;
+    }
+
+    .hero__title {
+      width: 100%;
+      translate: 0;
+      text-wrap: balance;
+    }
+
+    .hero__tagline {
+      font-size: var(--text-base);
+      line-height: 1.55;
+    }
+
+    .hero__corner--tl,
+    .hero__corner--tr,
+    .hero__corner--bl,
+    .hero__corner--br {
+      display: none;
+    }
+
+    .hero__corner--b {
+      bottom: var(--space-4);
+    }
+
+    .manifesto {
+      gap: var(--space-4);
+    }
+
+    .manifesto__note {
+      margin-left: 0;
     }
 
     .edu-body,
@@ -1695,33 +2102,186 @@ const photos = [
       padding-left: 0;
     }
 
+    .xp-summary,
     .edu-summary {
       grid-template-columns: minmax(0, 1fr) auto;
       gap: var(--space-2) var(--space-3);
+      align-items: start;
+      cursor: default;
     }
 
-    .edu-summary__dates,
-    .edu-summary__school,
-    .edu-summary__diploma {
+    .xp-summary__company,
+    .edu-summary__school {
       grid-column: 1;
+      grid-row: 1;
+      align-self: last baseline;
     }
 
-    .edu-summary__arrow {
+    .xp-summary__dates,
+    .edu-summary__dates {
       grid-column: 2;
       grid-row: 1;
-      align-self: start;
+      align-self: last baseline;
+      justify-self: end;
+      text-align: left;
     }
 
-    .gallery__media img {
-      height: 100%;
+    .xp-summary__role,
+    .edu-summary__diploma {
+      grid-column: 1 / -1;
+      grid-row: 2;
+    }
+
+    .edu-summary__diploma {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-1);
+    }
+
+    .edu-summary__level::before {
+      content: none;
+    }
+
+    .xp-summary__dates > span + span,
+    .edu-summary__dates > span + span {
+      padding-left: 2ch;
+    }
+
+    .xp-summary__arrow,
+    .edu-summary__arrow {
+      display: none;
+    }
+
+    .stack {
+      overflow-x: clip;
+    }
+
+    .stack__pin,
+    .stack__chapters {
+      gap: var(--space-5);
+      max-width: 100%;
+      overflow-x: clip;
+    }
+
+    .stack__chapter {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-4);
+      min-width: 0;
+      width: 100%;
+      max-width: 100%;
+      overflow: clip;
+    }
+
+    .stack__toolbox {
+      width: 100%;
+      max-width: 100%;
+      min-height: 430px;
+      margin: var(--space-2) 0 0;
+      overflow: clip;
+    }
+
+    .stack__sheet {
+      padding: var(--space-4);
+    }
+
+    .stack__sheet::after {
+      right: 4.25rem;
+    }
+
+    .stack__item {
+      font-size: clamp(0.9rem, 4.25vw, 1.25rem);
+      padding-block: 0.625rem;
+    }
+
+    .marquee {
+      display: none;
+    }
+
+    .gallery__pin {
+      gap: var(--space-5);
+    }
+
+    /* Mosaïque justifiée : chaque photo grandit selon son ratio, les rangées se remplissent */
+    .gallery__wrap {
+      overflow: visible;
+      scroll-snap-type: none;
+    }
+
+    .gallery__track {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: stretch;
+      width: auto;
+      gap: 4px;
+    }
+
+    .gallery__frame {
+      display: block;
+      flex: var(--ar, 1) 1 calc(var(--ar, 1) * 34vw);
+      min-width: 0;
+      gap: 0;
+      scroll-snap-align: none;
+    }
+
+    .gallery__frame-head,
+    .gallery__caption {
+      display: none;
     }
 
     .gallery__media {
-      height: min(44vh, 380px);
+      width: 100%;
+      height: 100%;
+      aspect-ratio: var(--ar, 1);
+      border: 0;
+    }
+
+    .gallery__media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .gallery__frame--end {
+      display: grid;
+      flex: 1 0 100%;
+      width: auto;
+      padding-inline: 0;
+      padding-top: var(--space-5);
+      gap: var(--space-3);
+    }
+
+    .gallery__end-link {
+      max-width: none;
+      white-space: nowrap;
+      font-size: clamp(1rem, 5.5vw, var(--text-h3));
     }
 
     .manifesto__text {
       max-width: 100%;
+    }
+
+    .projects {
+      gap: var(--space-5);
+    }
+
+    .project-slide {
+      flex-basis: 100%;
+      min-width: 0;
+    }
+
+    .projects-carousel__track {
+      align-items: flex-start;
+      gap: 0;
+      will-change: auto;
+    }
+
+    .projects-carousel__viewport {
+      padding-block: 0;
+    }
+
+    .projects-carousel__viewport::before,
+    .projects-carousel__viewport::after {
+      display: none;
     }
 
     .project-card--editorial {
@@ -1729,12 +2289,20 @@ const photos = [
     }
 
     .project-card {
+      --project-card-gap: 21px;
+
+      gap: var(--project-card-gap);
+      height: auto;
       padding: var(--space-4);
     }
 
     .project-card__layout {
       grid-template-columns: 1fr;
-      gap: var(--space-4);
+      gap: var(--project-card-gap);
+    }
+
+    .project-card__main {
+      gap: var(--project-card-gap);
     }
 
     .project-card__title {
@@ -1753,6 +2321,23 @@ const photos = [
 
     .photo-lightbox__close {
       padding: var(--space-2);
+    }
+
+    .life__grid {
+      gap: var(--space-4);
+    }
+
+    .music__feature {
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+    }
+
+    .music__player-wrap iframe {
+      height: 166px;
+    }
+
+    .music__player-wrap {
+      box-shadow: 8px 8px 0 var(--rust-700);
     }
   }
 </style>
