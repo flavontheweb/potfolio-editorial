@@ -1,129 +1,274 @@
 ---
-import Base from "../layouts/Base.astro";
-import backgroundVideo from "../assets/background.mp4";
+import Base from '../layouts/Base.astro';
+import backgroundVideo from '../assets/background.mp4';
+import img1 from '../assets/pictures/IMG1.jpg';
+import img2 from '../assets/pictures/IMG2.jpg';
+import img3 from '../assets/pictures/IMG3.jpg';
+import img4 from '../assets/pictures/IMG4.jpg';
+import img5 from '../assets/pictures/IMG5.jpg';
+import img6 from '../assets/pictures/IMG6.jpg';
+import img7 from '../assets/pictures/IMG7.jpg';
+import img8 from '../assets/pictures/IMG8.jpg';
+import img9 from '../assets/pictures/IMG9.jpg';
+import img10 from '../assets/pictures/IMG10.jpg';
+import img11 from '../assets/pictures/IMG11.jpg';
+import img12 from '../assets/pictures/IMG12.jpg';
+import img13 from '../assets/pictures/IMG13.jpg';
 
 const experiences = [
   {
-    index: "01",
-    company: "Buawei",
-    role: "Apprenti manager de l’ingénierie numérique",
-    dates: "Sept. 2024 — Juil. 2026",
-    place: "Annecy, FR",
+    company: 'Buawei',
+    role: 'Apprenti manager de l’ingénierie numérique',
+    from: 'Sept. 2024',
+    to: 'Juil. 2026',
+    place: 'Annecy, FR',
     missions: [
-      "Conception et développement de fonctionnalités pour une plateforme SaaS d’inférence et d’entraînement de modèles d’IA.",
-      "Refonte UI/UX de plusieurs interfaces et optimisation de la gestion des données.",
-      "Lead de la conception d’une librairie de composants React partagée — UI, UX et DX unifiées entre les projets.",
-      "Refonte complète de l’iconographie pour une identité visuelle cohérente.",
-      "Maquettes Figma pour l’ensemble des produits, réduction de la dette technique.",
+      'Conception et développement de fonctionnalités pour une plateforme SaaS d’inférence et d’entraînement de modèles d’IA.',
+      'Refonte UI/UX de plusieurs interfaces et optimisation de la gestion des données.',
+      'Lead de la conception d’une librairie de composants React partagée — UI, UX et DX unifiées entre les projets.',
+      'Refonte complète de l’iconographie pour une identité visuelle cohérente.',
+      'Maquettes Figma pour l’ensemble des produits, réduction de la dette technique.',
     ],
   },
   {
-    index: "02",
-    company: "O’Rabbit Graphic Design",
-    role: "Stagiaire en développement web & web design",
-    dates: "Fév. 2024 — Avril 2024",
-    place: "Chartres, FR",
+    company: 'O’Rabbit Graphic Design',
+    role: 'Stagiaire en développement web & web design',
+    from: 'Fév. 2024',
+    to: 'Avril 2024',
+    place: 'Chartres, FR',
     missions: [
-      "Développement de sites web et déclinaisons d’identités visuelles pour les clients du studio.",
-      "Intégration de maquettes et travail quotidien au contact de graphistes.",
+      'Développement de sites web et déclinaisons d’identités visuelles pour les clients du studio.',
+      'Intégration de maquettes et travail quotidien au contact de graphistes.',
     ],
   },
 ];
 
 const education = [
   {
-    index: "01",
-    school: "ISCOD",
-    diploma: "Mastère en ingénierie avancée du logiciel — RNCP niv. 7",
-    dates: "2025 — 2027",
+    school: 'ISCOD',
+    diploma: 'Mastère en ingénierie avancée du logiciel — RNCP niv. 7',
+    from: '2025',
+    to: '2027',
+    skills: [
+      'Architecture',
+      'Frontend',
+      'Backend',
+      'DevOps & qualité',
+      'UI, UX, DX',
+      'Gestion de projet',
+      'Leadership',
+    ],
   },
   {
-    index: "02",
-    school: "ISCOD",
-    diploma: "Bachelor Concepteur Développeur d’Application — RNCP niv. 6",
-    dates: "2024 — 2025",
+    school: 'ISCOD',
+    diploma: 'Bachelor Concepteur Développeur d’Application — RNCP niv. 6',
+    from: '2024',
+    to: '2025',
+    skills: ['Architecture', 'Frontend', 'Backend', 'DevOps & qualité', 'UI, UX, DX'],
   },
   {
-    index: "03",
-    school: "Wild Code School",
-    diploma: "Développeur Web et Web Mobile — RNCP niv. 5",
-    dates: "2023 — 2024",
+    school: 'Wild Code School',
+    diploma: 'Développeur Web et Web Mobile — RNCP niv. 5',
+    from: '2023',
+    to: '2024',
+    skills: ['Frontend', 'Backend', 'UI, UX', 'Travail en équipe'],
   },
   {
-    index: "04",
-    school: "École 42",
-    diploma: "Tronc commun — Paris",
-    dates: "2018 — 2020",
+    school: 'École 42',
+    diploma: 'Tronc commun — Paris',
+    from: '2018',
+    to: '2020',
+    skills: [
+      'Bases de la programmation algorithmique',
+      'Résolution de problèmes',
+      'Autonomie',
+      'Collaboration',
+      'Veille technologique',
+    ],
   },
 ];
 
 const skills = [
   {
-    index: "01",
-    title: "Architecture",
-    stack: "Monolithes — Micro-services — Design patterns",
-    text: "Conception d’architectures web et structuration de projets selon l’Atomic Design ou l’architecture en couches, avec une attention particulière portée à la maintenabilité et à la DX.",
+    index: '01',
+    title: 'Architecture',
+    stack: ['Monolithes', 'Micro-services', 'Design patterns'],
+    desc: 'Conception d’architectures web et structuration de projets selon l’Atomic Design ou l’architecture en couches, avec une attention particulière portée à la maintenabilité et à la DX.',
   },
   {
-    index: "02",
-    title: "Frontend",
-    stack: "TypeScript — React — Angular — Astro — SCSS — Tailwind",
-    text: "Interfaces web interactives et responsives, conception avancée avec des librairies UI, gestion du flux de données côté client, tests end-to-end avec Cypress.",
+    index: '02',
+    title: 'Frontend',
+    stack: ['TypeScript', 'React', 'Angular', 'Astro', 'SCSS', 'Tailwind', 'Shadcn'],
+    desc: 'Interfaces web interactives et responsives, conception avancée avec des librairies UI, gestion du flux de données côté client, tests end-to-end avec Cypress.',
   },
   {
-    index: "03",
-    title: "Backend",
-    stack: "Java — SpringBoot — Node — NestJS — PostgreSQL",
-    text: "API REST et systèmes d’authentification, logique métier et accès aux données sécurisé, tests unitaires avec Jest.",
+    index: '03',
+    title: 'Backend',
+    stack: ['Java', 'SpringBoot', 'Node', 'Bun', 'NestJS', 'PostgreSQL'],
+    desc: 'API REST et systèmes d’authentification, logique métier et accès aux données sécurisé, tests unitaires avec Jest.',
   },
   {
-    index: "04",
-    title: "DevOps & qualité",
-    stack: "Docker — GitLab CI/CD — Nginx — SonarQube",
-    text: "Conteneurisation, pipelines CI/CD pour l’automatisation du flux de travail, configuration de serveurs, gestion de version avec Git.",
+    index: '04',
+    title: 'DevOps & qualité',
+    stack: ['Docker', 'GitLab CI/CD', 'Nginx', 'SonarQube'],
+    desc: 'Conteneurisation, pipelines CI/CD pour l’automatisation du flux de travail, configuration de serveurs, gestion de version avec Git.',
   },
   {
-    index: "05",
-    title: "UI, UX, DX",
-    stack: "Figma — Design systems — Storybook — Shadcn",
-    text: "Design systems, wireframing et prototyping. Conception et développement de librairies de composants frontend.",
+    index: '05',
+    title: 'UI, UX, DX',
+    stack: ['Figma', 'Design systems', 'Storybook'],
+    desc: 'Design systems, wireframing et prototyping. Conception et développement de librairies de composants frontend.',
   },
 ];
 
-const stackChapters = [
+const projects = [
   {
-    index: "01",
-    title: "Frontend",
-    desc: "L’interface comme terrain d’expression — du pixel au flux de données.",
-    items: ["TypeScript", "React", "Vite", "Angular", "Redux", "Tanstack Query", "SCSS", "Bootstrap", "Tailwind", "Shadcn", "Cypress", "Storybook", "Astro"],
+    index: '01',
+    title: 'Kontrol Suite',
+    status: 'En cours',
+    desc: "Projet personnel visant la conception et le développement d'une suite d'outils de bureautique tel que du traitement de texte, du tableur ou des présentations, le tout associé à un cloud.",
+    frontend: ['TypeScript', 'React', 'Electron', 'Shadcn', 'Tailwind'],
+    backend: ['Java', 'SpringBoot'],
+    devops: ['Docker', 'GitLab CI/CD', 'Nginx'],
+    tools: ['ClickUp', 'Figma', 'Obsidian'],
+    imgSrc: img5.src,
   },
   {
-    index: "02",
-    title: "Backend",
-    desc: "La logique métier, les API et la donnée — sécurisées et testées.",
-    items: ["Java", "SpringBoot", "PostgreSQL", "TypeScript", "Node", "Bun", "ExpressJS", "NestJS", "Jest"],
+    index: '02',
+    title: 'AiManager',
+    status: 'Terminé',
+    desc: "Plateforme SaaS de la société Buawei, permettant l'entraînement, l'inférence et le benchmarking de modèles d'IA destinés au contrôle qualité dans l'industrie.",
+    frontend: ['TypeScript', 'React', 'SCSS', 'Bootstrap'],
+    backend: ['Java', 'SpringBoot', 'Nginx', 'Docker'],
+    devops: ['Docker', 'GitLab CI/CD', 'Nginx', 'SonarQube', 'Microsoft Suite'],
+    tools: ['ClickUp', 'Figma', 'Obsidian'],
+    imgSrc: img5.src,
   },
   {
-    index: "03",
-    title: "DevOps & Qualité",
-    desc: "Du commit à la prod : automatiser, conteneuriser, mesurer.",
-    items: ["Git", "GitLab CI/CD", "Docker", "Nginx", "SonarQube", "SonarLint", "ESLint", "Prettier"],
+    index: '03',
+    title: 'Backline UI',
+    status: 'Terminé',
+    desc: 'Librairie de composants frontend React pour la création d’interfaces utilisateur modulaires et réutilisables dans les produits de la société Buawei.',
+    frontend: ['TypeScript', 'React', 'SCSS', 'Bootstrap'],
+    backend: [],
+    devops: ['GitLab CI/CD', 'Gitlab Private Registry', 'SonarQube'],
+    tools: ['ClickUp', 'Figma', 'Obsidian', 'Suite Microsoft'],
+    imgSrc: img5.src,
   },
   {
-    index: "04",
-    title: "Outils",
-    desc: "Organiser, maquetter, documenter — le quotidien du métier.",
-    items: ["ClickUp", "Figma", "Obsidian", "Suite Microsoft", "Suite Google"],
+    index: '04',
+    title: 'Association PSK',
+    status: 'Terminé',
+    desc: "Site web de l'association PSK.",
+    frontend: ['TypeScript', 'Astro'],
+    devops: ['Netlify'],
+    imgSrc: img5.src,
+  },
+  {
+    index: '05',
+    title: 'La Gentiane',
+    status: 'Terminé',
+    desc: "Alignement du site web de La Gentiane Numérique avec la charte graphique de l'association.",
+    frontend: [],
+    backend: [],
+    devops: [],
+    tools: [],
+    imgSrc: img5.src,
   },
 ];
 
 const photos = [
-  { seed: "fg-darkroom-01", w: 1500, h: 1000, alt: "Photographie — brume matinale sur le lac d’Annecy", label: "Brume sur le lac", exif: "F/2.8 — 1/250 — ISO 400", place: "Annecy, 2025" },
-  { seed: "fg-darkroom-02", w: 1200, h: 1500, alt: "Photographie — portrait en contre-jour", label: "Contre-jour", exif: "F/1.8 — 1/125 — ISO 800", place: "Chartres, 2024" },
-  { seed: "fg-darkroom-03", w: 1200, h: 1500, alt: "Photographie — scène urbaine de nuit", label: "Trame urbaine", exif: "F/4 — 1/500 — ISO 200", place: "Paris, 2024" },
-  { seed: "fg-darkroom-04", w: 1500, h: 1000, alt: "Photographie — ligne de crête au Semnoz", label: "Ligne de crête", exif: "F/8 — 1/1000 — ISO 100", place: "Semnoz, 2025" },
-  { seed: "fg-darkroom-05", w: 1500, h: 1000, alt: "Photographie — basse lumière en ville", label: "Basse lumière", exif: "F/1.4 — 1/60 — ISO 1600", place: "Annecy, 2026" },
-  { seed: "fg-darkroom-06", w: 1200, h: 1500, alt: "Photographie — texture et matière", label: "Texture", exif: "F/2 — 1/320 — ISO 400", place: "Lyon, 2025" },
+  {
+    src: img1.src,
+    alt: 'Photographie — Versailles',
+    label: '',
+    exif: '50mm 1/250s F3.2 200ISO',
+    place: 'Versailles, FR',
+  },
+  {
+    src: img2.src,
+    alt: 'Photographie — Versailles',
+    label: '',
+    exif: '50mm 1/250s F3.2 200ISO',
+    place: 'Versailles, FR',
+  },
+  {
+    src: img3.src,
+    alt: 'Photographie — Saint-Malo argentique',
+    label: '',
+    exif: 'Argentique',
+    place: 'Saint-Malo, FR',
+  },
+  {
+    src: img4.src,
+    alt: 'Photographie — Saint-Malo argentique',
+    label: '',
+    exif: 'Argentique',
+    place: 'Saint-Malo, FR',
+  },
+  {
+    src: img5.src,
+    alt: 'Photographie — Saint-Malo argentique',
+    label: '',
+    exif: 'Argentique',
+    place: 'Saint-Malo, FR',
+  },
+  {
+    src: img6.src,
+    alt: 'Photographie — Chartres',
+    label: '',
+    exif: '210mm 1/640s F8 100ISO',
+    place: 'Chartres, FR',
+  },
+  {
+    src: img7.src,
+    alt: 'Photographie — Chartres',
+    label: '',
+    exif: '210mm 1/1600s F6.3 320ISO',
+    place: 'Chartres, FR',
+  },
+  {
+    src: img8.src,
+    alt: 'Photographie — Paris',
+    label: '',
+    exif: '20mm 1/10s F3.5 400ISO',
+    place: 'Paris, FR',
+  },
+  {
+    src: img9.src,
+    alt: 'Photographie — Chartres',
+    label: '',
+    exif: '152mm 1/200s F5.6 800ISO',
+    place: 'Chartres, FR',
+  },
+  {
+    src: img10.src,
+    alt: 'Photographie — Mainvilliers',
+    label: '',
+    exif: '50mm 1/40s F1.8 1600ISO',
+    place: 'Mainvilliers, FR',
+  },
+  {
+    src: img11.src,
+    alt: 'Photographie — Mainvilliers',
+    label: '',
+    exif: '50mm 1/40s F1.8 800ISO',
+    place: 'Mainvilliers, FR',
+  },
+  {
+    src: img12.src,
+    alt: 'Photographie — Chartres',
+    label: '',
+    exif: '210mm 1/400s F6.3 640ISO',
+    place: 'Chartres, FR',
+  },
+  {
+    src: img13.src,
+    alt: 'Photographie — Chartres',
+    label: '',
+    exif: '50mm 1/125s F2.8 200ISO',
+    place: 'Chartres, FR',
+  },
 ];
 ---
 
@@ -131,35 +276,31 @@ const photos = [
   title="Flavien Gaujard — Développeur & designer d’interfaces"
   description="Portfolio de Flavien Gaujard, développeur full-stack et designer d’interfaces à Annecy. React, TypeScript, Java, design systems et photographie."
 >
-  <!-- ====================== HÉROS ====================== -->
+  <!-- ====================== HERO ====================== -->
   <section class="hero" id="hero">
     <figure class="hero__frame">
       <div class="hero__media" data-hero-parallax>
-        <video
-          src={backgroundVideo}
-          autoplay
-          muted
-          loop
-          playsinline
-        />
+        <video src={backgroundVideo} autoplay muted loop playsinline />
       </div>
       <div class="hero__overlay" aria-hidden="true"></div>
     </figure>
 
     <p class="hero__corner hero__corner--tl meta" data-reveal>
-      Portfolio — Index 01
+      Index 00
     </p>
     <p class="hero__corner hero__corner--tr meta" data-reveal>
-      Développeur × Designer
+      Software Engineer
     </p>
 
     <div class="hero__content container">
       <h1 class="hero__title display">
-        <span class="mask-line"><span data-hero-line>Flavien Gaujard</span></span>
+        <span class="mask-line">
+          <span data-hero-line>Flavien Gaujard</span>
+        </span>
       </h1>
       <p class="hero__tagline" data-reveal>
-        Ingénieur logiciel full-stack. Je conçois des interfaces avec la
-        rigueur d’un développeur et l’œil d’un photographe.
+        Ingénieur logiciel full-stack avec un intérêt singulier pour le design, la photographie, la
+        musique et bien d'autres disciplines artistiques.
       </p>
     </div>
 
@@ -168,151 +309,247 @@ const photos = [
     </p>
     <p class="hero__corner hero__corner--b hero__pill meta" data-reveal>
       <span class="hero__dot" aria-hidden="true"></span>
-      Open to work — 2026
+      Open to work
     </p>
-    <p class="hero__corner hero__corner--br meta" data-reveal>Scroll ↓</p>
+    <p class="hero__corner hero__corner--br meta" data-reveal>
+      Scroll ↓
+    </p>
   </section>
 
-  <!-- ====================== MANIFESTE ====================== -->
+  <!-- ====================== MANIFESTO ====================== -->
   <section class="manifesto section container">
-    <p class="meta meta--accent" data-reveal>À propos — 01</p>
+    <p class="meta meta--accent" data-reveal>
+      À propos — 01
+    </p>
     <h2 class="manifesto__text display">
-      <span class="mask-line"
-        ><span data-manifesto-line
-          >Du design system au pipeline CI/CD,</span
-        ></span
-      >
-      <span class="mask-line"
-        ><span data-manifesto-line
-          >je construis des produits web maintenables,</span
-        ></span
-      >
-      <span class="mask-line"
-        ><span data-manifesto-line>précis et sensibles.</span></span
-      >
+      <span class="mask-line">
+        <span data-manifesto-line>Du design system au pipeline CI/CD,</span>
+      </span>
+      <span class="mask-line">
+        <span data-manifesto-line>je conçois des architectures web</span>
+      </span>
+      <span class="mask-line">
+        <span data-manifesto-line>maintenables, précises et durables.</span>
+      </span>
     </h2>
     <p class="manifesto__note" data-reveal>
-      Apprenti manager de l’ingénierie numérique chez Buawei, en Mastère
-      d’ingénierie avancée du logiciel. Vingt-cinq ans, basé entre lac et
-      montagnes — la suite du récit se passe aussi hors écran.
+      Apprenti manager de l’ingénierie numérique, je poursuis actuellement ma dernière année de
+      Mastère d’ingénierie avancée du logiciel.
     </p>
   </section>
 
-  <!-- ====================== EXPÉRIENCE ====================== -->
-  <section class="experience section container" id="experience">
+  <!-- ====================== EXPERIENCES ====================== -->
+  <section class="experience section container" id="experiences">
     <header class="section-head">
-      <p class="meta meta--accent" data-reveal>Expérience — 02</p>
-      <h2 class="section-title display" data-reveal>Parcours</h2>
+      <p class="meta meta--accent" data-reveal>
+        Expérience — 02
+      </p>
+      <h2 class="section-title display" data-reveal>
+        Parcours
+      </h2>
     </header>
 
     <ul class="xp-list">
-      {
-        experiences.map((xp) => (
-          <li class="xp-item" data-reveal>
-            <details class="xp-details">
-              <summary class="xp-summary">
-                <span class="xp-summary__index meta">({xp.index})</span>
-                <span class="xp-summary__company display">{xp.company}</span>
-                <span class="xp-summary__role">{xp.role}</span>
-                <span class="xp-summary__dates meta">{xp.dates}</span>
-                <span class="xp-summary__arrow" aria-hidden="true">↓</span>
+      {experiences.map((xp) => (
+        <li class="xp-item" data-reveal>
+          <details class="xp-details">
+            <summary class="xp-summary">
+              <span class="xp-summary__dates meta">
+                <span>{xp.from}</span>
+                <span>{xp.to}</span>
+              </span>
+              <span class="xp-summary__company display">{xp.company}</span>
+              <span class="xp-summary__role">{xp.role}</span>
+              <span class="xp-summary__arrow" aria-hidden="true">
+                ↓
+              </span>
+            </summary>
+            <div class="xp-body">
+              <p class="meta">{xp.place}</p>
+              <ul class="xp-missions">
+                {xp.missions.map((m) => (
+                  <li>{m}</li>
+                ))}
+              </ul>
+            </div>
+          </details>
+        </li>
+      ))}
+    </ul>
+
+    <div class="education">
+      <h2 class="section-title display" data-reveal>
+        Formations
+      </h2>
+
+      <ul class="edu-list">
+        {education.map((ed) => (
+          <li class="edu-item" data-reveal>
+            <details class="edu-details">
+              <summary class="edu-summary">
+                <span class="edu-summary__dates meta">
+                  <span>{ed.from}</span>
+                  <span>{ed.to}</span>
+                </span>
+                <span class="edu-summary__school display">{ed.school}</span>
+                <span class="edu-summary__diploma">{ed.diploma}</span>
+                <span class="edu-summary__arrow" aria-hidden="true">
+                  ↓
+                </span>
               </summary>
-              <div class="xp-body">
-                <p class="meta">{xp.place}</p>
-                <ul class="xp-missions">
-                  {xp.missions.map((m) => (
-                    <li>{m}</li>
+              <div class="edu-body">
+                <ul class="edu-skills">
+                  {ed.skills.map((skill) => (
+                    <li>{skill}</li>
                   ))}
                 </ul>
               </div>
             </details>
           </li>
-        ))
-      }
-    </ul>
-
-    <div class="education">
-      <p class="meta meta--accent" data-reveal>Formations</p>
-      <ul class="edu-list">
-        {
-          education.map((ed) => (
-            <li class="edu-item" data-reveal>
-              <span class="meta">({ed.index})</span>
-              <span class="edu-item__school">{ed.school}</span>
-              <span class="edu-item__diploma">{ed.diploma}</span>
-              <span class="meta">{ed.dates}</span>
-            </li>
-          ))
-        }
+        ))}
       </ul>
     </div>
   </section>
 
-  <!-- ====================== COMPÉTENCES ====================== -->
-  <section class="skills section container" id="competences">
-    <header class="section-head">
-      <p class="meta meta--accent" data-reveal>Compétences — 03</p>
-      <h2 class="section-title display" data-reveal>
-        Ce que je sais faire
-      </h2>
-    </header>
-
-    <ul class="skills-list">
-      {
-        skills.map((skill) => (
-          <li class="skill-item" data-reveal>
-            <span class="skill-item__index meta">({skill.index})</span>
-            <div class="skill-item__main">
-              <h3 class="skill-item__title display">{skill.title}</h3>
-              <p class="skill-item__stack meta">{skill.stack}</p>
-            </div>
-            <p class="skill-item__text">{skill.text}</p>
-          </li>
-        ))
-      }
-    </ul>
-  </section>
-
-  <!-- ====================== BOÎTE À OUTILS (chapitres pinnés) ====================== -->
-  <section class="stack section" id="stack" data-stack data-bg="#141110">
+  <!-- ====================== SKILLS ====================== -->
+  <section class="stack section" id="skills" data-stack data-bg="#141110">
     <div class="stack__pin container">
       <header class="section-head stack__head">
         <div class="stack__head-main">
-          <p class="meta meta--accent" data-reveal>Boîte à outils — 04</p>
+          <p class="meta meta--accent" data-reveal>
+            Compétences — 03
+          </p>
           <h2 class="section-title display" data-reveal>
-            Avec quoi je travaille
+            Ce que je sais faire
           </h2>
         </div>
       </header>
 
       <div class="stack__chapters">
-        {
-          stackChapters.map((chapter) => (
-            <article class="stack__chapter" data-stack-chapter>
-              <div class="stack__chapter-head">
-                <p class="meta meta--accent">{chapter.index} / 04</p>
-                <h3 class="mask-line">
-                  <span class="stack__title display" data-stack-title>
-                    {chapter.title}
-                  </span>
-                </h3>
-                <p class="stack__desc" data-stack-desc>
-                  {chapter.desc}
-                </p>
-              </div>
-              <ul class="stack__list">
-                {chapter.items.map((item) => (
-                  <li class="stack__item" data-stack-item>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </article>
-          ))
-        }
+        {skills.map((skill) => (
+          <article class="stack__chapter" data-stack-chapter>
+            <div class="stack__chapter-head">
+              <p class="meta meta--accent">{skill.index} / 05</p>
+              <h3 class="mask-line">
+                <span class="stack__title display" data-stack-title>
+                  {skill.title}
+                </span>
+              </h3>
+              <p class="stack__desc" data-stack-desc>
+                {skill.desc}
+              </p>
+            </div>
+            <ul class="stack__list">
+              {skill.stack.map((item) => (
+                <li class="stack__item" data-stack-item>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))}
       </div>
 
-      <div class="stack__progress"><span data-stack-progress></span></div>
+      <div class="stack__progress">
+        <span data-stack-progress></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== PROJECTS ====================== -->
+  <section class="projects section container" id="projects" data-bg="#181412">
+    <header class="section-head">
+      <p class="meta meta--accent" data-reveal>
+        Projets réalisés — 04
+      </p>
+      <h2 class="section-title display" data-reveal>
+        De l'idée au produit final
+      </h2>
+      <p class="projects__intro" data-reveal>
+        Une sélection de produits conçus entre exigence technique, direction artistique et usage
+        réel.
+      </p>
+    </header>
+
+    <div class="projects-carousel" data-projects-carousel data-reveal>
+      <div class="projects-carousel__head">
+        <div class="projects-carousel__controls">
+          <button
+            type="button"
+            class="projects-carousel__arrow"
+            data-projects-prev
+            aria-label="Projet précédent"
+          >
+            ←
+          </button>
+          <button
+            type="button"
+            class="projects-carousel__arrow"
+            data-projects-next
+            aria-label="Projet suivant"
+          >
+            →
+          </button>
+        </div>
+      </div>
+
+      <div class="projects-carousel__viewport">
+        <ul class="projects-carousel__track" data-projects-track>
+          {projects.map((project) => (
+            <li class="project-slide">
+              <article class="project-card project-card--editorial" data-project-card>
+                <div class="project-card__heading">
+                  <p class="project-card__kicker meta">{project.index} / 05</p>
+                  <p class="project-card__status meta">{project.status}</p>
+                </div>
+
+                <h3 class="project-card__title display">{project.title}</h3>
+
+                <div class="project-card__layout">
+                  <figure class="project-card__media">
+                    <img
+                      src={project.imgSrc}
+                      alt={`Aperçu du projet ${project.title}`}
+                      loading="lazy"
+                    />
+                  </figure>
+
+                  <div class="project-card__main">
+                    <p class="project-card__text">{project.desc}</p>
+
+                    <div class="project-card__meta">
+                      {(project.frontend ?? []).length > 0 && (
+                        <div class="project-card__meta-row">
+                          <p class="meta">Frontend</p>
+                          <p class="project-card__line">{(project.frontend ?? []).join(' · ')}</p>
+                        </div>
+                      )}
+                      {(project.backend ?? []).length > 0 && (
+                        <div class="project-card__meta-row">
+                          <p class="meta">Backend</p>
+                          <p class="project-card__line">{(project.backend ?? []).join(' · ')}</p>
+                        </div>
+                      )}
+                      {(project.devops ?? []).length > 0 && (
+                        <div class="project-card__meta-row">
+                          <p class="meta">DevOps</p>
+                          <p class="project-card__line">{(project.devops ?? []).join(' · ')}</p>
+                        </div>
+                      )}
+                      {(project.tools ?? []).length > 0 && (
+                        <div class="project-card__meta-row">
+                          <p class="meta">Outils</p>
+                          <p class="project-card__line">{(project.tools ?? []).join(' · ')}</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   </section>
 
@@ -324,43 +561,43 @@ const photos = [
     </div>
   </div>
 
-  <!-- ====================== GALERIE PHOTO (travelling horizontal) ====================== -->
+  <!-- ====================== PHOTO GALLERY (horizontal travelling) ====================== -->
   <section class="gallery section" id="photos" data-gallery data-bg="#0b0a09">
     <div class="gallery__pin">
       <header class="section-head gallery__head container">
-        <p class="meta meta--accent" data-reveal>Photographie — 05</p>
-        <h2 class="section-title display" data-reveal>La chambre noire</h2>
+        <p class="meta meta--accent" data-reveal>
+          Photographie — 05
+        </p>
+        <h2 class="section-title display" data-reveal>
+          La chambre noire
+        </h2>
         <p class="gallery__intro" data-reveal>
-          Derrière l’écran, un boîtier. La pellicule défile — argentique et
-          numérique.
+          Derrière l’écran, un boîtier. La pellicule défile — argentique et numérique.
         </p>
       </header>
 
       <div class="gallery__wrap">
         <div class="gallery__track" data-gallery-track>
-          {
-            photos.map((photo, i) => (
-              <figure class="gallery__frame" data-gallery-frame>
-                <p class="gallery__frame-head meta">
-                  <span>N°{String(i + 1).padStart(2, "0")}</span>
-                  <span>{photo.place}</span>
-                </p>
-                <div class="gallery__media">
-                  <img
-                    src={`https://picsum.photos/seed/${photo.seed}/${photo.w}/${photo.h}`}
-                    alt={photo.alt}
-                    width={photo.w}
-                    height={photo.h}
-                    loading="lazy"
-                  />
-                </div>
-                <figcaption class="gallery__caption meta">
-                  <span>{photo.label}</span>
-                  <span>{photo.exif}</span>
-                </figcaption>
-              </figure>
-            ))
-          }
+          {photos.map((photo, i) => (
+            <figure class="gallery__frame" data-gallery-frame>
+              <p class="gallery__frame-head meta">
+                <span>N°{String(i + 1).padStart(2, '0')}</span>
+                <span>{photo.place}</span>
+              </p>
+              <button
+                type="button"
+                class="gallery__media"
+                data-photo-zoom
+                aria-label={`Agrandir la photo ${String(i + 1).padStart(2, '0')}`}
+              >
+                <img src={photo.src} alt={photo.alt} loading="lazy" />
+              </button>
+              <figcaption class="gallery__caption meta">
+                <span>{photo.label}</span>
+                <span>{photo.exif}</span>
+              </figcaption>
+            </figure>
+          ))}
           <div class="gallery__frame gallery__frame--end">
             <p class="meta meta--accent">Fin de pellicule</p>
             <a href="#contact" class="gallery__end-link display" data-nav-link>
@@ -372,19 +609,39 @@ const photos = [
 
       <div class="gallery__hud container">
         <p class="meta">
-          <span data-gallery-current>01</span> / {String(photos.length).padStart(2, "0")}
+          <span data-gallery-current>01</span> / {String(photos.length).padStart(2, '0')}
         </p>
-        <div class="gallery__progress"><span data-gallery-progress></span></div>
+        <div class="gallery__progress">
+          <span data-gallery-progress></span>
+        </div>
         <p class="meta">Défiler&nbsp;↓</p>
       </div>
     </div>
   </section>
 
-  <!-- ====================== HORS ÉCRAN ====================== -->
-  <section class="life section container" id="vie" data-bg="#1c1815">
+  <div class="photo-lightbox" data-photo-lightbox aria-hidden="true">
+    <figure class="photo-lightbox__frame">
+      <img class="photo-lightbox__image" data-photo-lightbox-image alt="" />
+      <button
+        type="button"
+        class="photo-lightbox__close meta"
+        data-photo-lightbox-close
+        aria-label="Fermer la photo plein écran"
+      >
+        Fermer ×
+      </button>
+    </figure>
+  </div>
+
+  <!-- ====================== OFF SCREEN ====================== -->
+  <section class="life section container" id="offscreen" data-bg="#1c1815">
     <header class="section-head">
-      <p class="meta meta--accent" data-reveal>Hors écran — 06</p>
-      <h2 class="section-title display" data-reveal>Ce qui nourrit le regard</h2>
+      <p class="meta meta--accent" data-reveal>
+        Hors écran — 06
+      </p>
+      <h2 class="section-title display" data-reveal>
+        Éveil et exutoire
+      </h2>
     </header>
 
     <div class="life__grid">
@@ -397,10 +654,6 @@ const photos = [
           <li>Cinéma, séries & documentaires</li>
           <li>Littérature</li>
         </ul>
-        <p class="life-block__note">
-          Le mix m’a appris le tempo, la photo le cadrage. Deux choses qui
-          servent tous les jours en interface.
-        </p>
       </div>
       <div class="life-block" data-reveal>
         <p class="meta meta--accent">(02)</p>
@@ -410,7 +663,6 @@ const photos = [
           <li>Vélo</li>
           <li>Randonnée</li>
         </ul>
-        <p class="life-block__note">Entre lac et montagnes, Annecy s’y prête.</p>
       </div>
       <div class="life-block" data-reveal>
         <p class="meta meta--accent">(03)</p>
@@ -419,9 +671,6 @@ const photos = [
           <li>Président — PSK, association socio-culturelle (Chartres)</li>
           <li>Membre — La Gentiane, monnaie locale (Annecy)</li>
         </ul>
-        <p class="life-block__note">
-          Le web est un sport d’équipe. La vie associative aussi.
-        </p>
       </div>
     </div>
   </section>
@@ -429,7 +678,7 @@ const photos = [
 
 <style>
   /* ---------- Sections & storytelling ---------- */
-  /* ---------- Section head commun ---------- */
+  /* ---------- Section head ---------- */
   .section-head {
     display: grid;
     gap: var(--space-3);
@@ -441,7 +690,7 @@ const photos = [
     color: var(--paper-50);
   }
 
-  /* ---------- Héros ---------- */
+  /* ---------- Hero ---------- */
   .hero {
     position: relative;
     min-height: 100svh;
@@ -502,6 +751,7 @@ const photos = [
     color: var(--paper-50);
     width: 100%;
     text-wrap: nowrap;
+    translate: -6px 0;
   }
 
   .hero__tagline {
@@ -532,13 +782,29 @@ const photos = [
     z-index: 2;
   }
 
-  .hero__corner--tl { top: 25%; left: var(--margin-x); }
-  .hero__corner--tr { top: 25%; right: var(--margin-x); }
-  .hero__corner--bl { bottom: var(--space-5); left: var(--margin-x); }
-  .hero__corner--br { bottom: var(--space-5); right: var(--margin-x); }
-  .hero__corner--b { bottom: var(--space-5); left: 50%; transform: translateX(-50%); }
-  
-  /* ---------- Manifeste ---------- */
+  .hero__corner--tl {
+    top: 25%;
+    left: var(--margin-x);
+  }
+  .hero__corner--tr {
+    top: 25%;
+    right: var(--margin-x);
+  }
+  .hero__corner--bl {
+    bottom: var(--space-5);
+    left: var(--margin-x);
+  }
+  .hero__corner--br {
+    bottom: var(--space-5);
+    right: var(--margin-x);
+  }
+  .hero__corner--b {
+    bottom: var(--space-5);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* ---------- Manifesto ---------- */
   .manifesto {
     display: grid;
     gap: var(--space-5);
@@ -546,8 +812,20 @@ const photos = [
 
   .manifesto__text {
     font-size: var(--text-h2);
-    max-width: 24ch;
+    max-width: 40ch;
+    width: 100%;
     color: var(--paper-50);
+  }
+
+  .manifesto__text .mask-line {
+    display: block;
+  }
+
+  .manifesto__text [data-manifesto-line] {
+    display: block;
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
   }
 
   .manifesto__note {
@@ -556,7 +834,7 @@ const photos = [
     color: var(--ink-300);
   }
 
-  /* ---------- Expérience ---------- */
+  /* ---------- Experiences ---------- */
   .xp-list {
     list-style: none;
   }
@@ -571,13 +849,28 @@ const photos = [
 
   .xp-summary {
     display: grid;
-    grid-template-columns: 4ch 1fr 1.618fr auto auto;
-    align-items: baseline;
+    grid-template-columns: minmax(18ch, 24ch) minmax(0, 1fr) minmax(0, 1.618fr) auto;
+    align-items: end;
     gap: var(--space-4);
     padding-block: var(--space-4);
     cursor: pointer;
     list-style: none;
     transition: color var(--dur-fast) var(--ease-out);
+  }
+
+  .xp-summary__dates {
+    display: grid;
+    gap: 0.1rem;
+    line-height: 1.2;
+  }
+
+  .xp-summary__dates > span {
+    display: block;
+    white-space: nowrap;
+  }
+
+  .xp-summary__dates > span + span {
+    padding-left: 2ch;
   }
 
   .xp-summary::-webkit-details-marker {
@@ -599,7 +892,9 @@ const photos = [
   }
 
   .xp-summary__arrow {
+    font-size: var(--text-h3);
     color: var(--rust-500);
+    align-self: start;
     transition: transform var(--dur-roll) var(--ease-out);
   }
 
@@ -610,8 +905,25 @@ const photos = [
   .xp-body {
     display: grid;
     gap: var(--space-3);
-    padding: 0 0 var(--space-5) var(--space-6);
+    padding: 0 0 0 calc(24ch + var(--space-4));
     max-width: 70ch;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transform: translateY(-0.35rem);
+    transition:
+      max-height 420ms var(--ease-out),
+      opacity 280ms var(--ease-out),
+      transform 420ms var(--ease-out),
+      padding-bottom 420ms var(--ease-out);
+  }
+
+  .xp-details[open] .xp-body {
+    max-height: 40rem;
+    opacity: 1;
+    transform: translateY(0);
+    padding-bottom: var(--space-5);
+    animation: accordion-reveal 520ms var(--ease-out);
   }
 
   .xp-missions {
@@ -621,23 +933,20 @@ const photos = [
     color: var(--paper-100);
   }
 
-  /* ---------- Formations ---------- */
+  /* ---------- Education ---------- */
   .education {
     display: grid;
-    gap: var(--space-4);
+    gap: var(--space-6);
     margin-top: var(--space-7);
   }
 
   .edu-list {
     list-style: none;
+    margin: 0;
+    padding: 0;
   }
 
   .edu-item {
-    display: grid;
-    grid-template-columns: 4ch 1fr 2fr auto;
-    align-items: baseline;
-    gap: var(--space-4);
-    padding-block: var(--space-3);
     border-top: 1px solid var(--ink-600);
   }
 
@@ -645,49 +954,386 @@ const photos = [
     border-bottom: 1px solid var(--ink-600);
   }
 
-  .edu-item__school {
-    color: var(--paper-50);
-  }
-
-  .edu-item__diploma {
-    color: var(--ink-300);
-    font-size: var(--text-sm);
-  }
-
-  /* ---------- Compétences ---------- */
-  .skills-list {
-    list-style: none;
-  }
-
-  .skill-item {
+  .edu-summary {
     display: grid;
-    grid-template-columns: 4ch 1.618fr 2.618fr;
+    grid-template-columns: minmax(18ch, 24ch) minmax(0, 1fr) minmax(0, 1.618fr) auto;
+    align-items: end;
     gap: var(--space-4);
-    align-items: start;
-    padding-block: var(--space-5);
-    border-top: 1px solid var(--ink-600);
+    padding-block: var(--space-4);
+    cursor: pointer;
+    list-style: none;
+    transition: color var(--dur-fast) var(--ease-out);
   }
 
-  .skill-item:last-child {
-    border-bottom: 1px solid var(--ink-600);
+  .edu-summary::-webkit-details-marker {
+    display: none;
   }
 
-  .skill-item__main {
+  .edu-summary__dates {
     display: grid;
-    gap: var(--space-2);
+    gap: 0.1rem;
+    line-height: 1.2;
   }
 
-  .skill-item__title {
+  .edu-summary__dates > span {
+    display: block;
+    white-space: nowrap;
+  }
+
+  .edu-summary__dates > span + span {
+    padding-left: 2ch;
+  }
+
+  .edu-summary:hover .edu-summary__school {
+    color: var(--rust-400);
+  }
+
+  .edu-summary__school {
     font-size: var(--text-h3);
     color: var(--paper-50);
+    transition: color var(--dur-fast) var(--ease-out);
   }
 
-  .skill-item__text {
-    max-width: 55ch;
+  .edu-summary__diploma {
+    color: var(--ink-300);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+  }
+
+  .edu-summary__arrow {
+    font-size: var(--text-h3);
+    color: var(--rust-500);
+    align-self: start;
+    transition: transform var(--dur-roll) var(--ease-out);
+  }
+
+  .edu-details[open] .edu-summary__arrow {
+    transform: rotate(180deg);
+  }
+
+  .edu-body {
+    display: grid;
+    gap: var(--space-3);
+    padding: 0 0 0 calc(24ch + var(--space-4));
+    max-width: 70ch;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transform: translateY(-0.35rem);
+    transition:
+      max-height 420ms var(--ease-out),
+      opacity 280ms var(--ease-out),
+      transform 420ms var(--ease-out),
+      padding-bottom 420ms var(--ease-out);
+  }
+
+  .edu-details[open] .edu-body {
+    max-height: 26rem;
+    opacity: 1;
+    transform: translateY(0);
+    padding-bottom: var(--space-5);
+    animation: accordion-reveal 520ms var(--ease-out);
+  }
+
+  @keyframes accordion-reveal {
+    from {
+      opacity: 0;
+      transform: translateY(-0.5rem);
+      clip-path: inset(0 0 100% 0);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+      clip-path: inset(0 0 0 0);
+    }
+  }
+
+  .edu-skills {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+  }
+
+  .edu-skills li {
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--ink-600);
+    font-family: var(--font-mono);
+    font-size: var(--text-meta);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--paper-100);
+  }
+
+  /* ---------- Projects ---------- */
+  .projects {
+    --projects-bg: #181412;
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .projects__intro {
+    max-width: 62ch;
     color: var(--ink-300);
   }
 
-  /* ---------- Boîte à outils (chapitres pinnés) ---------- */
+  .projects-carousel {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .projects-carousel__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+  }
+
+  .projects-carousel__count {
+    color: var(--ink-300);
+  }
+
+  .projects-carousel__controls {
+    display: flex;
+    gap: var(--space-2);
+    margin-left: auto;
+  }
+
+  .projects-carousel__arrow {
+    width: 2.5rem;
+    aspect-ratio: 1;
+    border: 1px solid var(--ink-600);
+    color: var(--paper-50);
+    background: color-mix(in srgb, var(--ink-900) 70%, transparent);
+    font-size: 1.25rem;
+    line-height: 1;
+    transition:
+      color var(--dur-fast) var(--ease-out),
+      border-color var(--dur-fast) var(--ease-out),
+      background-color var(--dur-fast) var(--ease-out);
+  }
+
+  .projects-carousel__arrow:hover {
+    color: var(--rust-400);
+    border-color: var(--rust-500);
+    background: color-mix(in srgb, var(--rust-700) 35%, transparent);
+  }
+
+  .projects-carousel__viewport {
+    --shadow-cycle-duration: 550ms;
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    width: 100%;
+    padding-block: var(--space-3);
+  }
+
+  .projects-carousel__viewport::before,
+  .projects-carousel__viewport::after {
+    content: '';
+    position: absolute;
+    top: var(--space-3);
+    bottom: var(--space-3);
+    width: clamp(28px, 5vw, 72px);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .projects-carousel__viewport::before {
+    left: 0;
+    opacity: 0;
+    transform-origin: left center;
+    transform: scaleX(0.06);
+    background: linear-gradient(
+      to right,
+      var(--projects-bg) 0%,
+      var(--projects-bg) 22%,
+      color-mix(in srgb, var(--projects-bg) 78%, transparent) 52%,
+      transparent 100%
+    );
+  }
+
+  .projects-carousel__viewport.is-sliding::before {
+    animation: projects-left-shadow-cycle var(--shadow-cycle-duration) linear;
+  }
+
+  @keyframes projects-left-shadow-cycle {
+    0% {
+      opacity: 0;
+      transform: scaleX(0.06);
+    }
+    32% {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+    100% {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+  }
+
+  .projects-carousel__viewport::after {
+    right: 0;
+    opacity: 1;
+    background: linear-gradient(
+      to left,
+      var(--projects-bg) 0%,
+      var(--projects-bg) 22%,
+      color-mix(in srgb, var(--projects-bg) 78%, transparent) 52%,
+      transparent 100%
+    );
+  }
+
+  .projects-carousel__track {
+    list-style: none;
+    display: flex;
+    gap: var(--space-6);
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .project-slide {
+    flex: 0 0 clamp(640px, 86vw, 1240px);
+  }
+
+  .project-card {
+    display: grid;
+    gap: var(--space-4);
+    border: 1px solid color-mix(in srgb, var(--ink-600) 80%, transparent);
+    padding: var(--space-6);
+    background: linear-gradient(
+      120deg,
+      color-mix(in srgb, var(--ink-900) 84%, transparent),
+      color-mix(in srgb, var(--ink-950) 88%, transparent)
+    );
+    height: 100%;
+  }
+
+  .project-card__heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-3);
+  }
+
+  .project-card__status {
+    color: var(--rust-400);
+  }
+
+  .project-card__layout {
+    display: grid;
+    grid-template-columns: minmax(340px, 43%) minmax(0, 1fr);
+    align-items: start;
+    gap: var(--space-6);
+  }
+
+  .project-card__media {
+    margin: 0;
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--ink-600) 74%, transparent);
+    background: var(--ink-900);
+  }
+
+  .project-card__media img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    filter: saturate(0.88) sepia(0.06) contrast(1.02);
+  }
+
+  .project-card__main {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .project-card__title {
+    font-size: clamp(2rem, 3.6vw, 3.1rem);
+    letter-spacing: -0.025em;
+    color: var(--paper-50);
+    max-width: 16ch;
+  }
+
+  .project-card__text {
+    color: var(--ink-300);
+    max-width: 58ch;
+    line-height: 1.78;
+    font-size: clamp(1rem, 1.2vw, 1.08rem);
+  }
+
+  .project-card__meta {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .project-card__meta-row {
+    display: grid;
+    grid-template-columns: minmax(8ch, 10ch) minmax(0, 1fr);
+    gap: var(--space-3);
+    align-items: baseline;
+    padding-top: var(--space-2);
+    border-top: 1px solid color-mix(in srgb, var(--ink-600) 66%, transparent);
+  }
+
+  .project-card__line {
+    color: var(--paper-100);
+    font-family: var(--font-mono);
+    font-size: var(--text-meta);
+    letter-spacing: 0.04em;
+    line-height: 1.65;
+    text-transform: uppercase;
+  }
+
+  .photo-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 170;
+    opacity: 0;
+    pointer-events: none;
+    background: color-mix(in srgb, var(--ink-950) 92%, transparent);
+  }
+
+  .photo-lightbox.is-open {
+    pointer-events: auto;
+  }
+
+  .photo-lightbox__close {
+    position: fixed;
+    z-index: 175;
+    border: 1px solid var(--ink-600);
+    background: color-mix(in srgb, var(--ink-900) 75%, transparent);
+    color: var(--paper-50);
+    padding: var(--space-2) var(--space-3);
+    opacity: 0;
+    transition:
+      opacity 220ms var(--ease-out),
+      border-color var(--dur-fast) var(--ease-out),
+      color var(--dur-fast) var(--ease-out);
+  }
+
+  .photo-lightbox__close:hover {
+    color: var(--rust-400);
+    border-color: var(--rust-500);
+  }
+
+  .photo-lightbox__frame {
+    position: fixed;
+    inset: 0;
+    margin: 0;
+    display: block;
+  }
+
+  .photo-lightbox__image {
+    position: fixed;
+    max-width: none;
+    object-fit: cover;
+    will-change: top, left, width, height;
+    box-shadow: 0 24px 80px color-mix(in srgb, black 70%, transparent);
+  }
+
+  /* ---------- Toolbox (pinned chapters) ---------- */
   .stack[data-enhanced] {
     padding-block: 0;
   }
@@ -812,7 +1458,7 @@ const photos = [
     color: var(--ink-600);
   }
 
-  /* ---------- Galerie (travelling horizontal) ---------- */
+  /* ---------- Gallery (travelling horizontal) ---------- */
   .gallery[data-enhanced] {
     padding-block: 0;
     overflow: hidden;
@@ -876,14 +1522,22 @@ const photos = [
   }
 
   .gallery__media {
+    height: min(52vh, 520px);
+    width: fit-content;
     overflow: hidden;
     background: var(--ink-800);
+    border: 1px solid transparent;
+
+    &:hover {
+      border: 1px solid var(--rust-500);
+    }
   }
 
   .gallery__media img {
-    height: min(52vh, 520px);
     width: auto;
-    object-fit: cover;
+    height: 100%;
+    max-width: none;
+    object-fit: contain;
     filter: saturate(0.85) sepia(0.1);
   }
 
@@ -929,7 +1583,7 @@ const photos = [
     transform-origin: left;
   }
 
-  /* ---------- Hors écran ---------- */
+  /* ---------- Off screen ---------- */
   .life__grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -965,24 +1619,52 @@ const photos = [
   /* ---------- Responsive ---------- */
   @media (max-width: 1024px) {
     .xp-summary {
-      grid-template-columns: 4ch 1fr auto;
+      grid-template-columns: minmax(15ch, 20ch) minmax(0, 1fr) auto;
     }
 
     .xp-summary__role {
-      grid-column: 2;
+      grid-column: 2 / 4;
       grid-row: 2;
     }
 
     .xp-summary__dates {
-      grid-column: 3;
+      grid-column: 1;
+      grid-row: 1;
     }
 
-    .skill-item {
-      grid-template-columns: 4ch 1fr;
+    .xp-body {
+      padding-left: calc(20ch + var(--space-4));
     }
 
-    .skill-item__text {
-      grid-column: 2;
+    .edu-summary {
+      grid-template-columns: minmax(15ch, 20ch) minmax(0, 1fr) auto;
+    }
+
+    .edu-summary__diploma {
+      grid-column: 2 / 4;
+      grid-row: 2;
+    }
+
+    .edu-summary__dates {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .edu-body {
+      padding-left: calc(20ch + var(--space-4));
+    }
+
+    .project-slide {
+      flex-basis: min(92vw, 980px);
+    }
+
+    .project-card {
+      padding: var(--space-5);
+    }
+
+    .project-card__layout {
+      grid-template-columns: minmax(260px, 34%) minmax(0, 1fr);
+      gap: var(--space-5);
     }
 
     .stack__chapter {
@@ -1008,17 +1690,69 @@ const photos = [
       padding-left: 0;
     }
 
-    .edu-item {
-      grid-template-columns: 4ch 1fr;
+    .edu-body,
+    .xp-body {
+      padding-left: 0;
     }
 
-    .edu-item__diploma,
-    .edu-item .meta:last-child {
+    .edu-summary {
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: var(--space-2) var(--space-3);
+    }
+
+    .edu-summary__dates,
+    .edu-summary__school,
+    .edu-summary__diploma {
+      grid-column: 1;
+    }
+
+    .edu-summary__arrow {
       grid-column: 2;
+      grid-row: 1;
+      align-self: start;
     }
 
     .gallery__media img {
+      height: 100%;
+    }
+
+    .gallery__media {
       height: min(44vh, 380px);
+    }
+
+    .manifesto__text {
+      max-width: 100%;
+    }
+
+    .project-card--editorial {
+      grid-template-columns: 1fr;
+    }
+
+    .project-card {
+      padding: var(--space-4);
+    }
+
+    .project-card__layout {
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+    }
+
+    .project-card__title {
+      max-width: none;
+      font-size: clamp(1.6rem, 8vw, 2.2rem);
+    }
+
+    .project-card__media img {
+      aspect-ratio: 5 / 4;
+    }
+
+    .project-card__meta-row {
+      grid-template-columns: 1fr;
+      gap: var(--space-2);
+    }
+
+    .photo-lightbox__close {
+      padding: var(--space-2);
     }
   }
 </style>

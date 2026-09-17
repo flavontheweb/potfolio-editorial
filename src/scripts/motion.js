@@ -3,9 +3,9 @@
    GSAP + Lenis, patterns vérifiés (skill editorial-portfolio-design)
    ========================================================================== */
 
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Lenis from "lenis";
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Lenis from 'lenis';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,12 +17,12 @@ const $$ = (sel, root = document) => gsap.utils.toArray(sel, root);
    -------------------------------------------------------------------------- */
 
 function initClock() {
-  const el = $("[data-clock]");
+  const el = $('[data-clock]');
   if (!el) return;
-  const fmt = new Intl.DateTimeFormat("fr-FR", {
-    hour: "2-digit",
-    minute: "2-digit",
-    timeZone: "Europe/Paris",
+  const fmt = new Intl.DateTimeFormat('fr-FR', {
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZone: 'Europe/Paris',
   });
   const tick = () => (el.textContent = fmt.format(new Date()));
   tick();
@@ -33,13 +33,13 @@ function initClock() {
    Loader rideau — première visite uniquement, ≤ 2 s
    -------------------------------------------------------------------------- */
 
-const VISITED_KEY = "fg-visited";
+const VISITED_KEY = 'fg-visited';
 
 function playLoader(onComplete) {
-  const loader = $("[data-loader]");
-  const chars = $$("[data-loader-char]");
-  const meta = $("[data-loader-meta]");
-  const curve = $("[data-loader-curve]");
+  const loader = $('[data-loader]');
+  const chars = $$('[data-loader-char]');
+  const meta = $('[data-loader-meta]');
+  const curve = $('[data-loader-curve]');
 
   const tl = gsap.timeline({ onComplete });
 
@@ -47,19 +47,15 @@ function playLoader(onComplete) {
   tl.from(chars, {
     yPercent: 110,
     duration: 0.6,
-    ease: "power3.out",
+    ease: 'power3.out',
     stagger: 0.08,
   })
-    .from(
-      meta,
-      { opacity: 0, y: 8, duration: 0.4, ease: "power2.out" },
-      "-=0.2",
-    )
+    .from(meta, { opacity: 0, y: 8, duration: 0.4, ease: 'power2.out' }, '-=0.2')
     .to({}, { duration: 0.35 }) // temps de lecture
     // Levée du rideau : le bord bas se courbe (scaleY → 0, origin top)
-    .to(loader, { y: "-100vh", duration: 0.85, ease: "power4.inOut" })
-    .to(curve, { scaleY: 0, duration: 0.85, ease: "power4.inOut" }, "<")
-    .set(loader, { display: "none" });
+    .to(loader, { y: '-100vh', duration: 0.85, ease: 'power4.inOut' })
+    .to(curve, { scaleY: 0, duration: 0.85, ease: 'power4.inOut' }, '<')
+    .set(loader, { display: 'none' });
 
   return tl;
 }
@@ -69,96 +65,221 @@ function playLoader(onComplete) {
    -------------------------------------------------------------------------- */
 
 function playIntro() {
-  document.body.dataset.loadState = "ready";
+  document.body.dataset.loadState = 'ready';
 
   const tl = gsap.timeline();
-  tl.from("[data-hero-line]", {
+  tl.from('[data-hero-line]', {
     yPercent: 110,
     duration: 1.1,
-    ease: "power3.out",
+    ease: 'power3.out',
     stagger: 0.08,
   }).from(
-    ".hero [data-reveal]",
+    '.hero [data-reveal]',
     {
       opacity: 0,
       y: 14,
       duration: 0.7,
-      ease: "power2.out",
+      ease: 'power2.out',
       stagger: 0.06,
-      clearProps: "all",
+      clearProps: 'all',
     },
-    "-=0.6",
+    '-=0.6',
   );
   return tl;
 }
 
 /* --------------------------------------------------------------------------
-   Menu underlay — la page glisse pour révéler le menu dessous
-   -------------------------------------------------------------------------- */
+  Menu overlay — volets en cascade, sans déplacer la page
+  -------------------------------------------------------------------------- */
 
 function createMenu({ lenis, reduced }) {
-  const toggle = $("[data-menu-toggle]");
-  const menu = $("[data-menu]");
-  const page = $("[data-page]");
-  const labels = $$("[data-menu-label]");
-  const metaBlocks = $$(".menu__meta > div");
-  if (!toggle || !menu || !page) return { close: () => {} };
+  const toggle = $('[data-menu-toggle]');
+  const menu = $('[data-menu]');
+  const panels = $$('[data-menu-panel]', menu);
+  const content = $('[data-menu-content]', menu);
+  const labels = $$('[data-menu-label]');
+  const metaBlocks = $$('.menu__meta > div');
+  if (!toggle || !menu || !content || !panels.length) return { close: () => {} };
+
+  // Evite les doubles listeners si init est relance (HMR/navigation client).
+  menu.__menuAbortController?.abort();
+  const listeners = new AbortController();
+  menu.__menuAbortController = listeners;
 
   let open = false;
-  let tl = null;
+  let activeTl = null;
+  let pendingCloseCallbacks = [];
 
-  if (!reduced) {
-    tl = gsap.timeline({
-      paused: true,
-      onReverseComplete: () => menu.setAttribute("aria-hidden", "true"),
+  gsap.set(menu, { autoAlpha: 0 });
+  gsap.set(panels, {
+    xPercent: (i) => 118 + i * 7,
+    rotateY: -9,
+    scale: 0.96,
+    transformOrigin: 'right center',
+  });
+  gsap.set(content, { opacity: 0, y: 18 });
+
+  const flushCloseCallbacks = () => {
+    const callbacks = pendingCloseCallbacks;
+    pendingCloseCallbacks = [];
+    callbacks.forEach((cb) => cb());
+  };
+
+  const stopActiveTimeline = () => {
+    if (!activeTl) return;
+    activeTl.kill();
+    activeTl = null;
+  };
+
+  const playOpen = () => {
+    stopActiveTimeline();
+    delete menu.dataset.closing;
+    menu.setAttribute('aria-hidden', 'false');
+    gsap.set(menu, { autoAlpha: 1 });
+    gsap.set(panels, {
+      xPercent: (i) => 118 + i * 7,
+      rotateY: -9,
+      scale: 0.96,
     });
-    tl.to(page, {
-      yPercent: 58,
-      scale: 0.985,
-      duration: 0.8,
-      ease: "power3.inOut",
-    })
+    gsap.set(content, { opacity: 0, y: 18 });
+
+    activeTl = gsap.timeline({ onComplete: () => (activeTl = null) });
+    activeTl
+      .to(panels, {
+        xPercent: 0,
+        rotateY: 0,
+        scale: 1,
+        duration: reduced ? 0.5 : 0.86,
+        ease: 'expo.out',
+        stagger: { each: reduced ? 0.07 : 0.13, from: 'start' },
+      })
+      .to(
+        content,
+        {
+          opacity: 1,
+          y: 0,
+          duration: reduced ? 0.22 : 0.38,
+          ease: 'power2.out',
+        },
+        reduced ? 0.2 : 0.44,
+      )
       .from(
         labels,
-        { yPercent: 110, duration: 0.7, ease: "power3.out", stagger: 0.05 },
-        "-=0.4",
+        {
+          yPercent: 110,
+          duration: reduced ? 0.28 : 0.56,
+          ease: 'power3.out',
+          stagger: 0.045,
+        },
+        reduced ? 0.22 : 0.5,
       )
       .from(
         metaBlocks,
-        { opacity: 0, y: 12, duration: 0.5, ease: "power2.out", stagger: 0.06 },
-        "-=0.5",
+        {
+          opacity: 0,
+          y: 12,
+          duration: reduced ? 0.24 : 0.48,
+          ease: 'power2.out',
+          stagger: 0.05,
+        },
+        reduced ? 0.26 : 0.56,
       );
-  }
+  };
 
-  const setState = (next) => {
+  const playClose = () => {
+    stopActiveTimeline();
+    menu.dataset.closing = 'true';
+
+    activeTl = gsap.timeline({
+      onComplete: () => {
+        delete menu.dataset.closing;
+        menu.setAttribute('aria-hidden', 'true');
+        gsap.set(menu, { autoAlpha: 0 });
+        gsap.set(panels, {
+          xPercent: (i) => 118 + i * 7,
+          rotateY: -9,
+          scale: 0.96,
+        });
+        gsap.set(content, { clearProps: 'opacity,transform' });
+        ScrollTrigger.refresh();
+        activeTl = null;
+        flushCloseCallbacks();
+      },
+    });
+
+    activeTl
+      .to(content, {
+        opacity: 0,
+        y: 10,
+        duration: reduced ? 0.2 : 0.28,
+        ease: 'power1.in',
+      })
+      .to(
+        panels,
+        {
+          xPercent: (i) => 118 + i * 7,
+          rotateY: -9,
+          scale: 0.96,
+          duration: reduced ? 0.42 : 0.68,
+          ease: 'expo.in',
+          stagger: { each: reduced ? 0.07 : 0.12, from: 'end' },
+        },
+        0.04,
+      )
+      .set(panels, {
+        xPercent: (i) => 118 + i * 7,
+        rotateY: -9,
+        scale: 0.96,
+      });
+  };
+
+  const setState = (next, { onClosed, force = false } = {}) => {
+    if (typeof onClosed === 'function') pendingCloseCallbacks.push(onClosed);
+
+    if (activeTl && !force) return;
+
+    if (next === open) {
+      if (!open) flushCloseCallbacks();
+      return;
+    }
+
     open = next;
-    toggle.setAttribute("aria-expanded", String(open));
-    toggle.setAttribute(
-      "aria-label",
-      open ? "Fermer le menu" : "Ouvrir le menu",
-    );
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
     if (open) {
-      menu.setAttribute("aria-hidden", "false");
       lenis?.stop();
-      if (tl === null) menu.style.visibility = "visible";
-      else tl.play();
+      playOpen();
     } else {
       lenis?.start();
-      if (tl === null) {
-        menu.style.visibility = "";
-        menu.setAttribute("aria-hidden", "true");
-      } else {
-        tl.reverse();
-      }
+      playClose();
     }
   };
 
-  toggle.addEventListener("click", () => setState(!open));
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && open) setState(false);
+  toggle.addEventListener('click', () => setState(!open, { force: true }), {
+    signal: listeners.signal,
   });
+  document.addEventListener(
+    'keydown',
+    (e) => {
+      if (e.key === 'Escape' && open) setState(false);
+    },
+    { signal: listeners.signal },
+  );
 
-  return { close: () => open && setState(false), isOpen: () => open };
+  return {
+    close: (onClosed) => {
+      if (!open) {
+        if (typeof onClosed === 'function') onClosed();
+        return;
+      }
+      setState(false, { onClosed, force: true });
+    },
+    isOpen: () => open,
+    destroy: () => {
+      listeners.abort();
+      stopActiveTimeline();
+    },
+  };
 }
 
 /* --------------------------------------------------------------------------
@@ -166,8 +287,9 @@ function createMenu({ lenis, reduced }) {
    -------------------------------------------------------------------------- */
 
 function createTransition({ lenis, reduced }) {
-  const wrapper = $("[data-transition]");
-  const panel = $("[data-transition-panel]");
+  const wrapper = $('[data-transition]');
+  const panel = $('[data-transition-panel]');
+  let running = false;
 
   const jumpTo = (target) => {
     if (lenis) lenis.scrollTo(target, { immediate: true, force: true });
@@ -179,21 +301,27 @@ function createTransition({ lenis, reduced }) {
       target.scrollIntoView();
       return;
     }
-    const tl = gsap.timeline();
-    tl.set(wrapper, { visibility: "visible" })
-      .fromTo(
-        panel,
-        { yPercent: 102 },
-        { yPercent: 0, duration: 0.45, ease: "power4.in" },
-      )
+    if (running) return;
+    running = true;
+
+    gsap.killTweensOf(panel);
+
+    const tl = gsap.timeline({
+      onComplete: () => {
+        running = false;
+      },
+    });
+    tl.set(wrapper, { visibility: 'visible' })
+      .set(panel, { yPercent: 102 })
+      .fromTo(panel, { yPercent: 102 }, { yPercent: 0, duration: 0.45, ease: 'power4.in' })
       .add(() => jumpTo(target))
       .to(panel, {
         yPercent: -102,
         duration: 0.6,
-        ease: "expo.out",
+        ease: 'expo.out',
         delay: 0.08,
       })
-      .set(wrapper, { visibility: "hidden" });
+      .set(wrapper, { visibility: 'hidden' });
   };
 }
 
@@ -202,19 +330,21 @@ function createTransition({ lenis, reduced }) {
    -------------------------------------------------------------------------- */
 
 function initNavigation({ lenis, menu, transition, reduced }) {
-  $$("[data-nav-link]").forEach((link) => {
-    link.addEventListener("click", (e) => {
-      const href = link.getAttribute("href");
-      if (!href?.startsWith("#")) return;
+  $$('[data-nav-link]').forEach((link) => {
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href');
+      if (!href?.startsWith('#')) return;
       const target = $(href);
       if (!target) return;
       e.preventDefault();
 
       const fromMenu = link.dataset.menuLink !== undefined;
       if (fromMenu) {
-        // Signature : fermeture du menu + balayage rouille
-        menu.close();
-        gsap.delayedCall(reduced ? 0 : 0.45, () => transition(target));
+        // Fermeture du menu puis scroll direct, sans panneau rouille.
+        menu.close(() => {
+          if (lenis) lenis.scrollTo(target, { duration: 1.1 });
+          else target.scrollIntoView();
+        });
       } else if (lenis) {
         lenis.scrollTo(target, { duration: 1.1 });
       } else {
@@ -229,23 +359,367 @@ function initNavigation({ lenis, menu, transition, reduced }) {
    -------------------------------------------------------------------------- */
 
 function bindTextRolls() {
-  $$(".roll").forEach((el) => {
-    const copies = el.querySelectorAll("[data-roll-copy]");
+  $$('.roll').forEach((el) => {
+    const copies = el.querySelectorAll('[data-roll-copy]');
     if (copies.length < 2) return;
     const [a, b] = copies;
-    el.addEventListener("mouseenter", () => {
+    el.addEventListener('mouseenter', () => {
       gsap
-        .timeline({ defaults: { duration: 0.28, ease: "power2.out" } })
+        .timeline({ defaults: { duration: 0.28, ease: 'power2.out' } })
         .to(a, { yPercent: -100 }, 0)
         .to(b, { yPercent: -100 }, 0);
     });
-    el.addEventListener("mouseleave", () => {
+    el.addEventListener('mouseleave', () => {
       gsap
-        .timeline({ defaults: { duration: 0.28, ease: "power2.out" } })
+        .timeline({ defaults: { duration: 0.28, ease: 'power2.out' } })
         .to(a, { yPercent: 0 }, 0)
         .to(b, { yPercent: 0 }, 0);
     });
   });
+}
+
+/* --------------------------------------------------------------------------
+   Projects carousel — horizontal, infinite, arrows
+   -------------------------------------------------------------------------- */
+
+function initProjectsCarousel({ reduced = false } = {}) {
+  const root = $('[data-projects-carousel]');
+  const viewport = $('.projects-carousel__viewport', root || document);
+  const track = $('[data-projects-track]', root || document);
+  const prev = $('[data-projects-prev]', root || document);
+  const next = $('[data-projects-next]', root || document);
+  if (!root || !viewport || !track || !prev || !next) return;
+
+  if (track.dataset.enhanced === 'true') return;
+  track.dataset.enhanced = 'true';
+
+  const originals = Array.from(track.children);
+  if (originals.length < 2) return;
+
+  const cloneCount = Math.min(2, originals.length);
+
+  const headClones = originals.slice(-cloneCount).map((el) => {
+    const clone = el.cloneNode(true);
+    clone.dataset.clone = 'head';
+    return clone;
+  });
+
+  const tailClones = originals.slice(0, cloneCount).map((el) => {
+    const clone = el.cloneNode(true);
+    clone.dataset.clone = 'tail';
+    return clone;
+  });
+
+  const headFrag = document.createDocumentFragment();
+  headClones.forEach((clone) => headFrag.appendChild(clone));
+  track.prepend(headFrag);
+
+  const tailFrag = document.createDocumentFragment();
+  tailClones.forEach((clone) => tailFrag.appendChild(clone));
+  track.appendChild(tailFrag);
+
+  const slides = () => Array.from(track.children);
+
+  let index = cloneCount;
+  let step = 0;
+  let busy = false;
+
+  const playLeftShadowCycle = (durationMs) => {
+    viewport.style.setProperty('--shadow-cycle-duration', `${durationMs}ms`);
+    viewport.classList.remove('is-sliding');
+    void viewport.offsetWidth;
+    viewport.classList.add('is-sliding');
+  };
+
+  const measureStep = () => {
+    const all = slides();
+    if (all.length < 2) return 0;
+    const a = all[0].getBoundingClientRect();
+    const b = all[1].getBoundingClientRect();
+    return Math.abs(b.left - a.left);
+  };
+
+  const place = (i) => {
+    gsap.set(track, { x: -i * step });
+  };
+
+  const moveTo = (nextIndex) => {
+    if (busy || step === 0) return;
+    busy = true;
+    index = nextIndex;
+    const slideDuration = reduced ? 0.01 : 0.55;
+    playLeftShadowCycle(Math.round(slideDuration * 1000));
+
+    gsap.to(track, {
+      x: -index * step,
+      duration: slideDuration,
+      ease: reduced ? 'none' : 'power3.out',
+      onComplete: () => {
+        const total = originals.length;
+        const maxRealIndex = total + cloneCount - 1;
+
+        if (index >= total + cloneCount) {
+          index = cloneCount;
+          place(index);
+        } else if (index < cloneCount) {
+          index = maxRealIndex;
+          place(index);
+        }
+        viewport.classList.remove('is-sliding');
+        busy = false;
+      },
+    });
+  };
+
+  const refresh = () => {
+    step = measureStep();
+    place(index);
+  };
+
+  refresh();
+  window.addEventListener('resize', refresh);
+
+  prev.addEventListener('click', () => moveTo(index - 1));
+  next.addEventListener('click', () => moveTo(index + 1));
+}
+
+/* --------------------------------------------------------------------------
+  Photos — fullscreen image transition
+  -------------------------------------------------------------------------- */
+
+function initPhotoLightbox({ reduced = false, lenis = null } = {}) {
+  const lightbox = $('[data-photo-lightbox]');
+  const lightboxImage = $('[data-photo-lightbox-image]');
+  const closeBtn = $('[data-photo-lightbox-close]');
+
+  if (!lightbox || !lightboxImage) return;
+
+  lightbox.__photoAbortController?.abort();
+  const listeners = new AbortController();
+  lightbox.__photoAbortController = listeners;
+
+  const animateDuration = reduced ? 0.01 : 0.55;
+  const closeDuration = reduced ? 0.01 : 0.45;
+
+  let activeImage = null;
+  let animating = false;
+  let activeRect = null;
+
+  const lockScroll = () => {
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+    lenis?.stop();
+  };
+
+  const unlockScroll = () => {
+    document.body.style.overflow = '';
+    document.documentElement.style.overflow = '';
+    lenis?.start();
+  };
+
+  const computeTargetRect = (origin) => {
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const ratio =
+      origin.naturalWidth && origin.naturalHeight
+        ? origin.naturalWidth / origin.naturalHeight
+        : origin.clientWidth / Math.max(origin.clientHeight, 1);
+
+    const maxW = vw * 0.9;
+    const maxH = vh * 0.86;
+    let width = maxW;
+    let height = width / ratio;
+
+    if (height > maxH) {
+      height = maxH;
+      width = height * ratio;
+    }
+
+    return {
+      left: (vw - width) / 2,
+      top: (vh - height) / 2,
+      width,
+      height,
+    };
+  };
+
+  const placeCloseButton = (rect) => {
+    if (!closeBtn || !rect) return;
+    const left = Math.max(12, rect.left + rect.width - 110);
+    const top = Math.max(12, rect.top + 14);
+    gsap.set(closeBtn, { left, top });
+  };
+
+  const openLightbox = (origin) => {
+    if (animating || !origin) return;
+    animating = true;
+    activeImage = origin;
+
+    const from = origin.getBoundingClientRect();
+    const to = computeTargetRect(origin);
+    activeRect = to;
+
+    lightboxImage.src = origin.currentSrc || origin.src;
+    lightboxImage.alt = origin.alt;
+
+    gsap.killTweensOf([lightbox, lightboxImage]);
+
+    lightbox.classList.add('is-open');
+    lightbox.setAttribute('aria-hidden', 'false');
+    origin.style.visibility = 'hidden';
+    lockScroll();
+
+    gsap.set(lightbox, { opacity: 0 });
+    gsap.set(lightboxImage, {
+      position: 'fixed',
+      left: from.left,
+      top: from.top,
+      width: from.width,
+      height: from.height,
+      borderRadius: 0,
+      objectFit: 'cover',
+    });
+
+    if (closeBtn) placeCloseButton({ left: from.left, top: from.top, width: from.width });
+
+    const tl = gsap.timeline({
+      onComplete: () => {
+        animating = false;
+      },
+    });
+
+    tl.to(lightbox, { opacity: 1, duration: 0.28, ease: 'power2.out' }, 0).to(
+      lightboxImage,
+      {
+        left: to.left,
+        top: to.top,
+        width: to.width,
+        height: to.height,
+        objectFit: 'contain',
+        duration: animateDuration,
+        ease: reduced ? 'none' : 'expo.out',
+      },
+      0,
+    );
+
+    if (closeBtn) {
+      tl.to(
+        closeBtn,
+        {
+          left: Math.max(12, to.left + to.width - 110),
+          top: Math.max(12, to.top + 14),
+          opacity: 1,
+          duration: reduced ? 0.01 : 0.4,
+          ease: reduced ? 'none' : 'power2.out',
+        },
+        0.1,
+      );
+    }
+  };
+
+  const closeLightbox = () => {
+    if (animating || !activeImage) return;
+    animating = true;
+
+    const to = activeImage.getBoundingClientRect();
+
+    gsap.killTweensOf([lightbox, lightboxImage]);
+    gsap.killTweensOf(closeBtn);
+    const tl = gsap.timeline({
+      onComplete: () => {
+        activeImage.style.visibility = '';
+        lightbox.classList.remove('is-open');
+        lightbox.setAttribute('aria-hidden', 'true');
+        lightboxImage.removeAttribute('src');
+        lightboxImage.removeAttribute('alt');
+        gsap.set(lightboxImage, { clearProps: 'all' });
+        if (closeBtn) gsap.set(closeBtn, { clearProps: 'all' });
+        activeImage = null;
+        activeRect = null;
+        animating = false;
+        unlockScroll();
+      },
+    });
+
+    if (closeBtn) {
+      tl.to(
+        closeBtn,
+        {
+          opacity: 0,
+          duration: reduced ? 0.01 : 0.18,
+          ease: 'power1.out',
+        },
+        0,
+      );
+    }
+
+    tl.to(lightboxImage, {
+      left: to.left,
+      top: to.top,
+      width: to.width,
+      height: to.height,
+      objectFit: 'cover',
+      duration: closeDuration,
+      ease: reduced ? 'none' : 'power3.inOut',
+    }).to(
+      lightbox,
+      {
+        opacity: 0,
+        duration: reduced ? 0.01 : 0.22,
+        ease: 'power1.out',
+      },
+      reduced ? 0 : '-=0.18',
+    );
+  };
+
+  document.addEventListener(
+    'click',
+    (e) => {
+      const trigger = e.target.closest('[data-photo-zoom]');
+      if (!trigger) return;
+      const img = trigger.querySelector('img');
+      if (!img) return;
+      openLightbox(img);
+    },
+    { signal: listeners.signal },
+  );
+
+  lightbox.addEventListener(
+    'click',
+    (e) => {
+      if (e.target === lightbox) closeLightbox();
+    },
+    { signal: listeners.signal },
+  );
+
+  closeBtn?.addEventListener('click', closeLightbox, {
+    signal: listeners.signal,
+  });
+
+  document.addEventListener(
+    'keydown',
+    (e) => {
+      if (e.key === 'Escape' && activeImage) closeLightbox();
+    },
+    { signal: listeners.signal },
+  );
+
+  window.addEventListener(
+    'resize',
+    () => {
+      if (!activeImage || !activeRect || !closeBtn) return;
+      const to = computeTargetRect(activeImage);
+      activeRect = to;
+      gsap.set(lightboxImage, {
+        left: to.left,
+        top: to.top,
+        width: to.width,
+        height: to.height,
+      });
+      placeCloseButton(to);
+    },
+    { signal: listeners.signal },
+  );
 }
 
 /* --------------------------------------------------------------------------
@@ -254,79 +728,75 @@ function bindTextRolls() {
 
 function initScrollMotion() {
   // Sections : fade + lift
-  $$("[data-reveal]").forEach((el) => {
-    if (el.closest(".hero")) return; // le héros est géré par l'intro
+  $$('[data-reveal]').forEach((el) => {
+    if (el.closest('.hero')) return; // le héros est géré par l'intro
     gsap.from(el, {
       opacity: 0,
       y: 24,
       duration: 0.7,
-      ease: "power2.out",
-      scrollTrigger: { trigger: el, start: "top 85%", once: true },
+      ease: 'power2.out',
+      scrollTrigger: { trigger: el, start: 'top 85%', once: true },
     });
   });
 
   // Manifeste : reveal ligne à ligne masqué
-  const manifestoLines = $$("[data-manifesto-line]");
+  const manifestoLines = $$('[data-manifesto-line]');
   if (manifestoLines.length) {
     gsap.from(manifestoLines, {
       yPercent: 110,
       duration: 0.9,
-      ease: "power3.out",
+      ease: 'power3.out',
       stagger: 0.07,
       scrollTrigger: {
-        trigger: ".manifesto",
-        start: "top 70%",
+        trigger: '.manifesto',
+        start: 'top 70%',
         once: true,
       },
     });
   }
 
   // Parallaxe héros (±10 %)
-  const heroMedia = $("[data-hero-parallax]");
+  const heroMedia = $('[data-hero-parallax]');
   if (heroMedia) {
     gsap.fromTo(
       heroMedia,
       { yPercent: -6 },
       {
         yPercent: 6,
-        ease: "none",
-        scrollTrigger: { trigger: ".hero", start: "top top", scrub: 0.6 },
+        ease: 'none',
+        scrollTrigger: { trigger: '.hero', start: 'top top', scrub: 0.6 },
       },
     );
   }
 
   // Parallaxe médias (galerie) — profondeur clampée 2-14 %
-  $$("[data-parallax]").forEach((el) => {
-    const depth = gsap.utils.clamp(
-      2,
-      14,
-      Number(el.dataset.parallaxDepth || 8),
-    );
+  $$('[data-parallax]').forEach((el) => {
+    const depth = gsap.utils.clamp(2, 14, Number(el.dataset.parallaxDepth || 8));
     gsap.fromTo(
-      el.querySelector("img"),
+      el.querySelector('img'),
       { yPercent: -depth, scale: 1 + depth / 50 },
       {
         yPercent: depth,
         scale: 1 + depth / 50,
-        ease: "none",
+        ease: 'none',
         scrollTrigger: { trigger: el, scrub: 0.6 },
       },
     );
   });
 
   // Footer reveal parallaxe : contenu contre-translaté
-  const footerInner = $("[data-footer-inner]");
+  const footerInner = $('[data-footer-inner]');
   if (footerInner) {
     gsap.fromTo(
       footerInner,
       { yPercent: -30 },
       {
         yPercent: 0,
-        ease: "none",
+        ease: 'none',
         scrollTrigger: {
-          trigger: "[data-footer]",
-          start: "top bottom",
-          end: "top 30%",
+          trigger: '[data-footer]',
+          start: 'top bottom',
+          end: 'top 30%',
           scrub: 0.8,
         },
       },
@@ -344,16 +814,16 @@ function initScrollMotion() {
    Boîte à outils — chapitres pinnés qui se succèdent au scroll
    -------------------------------------------------------------------------- */
 
-const pad2 = (n) => String(n).padStart(2, "0");
+const pad2 = (n) => String(n).padStart(2, '0');
 
 function initStackPin() {
-  const section = $("[data-stack]");
+  const section = $('[data-stack]');
   if (!section) return;
-  const chapters = $$("[data-stack-chapter]", section);
+  const chapters = $$('[data-stack-chapter]', section);
   if (!chapters.length) return;
-  section.dataset.enhanced = "";
+  section.dataset.enhanced = '';
 
-  const bar = $("[data-stack-progress]", section);
+  const bar = $('[data-stack-progress]', section);
 
   // États initiaux : chapitre 1 visible, les suivants cachés
   chapters.forEach((chapter, i) => {
@@ -364,29 +834,29 @@ function initStackPin() {
   const first = chapters[0];
   gsap
     .timeline({
-      scrollTrigger: { trigger: section, start: "top 65%", once: true },
+      scrollTrigger: { trigger: section, start: 'top 65%', once: true },
     })
-    .from(first.querySelector("[data-stack-title]"), {
+    .from(first.querySelector('[data-stack-title]'), {
       yPercent: 110,
       duration: 0.8,
-      ease: "power3.out",
+      ease: 'power3.out',
     })
     .from(
-      first.querySelector("[data-stack-desc]"),
-      { opacity: 0, y: 14, duration: 0.5, ease: "power2.out" },
-      "-=0.5",
+      first.querySelector('[data-stack-desc]'),
+      { opacity: 0, y: 14, duration: 0.5, ease: 'power2.out' },
+      '-=0.5',
     )
     .from(
-      first.querySelectorAll("[data-stack-item]"),
-      { opacity: 0, y: 16, duration: 0.5, ease: "power2.out", stagger: 0.03 },
-      "-=0.35",
+      first.querySelectorAll('[data-stack-item]'),
+      { opacity: 0, y: 16, duration: 0.5, ease: 'power2.out', stagger: 0.03 },
+      '-=0.35',
     );
 
   const tl = gsap.timeline({
     scrollTrigger: {
       trigger: section,
-      start: "top top",
-      end: "+=" + chapters.length * 85 + "%",
+      start: 'top top',
+      end: '+=' + chapters.length * 85 + '%',
       pin: true,
       scrub: 0.5,
       onUpdate(self) {
@@ -399,22 +869,22 @@ function initStackPin() {
   });
 
   chapters.forEach((chapter, i) => {
-    const title = chapter.querySelector("[data-stack-title]");
-    const desc = chapter.querySelector("[data-stack-desc]");
-    const items = chapter.querySelectorAll("[data-stack-item]");
+    const title = chapter.querySelector('[data-stack-title]');
+    const desc = chapter.querySelector('[data-stack-desc]');
+    const items = chapter.querySelectorAll('[data-stack-item]');
 
     if (i > 0) {
       tl.fromTo(chapter, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.15 }, i)
         .fromTo(
           title,
           { yPercent: 110 },
-          { yPercent: 0, duration: 0.3, ease: "power3.out" },
+          { yPercent: 0, duration: 0.3, ease: 'power3.out' },
           i + 0.03,
         )
         .fromTo(
           desc,
           { opacity: 0, y: 14 },
-          { opacity: 1, y: 0, duration: 0.25, ease: "power2.out" },
+          { opacity: 1, y: 0, duration: 0.25, ease: 'power2.out' },
           i + 0.1,
         )
         .fromTo(
@@ -424,7 +894,7 @@ function initStackPin() {
             opacity: 1,
             y: 0,
             duration: 0.28,
-            ease: "power2.out",
+            ease: 'power2.out',
             stagger: 0.018,
           },
           i + 0.12,
@@ -432,11 +902,7 @@ function initStackPin() {
     }
 
     if (i < chapters.length - 1) {
-      tl.to(
-        chapter,
-        { autoAlpha: 0, y: -34, duration: 0.22, ease: "power2.in" },
-        i + 0.75,
-      );
+      tl.to(chapter, { autoAlpha: 0, y: -34, duration: 0.22, ease: 'power2.in' }, i + 0.75);
     }
   });
 }
@@ -446,33 +912,30 @@ function initStackPin() {
    -------------------------------------------------------------------------- */
 
 function initGalleryPin() {
-  const section = $("[data-gallery]");
-  const track = $("[data-gallery-track]");
+  const section = $('[data-gallery]');
+  const track = $('[data-gallery-track]');
   if (!section || !track) return;
-  section.dataset.enhanced = "";
+  section.dataset.enhanced = '';
 
-  const frames = $$("[data-gallery-frame]", section);
-  const current = $("[data-gallery-current]", section);
-  const bar = $("[data-gallery-progress]", section);
+  const frames = $$('[data-gallery-frame]', section);
+  const current = $('[data-gallery-current]', section);
+  const bar = $('[data-gallery-progress]', section);
   const distance = () => Math.max(0, track.offsetWidth - window.innerWidth);
 
   gsap.to(track, {
     x: () => -distance(),
-    ease: "none",
+    ease: 'none',
     scrollTrigger: {
       trigger: section,
-      start: "top top",
-      end: () => "+=" + Math.max(distance(), window.innerHeight),
+      start: 'top top',
+      end: () => '+=' + Math.max(distance(), window.innerHeight),
       pin: true,
       scrub: 0.6,
       invalidateOnRefresh: true,
       onUpdate(self) {
         const p = self.animation?.progress() ?? self.progress;
         if (current && frames.length) {
-          const idx = Math.min(
-            frames.length - 1,
-            Math.floor(p * frames.length),
-          );
+          const idx = Math.min(frames.length - 1, Math.floor(p * frames.length));
           current.textContent = pad2(idx + 1);
         }
         if (bar) gsap.set(bar, { scaleX: p });
@@ -486,17 +949,17 @@ function initGalleryPin() {
    -------------------------------------------------------------------------- */
 
 function initMarquee() {
-  $$("[data-marquee-track]").forEach((track) => {
+  $$('[data-marquee-track]').forEach((track) => {
     gsap.fromTo(
       track,
       { x: 0 },
       {
         x: () => -track.scrollWidth * 0.3,
-        ease: "none",
+        ease: 'none',
         scrollTrigger: {
-          trigger: track.closest(".marquee"),
-          start: "top bottom",
-          end: "bottom top",
+          trigger: track.closest('.marquee'),
+          start: 'top bottom',
+          end: 'bottom top',
           scrub: 0.8,
           invalidateOnRefresh: true,
         },
@@ -510,24 +973,33 @@ function initMarquee() {
    -------------------------------------------------------------------------- */
 
 function initBackgroundDrift() {
-  const page = $("[data-page]");
+  const page = $('[data-page]');
   if (!page) return;
-  $$("[data-bg]").forEach((section) => {
+  const sections = $$('[data-bg]');
+  if (!sections.length) return;
+
+  const defaultColor = '#141110';
+
+  const setBackground = (color) => {
+    gsap.to(page, {
+      backgroundColor: color || defaultColor,
+      duration: 0.45,
+      ease: 'power2.out',
+      overwrite: 'auto',
+    });
+  };
+
+  sections.forEach((section, index) => {
     const color = section.dataset.bg;
+    const prevColor = sections[index - 1]?.dataset.bg || defaultColor;
+
     ScrollTrigger.create({
       trigger: section,
-      start: "top 50%",
-      end: "bottom 50%",
-      onToggle(self) {
-        if (self.isActive) {
-          gsap.to(page, {
-            backgroundColor: color,
-            duration: 0.7,
-            ease: "power2.out",
-            overwrite: "auto",
-          });
-        }
-      },
+      start: 'top 50%',
+      end: 'bottom 50%',
+      onEnter: () => setBackground(color),
+      onEnterBack: () => setBackground(color),
+      onLeaveBack: () => setBackground(prevColor),
     });
   });
 }
@@ -542,17 +1014,19 @@ function init() {
   const mm = gsap.matchMedia();
 
   // Mode reduced motion : contenu statique, pas de smooth scroll ni loader
-  mm.add("(prefers-reduced-motion: reduce)", () => {
-    document.body.dataset.loadState = "ready";
+  mm.add('(prefers-reduced-motion: reduce)', () => {
+    document.body.dataset.loadState = 'ready';
     const menu = createMenu({ lenis: null, reduced: true });
     const transition = createTransition({ lenis: null, reduced: true });
     initNavigation({ lenis: null, menu, transition, reduced: true });
+    initProjectsCarousel({ reduced: true });
+    initPhotoLightbox({ reduced: true, lenis: null });
   });
 
-  mm.add("(prefers-reduced-motion: no-preference)", () => {
+  mm.add('(prefers-reduced-motion: no-preference)', () => {
     // Fondation : Lenis + ScrollTrigger, un seul driver
     const lenis = new Lenis({ lerp: 0.1 });
-    lenis.on("scroll", ScrollTrigger.update);
+    lenis.on('scroll', ScrollTrigger.update);
     const tick = (time) => lenis.raf(time * 1000);
     gsap.ticker.add(tick);
     gsap.ticker.lagSmoothing(0);
@@ -561,17 +1035,19 @@ function init() {
     const transition = createTransition({ lenis, reduced: false });
     initNavigation({ lenis, menu, transition, reduced: false });
     bindTextRolls();
+    initProjectsCarousel({ reduced: false });
+    initPhotoLightbox({ reduced: false, lenis });
 
     // Loader : première visite seulement
     const firstVisit = !sessionStorage.getItem(VISITED_KEY);
     if (firstVisit) {
-      sessionStorage.setItem(VISITED_KEY, "1");
+      sessionStorage.setItem(VISITED_KEY, '1');
       playLoader(() => {
         playIntro();
         initScrollMotion();
       });
     } else {
-      $("[data-loader]")?.remove();
+      $('[data-loader]')?.remove();
       playIntro();
       initScrollMotion();
     }
@@ -584,8 +1060,8 @@ function init() {
   });
 }
 
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", init);
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
 } else {
   init();
 }
