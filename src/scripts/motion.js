@@ -192,6 +192,11 @@ function createMenu({ lenis, reduced }) {
   let pendingCloseCallbacks = [];
 
   gsap.set(menu, { autoAlpha: 0 });
+  gsap.set(burgerLines, {
+    y: 0,
+    rotation: 0,
+    width: (i) => (i === 0 ? 28 : 18),
+  });
   gsap.set(panels, {
     xPercent: (i) => 118 + i * 7,
     rotateY: -9,
@@ -379,6 +384,23 @@ function createMenu({ lenis, reduced }) {
   toggle.addEventListener('click', () => setState(!open, { force: true }), {
     signal: listeners.signal,
   });
+  const hoverQuery = window.matchMedia('(hover: hover)');
+  toggle.addEventListener(
+    'pointerenter',
+    () => {
+      if (hoverQuery.matches && !open)
+        gsap.to(burgerLines[1], { width: 28, duration: 0.25, ease: 'power2.out' });
+    },
+    { signal: listeners.signal },
+  );
+  toggle.addEventListener(
+    'pointerleave',
+    () => {
+      if (hoverQuery.matches && !open)
+        gsap.to(burgerLines[1], { width: 18, duration: 0.25, ease: 'power2.out' });
+    },
+    { signal: listeners.signal },
+  );
   document.addEventListener(
     'keydown',
     (e) => {
