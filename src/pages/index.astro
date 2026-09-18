@@ -1051,6 +1051,12 @@ const photos = rawPhotos.map((photo) => ({
       padding-bottom 420ms var(--ease-out);
   }
 
+  .xp-body {
+    padding-left: 0;
+    width: calc((100% - 24ch - 3 * var(--space-4)) / 2.618);
+    margin-left: calc(24ch + var(--space-4));
+  }
+
   .xp-details[open] .xp-body,
   .edu-details[open] .edu-body {
     opacity: 1;
@@ -1060,7 +1066,7 @@ const photos = rawPhotos.map((photo) => ({
   }
 
   .xp-details[open] .xp-body {
-    max-height: 40rem;
+    max-height: 100rem;
   }
 
   .edu-details[open] .edu-body {
@@ -2026,7 +2032,8 @@ const photos = rawPhotos.map((photo) => ({
     }
 
     .xp-body {
-      padding-left: calc(20ch + var(--space-4));
+      width: 20ch;
+      margin-left: calc(20ch + var(--space-4));
     }
 
     .edu-summary {
@@ -2149,6 +2156,8 @@ const photos = rawPhotos.map((photo) => ({
     .edu-body,
     .xp-body {
       padding-left: 0;
+      margin-left: 0;
+      width: 100%;
     }
 
     .xp-summary,
