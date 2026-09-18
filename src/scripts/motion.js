@@ -779,6 +779,7 @@ function initProjectsCarousel({ reduced = false, mobile = false } = {}) {
 function initPhotoLightbox({ reduced = false, lenis = null } = {}) {
   const lightbox = $('[data-photo-lightbox]');
   const lightboxImage = $('[data-photo-lightbox-image]');
+  const backdrop = $('[data-photo-lightbox-backdrop]');
   const closeBtn = $('[data-photo-lightbox-close]');
 
   if (!lightbox || !lightboxImage) return;
@@ -851,14 +852,14 @@ function initPhotoLightbox({ reduced = false, lenis = null } = {}) {
     lightboxImage.src = origin.currentSrc || origin.src;
     lightboxImage.alt = origin.alt;
 
-    gsap.killTweensOf([lightbox, lightboxImage]);
+    gsap.killTweensOf([backdrop, lightboxImage]);
 
     lightbox.classList.add('is-open');
     lightbox.setAttribute('aria-hidden', 'false');
     origin.style.visibility = 'hidden';
     lockScroll();
 
-    gsap.set(lightbox, { opacity: 0 });
+    if (backdrop) gsap.set(backdrop, { opacity: 0 });
     gsap.set(lightboxImage, {
       position: 'fixed',
       left: from.left,
@@ -877,7 +878,8 @@ function initPhotoLightbox({ reduced = false, lenis = null } = {}) {
       },
     });
 
-    tl.to(lightbox, { opacity: 1, duration: 0.28, ease: 'power2.out' }, 0).to(
+    if (backdrop) tl.to(backdrop, { opacity: 1, duration: 0.28, ease: 'power2.out' }, 0);
+    tl.to(
       lightboxImage,
       {
         left: to.left,
@@ -920,7 +922,7 @@ function initPhotoLightbox({ reduced = false, lenis = null } = {}) {
     const to = activeImage.getBoundingClientRect();
     const origin = activeImage;
 
-    gsap.killTweensOf([lightbox, lightboxImage]);
+    gsap.killTweensOf([backdrop, lightboxImage]);
     gsap.killTweensOf(closeBtn);
     const tl = gsap.timeline({
       onComplete: () => {
@@ -939,7 +941,7 @@ function initPhotoLightbox({ reduced = false, lenis = null } = {}) {
     });
 
     // Reveal the origin thumbnail as soon as the shrink lands, so the
-    // lingering opacity fade of the overlay never leaves the photo blank.
+    // lingering backdrop fade never leaves the photo blank.
     tl.call(
       () => {
         origin.style.visibility = '';
@@ -981,15 +983,19 @@ function initPhotoLightbox({ reduced = false, lenis = null } = {}) {
         ease: reduced ? 'none' : 'power3.inOut',
       },
       0,
-    ).to(
-      lightbox,
-      {
-        opacity: 0,
-        duration: reduced ? 0.01 : 0.22,
-        ease: 'power1.out',
-      },
-      reduced ? 0 : '-=0.18',
     );
+
+    if (backdrop) {
+      tl.to(
+        backdrop,
+        {
+          opacity: 0,
+          duration: reduced ? 0.01 : 0.22,
+          ease: 'power1.out',
+        },
+        reduced ? 0 : '-=0.18',
+      );
+    }
   };
 
   document.addEventListener(

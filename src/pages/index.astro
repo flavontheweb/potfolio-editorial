@@ -597,12 +597,11 @@ const photos = rawPhotos.map((photo) => ({
               <article class="project-card project-card--editorial" data-project-card>
                 <div class="project-card__heading">
                   <p class="project-card__kicker meta">{project.index} / 05</p>
-                  <p class="project-card__team meta">
-                    {project.team ? 'Projet en entreprise' : 'Projet personnel'}
-                  </p>
                   <p class="project-card__status meta">{project.status}</p>
                 </div>
-
+                <p class="project-card__team meta">
+                  {project.team ? 'Projet en entreprise' : 'Projet personnel'}
+                </p>
                 <h3 class="project-card__title display">{project.title}</h3>
 
                 <div class="project-card__layout">
@@ -789,7 +788,7 @@ const photos = rawPhotos.map((photo) => ({
       <div class="music__feature" data-reveal>
         <div class="music__feature-meta">
           <p class="meta">Projet 001</p>
-          <p class="meta meta--accent">En cours</p>
+          <p class="meta meta--accent">DEMO</p>
         </div>
         <div class="music__player-wrap">
           <iframe
@@ -804,6 +803,7 @@ const photos = rawPhotos.map((photo) => ({
   </section>
 
   <div slot="overlay" class="photo-lightbox" data-photo-lightbox aria-hidden="true">
+    <div class="photo-lightbox__backdrop" data-photo-lightbox-backdrop></div>
     <figure class="photo-lightbox__frame">
       <img class="photo-lightbox__image" data-photo-lightbox-image alt="" />
       <button
@@ -1465,7 +1465,6 @@ const photos = rawPhotos.map((photo) => ({
   }
 
   .project-card__team {
-    justify-self: center;
     color: var(--ink-300);
   }
 
@@ -1542,13 +1541,19 @@ const photos = rawPhotos.map((photo) => ({
     position: fixed;
     inset: 0;
     z-index: 170;
-    opacity: 0;
     pointer-events: none;
-    background: color-mix(in srgb, var(--ink-950) 92%, transparent);
   }
 
   .photo-lightbox.is-open {
     pointer-events: auto;
+  }
+
+  .photo-lightbox__backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 171;
+    opacity: 0;
+    background: color-mix(in srgb, var(--ink-950) 92%, transparent);
   }
 
   .photo-lightbox__close {
@@ -1573,6 +1578,7 @@ const photos = rawPhotos.map((photo) => ({
   .photo-lightbox__frame {
     position: fixed;
     inset: 0;
+    z-index: 172;
     margin: 0;
     display: block;
   }
