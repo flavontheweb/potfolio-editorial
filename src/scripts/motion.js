@@ -848,7 +848,7 @@ function initPhotoLightbox({ reduced = false, lenis = null } = {}) {
     const to = computeTargetRect(origin);
     activeRect = to;
 
-    lightboxImage.src = origin.dataset.photoLightboxSrc || origin.currentSrc || origin.src;
+    lightboxImage.src = origin.currentSrc || origin.src;
     lightboxImage.alt = origin.alt;
 
     gsap.killTweensOf([lightbox, lightboxImage]);
@@ -897,6 +897,13 @@ function initPhotoLightbox({ reduced = false, lenis = null } = {}) {
         {
           left: Math.max(12, to.left + to.width - 110),
           top: Math.max(12, to.top + 14),
+          duration: animateDuration,
+          ease: reduced ? 'none' : 'expo.out',
+        },
+        0,
+      ).to(
+        closeBtn,
+        {
           opacity: 1,
           duration: reduced ? 0.01 : 0.4,
           ease: reduced ? 'none' : 'power2.out',
@@ -934,6 +941,15 @@ function initPhotoLightbox({ reduced = false, lenis = null } = {}) {
       tl.to(
         closeBtn,
         {
+          left: Math.max(12, to.left + to.width - 110),
+          top: Math.max(12, to.top + 14),
+          duration: closeDuration,
+          ease: reduced ? 'none' : 'power3.inOut',
+        },
+        0,
+      ).to(
+        closeBtn,
+        {
           opacity: 0,
           duration: reduced ? 0.01 : 0.18,
           ease: 'power1.out',
@@ -950,7 +966,7 @@ function initPhotoLightbox({ reduced = false, lenis = null } = {}) {
       objectFit: 'cover',
       duration: closeDuration,
       ease: reduced ? 'none' : 'power3.inOut',
-    }).to(
+    }, 0).to(
       lightbox,
       {
         opacity: 0,
@@ -976,7 +992,7 @@ function initPhotoLightbox({ reduced = false, lenis = null } = {}) {
   lightbox.addEventListener(
     'click',
     (e) => {
-      if (e.target === lightbox) closeLightbox();
+      if (e.target !== lightboxImage && !closeBtn?.contains(e.target)) closeLightbox();
     },
     { signal: listeners.signal },
   );

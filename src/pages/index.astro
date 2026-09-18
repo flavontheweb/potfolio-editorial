@@ -1,5 +1,5 @@
 ---
-import { Image, getImage } from 'astro:assets';
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import backgroundVideo from '../assets/background.mp4';
 import img1 from '../assets/pictures/IMG1.jpg';
@@ -7,7 +7,6 @@ import img2 from '../assets/pictures/IMG2.jpg';
 import img3 from '../assets/pictures/IMG3.jpg';
 import img4 from '../assets/pictures/IMG4.jpg';
 import img5 from '../assets/pictures/IMG5.jpg';
-import img6 from '../assets/pictures/IMG6.jpg';
 import img7 from '../assets/pictures/IMG7.jpg';
 import img8 from '../assets/pictures/IMG8.jpg';
 import img9 from '../assets/pictures/IMG9.jpg';
@@ -23,12 +22,18 @@ const experiences = [
     from: 'Sept. 2024',
     to: 'Juil. 2026',
     place: 'Annecy, FR',
+    desc: [
+      "Avec la supervision de mon maitre d'apprentissage Matthieu BELLAMY, j'ai contribué à la conception et au développement d’AIManager. Il s'agit d'une plateforme SaaS dédiée à la gestion de datasets ainsi qu'à l’inférence et l'entraînement de modèles d’intelligence artificielle destinés à effectuer du contrôle qualité par vision.",
+      'Mes missions ont couvert l’ensemble du cycle de production du produit :',
+    ],
     missions: [
-      'Conception et développement de fonctionnalités pour une plateforme SaaS d’inférence et d’entraînement de modèles d’IA.',
-      'Refonte UI/UX de plusieurs interfaces et optimisation de la gestion des données.',
-      'Lead de la conception d’une librairie de composants React partagée — UI, UX et DX unifiées entre les projets.',
-      'Refonte complète de l’iconographie pour une identité visuelle cohérente.',
-      'Maquettes Figma pour l’ensemble des produits, réduction de la dette technique.',
+      'Conception et développement de fonctionnalités clients et produits au sein d’une équipe agile.',
+      'Création de maquettes et amélioration continue de l’expérience utilisateur sur Figma, avec une attention particulière portée à l’accessibilité, l’ergonomie et aux standards modernes du web.',
+      'Structure des données, communication entre les microservices, sécurisation et documentation des endpoints.',
+      'Réduction de la dette technique grâce à la refactorisation de composants, l’amélioration de l’architecture et la mise à jour des dépendances.',
+      'Refonte de plusieurs interfaces et de l’identité visuelle des produits afin d’harmoniser l’expérience utilisateur.',
+      'Développement et maintenance d’une librairie de composants React partagée pour uniformiser l’UI, l’UX et la DX entre les différents projets.',
+      'Mise en place de tests, correction de bugs et automatisation des processus de déploiement.',
     ],
   },
   {
@@ -37,9 +42,14 @@ const experiences = [
     from: 'Fév. 2024',
     to: 'Avril 2024',
     place: 'Chartres, FR',
+    desc: [
+      'Avec mon maître de stage Charles MAUNOURY, j’ai participé à la conception de maquettes pour W3R.ONE, une entreprise spécialisée dans le développement d’applications. Pendant toute la durée du stage, nous avons travaillé en échangeant régulièrement avec notre client afin d’obtenir des retours au fur et à mesure de la conception de la direction artistique et de la création des maquettes.',
+      'J’ai ainsi pu développer mes compétences à travers les missions suivantes :',
+    ],
     missions: [
-      'Développement de sites web et déclinaisons d’identités visuelles pour les clients du studio.',
-      'Intégration de maquettes et travail quotidien au contact de graphistes.',
+      'Déclinaisons d’illustrations pour les clients du studio.',
+      'Réalisation de maquettes en collaborrant au quotidien avec le graphiste.',
+      'Apprentissage des technologies utilisées par les creative devs.',
     ],
   },
 ];
@@ -97,37 +107,42 @@ const skills = [
   {
     index: '01',
     title: 'Architecture',
-    desc: 'Conception d’architectures web et structuration de projets selon l’Atomic Design ou l’architecture en couches, avec une attention particulière portée à la maintenabilité et à la DX.',
+    desc: 'Conception d’architectures scalables, robustes, et adaptées aux besoins. Usage de design patterns, avec une attention particulière portée à la maintenabilité du code et à la « developer experience ».',
     label: 'Organisation des systèmes',
-    stack: ['Monolithes', 'Micro-services', 'Design patterns'],
+    stack: [
+      'Monolithes',
+      'Micro-services',
+      'Design patterns',
+      'tRPC (TypeScript Remote Procedure Call)',
+    ],
   },
   {
     index: '02',
     title: 'Frontend',
-    desc: 'Interfaces web interactives et responsives, conception avancée avec des librairies UI, gestion du flux de données côté client, tests end-to-end avec Cypress.',
-    label: 'Langages,\u00a0frameworks\u00a0& librairies',
-    stack: ['TypeScript', 'React', 'Angular', 'Astro', 'SCSS', 'Tailwind', 'Shadcn'],
+    desc: 'Conception d’interfaces web interactives et responsives. Développement avancée d’interfaces avec des librairies UI et CSS. Gestion du flux de données côté client. Tests End-to-end.',
+    label: 'Langages, frameworks & librairies',
+    stack: ['TypeScript', 'Angular', 'React', 'Redux', 'SCSS', 'Tailwind', 'Shadcn'],
   },
   {
     index: '03',
     title: 'Backend',
-    desc: 'API REST et systèmes d’authentification, logique métier et accès aux données sécurisé, tests unitaires avec Jest.',
-    label: 'Langages,\u00a0frameworks\u00a0& bases de données',
-    stack: ['Java', 'SpringBoot', 'Node', 'Bun', 'NestJS', 'PostgreSQL'],
+    desc: 'Développement d’API et de systèmes d’authentifications. Gestion de la logique métier et de l’accès aux données de façon sécurisé. Tests unitaires.',
+    label: 'Langages, frameworks & bases de données',
+    stack: ['Java', 'SpringBoot', 'JPA & Hibernate', 'TypeScript', 'Bun', 'NestJS', 'PostgreSQL'],
   },
   {
     index: '04',
     title: 'DevOps & qualité',
-    desc: 'Conteneurisation, pipelines CI/CD pour l’automatisation du flux de travail, configuration de serveurs, gestion de version avec Git.',
+    desc: 'Conteneurisation d’applications et mise en place de pipelines CI/CD pour l’automatisation du flux de travail, configuration de serveurs, gestion de version.',
     label: 'Infrastructure & Outils',
     stack: ['Docker', 'GitLab CI/CD', 'Nginx', 'SonarQube'],
   },
   {
     index: '05',
     title: 'UI, UX, DX',
-    desc: 'Design systems, wireframing et prototyping. Conception et développement de librairies de composants frontend.',
+    desc: 'Conception d’interfaces utilisateur avec design systems, wireframing et prototyping. Conception et développement de librairies de composants frontend.',
     label: "Conception & documentation d'interfaces",
-    stack: ['Figma', 'Design systems', 'Storybook'],
+    stack: ['Figma', 'Design systems', 'Storybook', 'HTML', 'CSS'],
   },
 ];
 
@@ -203,6 +218,20 @@ const rawPhotos = [
     place: 'Versailles, FR',
   },
   {
+    image: img12,
+    alt: 'Photographie — Chartres',
+    label: '',
+    exif: '210mm 1/400s F6.3 640ISO',
+    place: 'Chartres, FR',
+  },
+  {
+    image: img13,
+    alt: 'Photographie — Chartres',
+    label: '',
+    exif: '50mm 1/125s F2.8 200ISO',
+    place: 'Chartres, FR',
+  },
+  {
     image: img3,
     alt: 'Photographie — Saint-Malo argentique',
     label: '',
@@ -223,12 +252,13 @@ const rawPhotos = [
     exif: 'Argentique',
     place: 'Saint-Malo, FR',
   },
+
   {
-    image: img6,
-    alt: 'Photographie — Chartres',
+    image: img8,
+    alt: 'Photographie — Paris',
     label: '',
-    exif: '210mm 1/640s F8 100ISO',
-    place: 'Chartres, FR',
+    exif: '20mm 1/10s F3.5 400ISO',
+    place: 'Paris, FR',
   },
   {
     image: img7,
@@ -236,13 +266,6 @@ const rawPhotos = [
     label: '',
     exif: '210mm 1/1600s F6.3 320ISO',
     place: 'Chartres, FR',
-  },
-  {
-    image: img8,
-    alt: 'Photographie — Paris',
-    label: '',
-    exif: '20mm 1/10s F3.5 400ISO',
-    place: 'Paris, FR',
   },
   {
     image: img9,
@@ -265,38 +288,12 @@ const rawPhotos = [
     exif: '50mm 1/40s F1.8 800ISO',
     place: 'Mainvilliers, FR',
   },
-  {
-    image: img12,
-    alt: 'Photographie — Chartres',
-    label: '',
-    exif: '210mm 1/400s F6.3 640ISO',
-    place: 'Chartres, FR',
-  },
-  {
-    image: img13,
-    alt: 'Photographie — Chartres',
-    label: '',
-    exif: '50mm 1/125s F2.8 200ISO',
-    place: 'Chartres, FR',
-  },
 ];
 
-const photos = await Promise.all(
-  rawPhotos.map(async (photo) => {
-    const lightbox = await getImage({
-      src: photo.image,
-      width: Math.min(photo.image.width, 1800),
-      format: 'webp',
-    });
-
-    return {
-      ...photo,
-      src: photo.image.src,
-      lightboxSrc: lightbox.src,
-      ratio: Number((photo.image.width / photo.image.height).toFixed(4)),
-    };
-  }),
-);
+const photos = rawPhotos.map((photo) => ({
+  ...photo,
+  ratio: Number((photo.image.width / photo.image.height).toFixed(4)),
+}));
 ---
 
 <Base
@@ -393,6 +390,11 @@ const photos = await Promise.all(
             </summary>
             <div class="xp-body">
               <p class="meta">{xp.place}</p>
+              <div class="xp-description">
+                {xp.desc.map((paragraph) => (
+                  <p>{paragraph}</p>
+                ))}
+              </div>
               <ul class="xp-missions">
                 {xp.missions.map((m) => (
                   <li>{m}</li>
@@ -707,11 +709,11 @@ const photos = await Promise.all(
                 <Image
                   src={photo.image}
                   alt={photo.alt}
-                  widths={[240, 360, 540, 720, 960, 1280]}
-                  sizes="(max-width: 767px) 50vw, 38vw"
+                  widths={[480, 720, 960, 1280, 1600, 1920, 2560]}
+                  sizes="90vw"
+                  quality={90}
                   loading="lazy"
                   decoding="async"
-                  data-photo-lightbox-src={photo.lightboxSrc}
                 />
               </button>
               <figcaption class="gallery__caption meta">
@@ -774,7 +776,7 @@ const photos = await Promise.all(
     </div>
   </section>
 
-  <div class="photo-lightbox" data-photo-lightbox aria-hidden="true">
+  <div slot="overlay" class="photo-lightbox" data-photo-lightbox aria-hidden="true">
     <figure class="photo-lightbox__frame">
       <img class="photo-lightbox__image" data-photo-lightbox-image alt="" />
       <button
@@ -1081,6 +1083,11 @@ const photos = await Promise.all(
     color: var(--paper-100);
   }
 
+  .xp-description {
+    display: grid;
+    gap: var(--space-3);
+  }
+
   /* ---------- Education ---------- */
   .education {
     display: grid;
@@ -1153,7 +1160,8 @@ const photos = await Promise.all(
 
   /* ---------- Projects ---------- */
   .projects {
-    --projects-bg: #181412;
+    --projects-bg: #1c1815;
+    --projects-shadow-color: color-mix(in srgb, var(--projects-bg) 82%, transparent);
     display: grid;
     gap: var(--space-6);
   }
@@ -1331,7 +1339,7 @@ const photos = await Promise.all(
     position: absolute;
     top: var(--space-3);
     bottom: var(--space-3);
-    width: clamp(28px, 5vw, 72px);
+    width: 50px;
     pointer-events: none;
     z-index: 2;
   }
@@ -1343,9 +1351,8 @@ const photos = await Promise.all(
     transform: scaleX(0.06);
     background: linear-gradient(
       to right,
-      var(--projects-bg) 0%,
-      var(--projects-bg) 22%,
-      color-mix(in srgb, var(--projects-bg) 78%, transparent) 52%,
+      var(--projects-shadow-color) 0%,
+      color-mix(in srgb, var(--projects-shadow-color) 86%, transparent) 28%,
       transparent 100%
     );
   }
@@ -1374,9 +1381,8 @@ const photos = await Promise.all(
     opacity: 1;
     background: linear-gradient(
       to left,
-      var(--projects-bg) 0%,
-      var(--projects-bg) 22%,
-      color-mix(in srgb, var(--projects-bg) 78%, transparent) 52%,
+      var(--projects-shadow-color) 0%,
+      color-mix(in srgb, var(--projects-shadow-color) 86%, transparent) 28%,
       transparent 100%
     );
   }
@@ -1791,9 +1797,28 @@ const photos = await Promise.all(
   }
 
   .gallery__frame {
+    position: relative;
+    isolation: isolate;
     display: grid;
     gap: var(--space-2);
     scroll-snap-align: center;
+  }
+
+  .gallery__frame::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: calc(var(--space-3) * -1);
+    background: var(--paper-50);
+    box-shadow: 0 18px 50px color-mix(in srgb, black 45%, transparent);
+    opacity: 0;
+    transform: scale(0.94);
+    transform-origin: center;
+    transition:
+      opacity 180ms ease-out,
+      transform 360ms var(--ease-out),
+      box-shadow 360ms var(--ease-out);
+    pointer-events: none;
   }
 
   .gallery__frame-head,
@@ -1801,6 +1826,7 @@ const photos = await Promise.all(
     display: flex;
     justify-content: space-between;
     gap: var(--space-4);
+    transition: color 260ms var(--ease-out);
   }
 
   .gallery__media {
@@ -1808,10 +1834,22 @@ const photos = await Promise.all(
     width: fit-content;
     overflow: hidden;
     background: var(--ink-800);
-    border: 1px solid transparent;
+    border: 0;
+  }
 
-    &:hover {
-      border: 1px solid var(--rust-500);
+  @media (hover: hover) and (pointer: fine) {
+    .gallery__frame:not(.gallery__frame--end):hover::before,
+    .gallery__frame:not(.gallery__frame--end):focus-within::before {
+      opacity: 1;
+      transform: scale(1);
+      box-shadow: 0 26px 72px color-mix(in srgb, black 58%, transparent);
+    }
+
+    .gallery__frame:not(.gallery__frame--end):hover .gallery__frame-head,
+    .gallery__frame:not(.gallery__frame--end):hover .gallery__caption,
+    .gallery__frame:not(.gallery__frame--end):focus-within .gallery__frame-head,
+    .gallery__frame:not(.gallery__frame--end):focus-within .gallery__caption {
+      color: var(--ink-900);
     }
   }
 
