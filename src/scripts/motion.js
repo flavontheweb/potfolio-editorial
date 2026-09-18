@@ -918,12 +918,13 @@ function initPhotoLightbox({ reduced = false, lenis = null } = {}) {
     animating = true;
 
     const to = activeImage.getBoundingClientRect();
+    const origin = activeImage;
 
     gsap.killTweensOf([lightbox, lightboxImage]);
     gsap.killTweensOf(closeBtn);
     const tl = gsap.timeline({
       onComplete: () => {
-        activeImage.style.visibility = '';
+        origin.style.visibility = '';
         lightbox.classList.remove('is-open');
         lightbox.setAttribute('aria-hidden', 'true');
         lightboxImage.removeAttribute('src');
@@ -936,6 +937,16 @@ function initPhotoLightbox({ reduced = false, lenis = null } = {}) {
         unlockScroll();
       },
     });
+
+    // Reveal the origin thumbnail as soon as the shrink lands, so the
+    // lingering opacity fade of the overlay never leaves the photo blank.
+    tl.call(
+      () => {
+        origin.style.visibility = '';
+      },
+      [],
+      closeDuration,
+    );
 
     if (closeBtn) {
       tl.to(
@@ -958,15 +969,19 @@ function initPhotoLightbox({ reduced = false, lenis = null } = {}) {
       );
     }
 
-    tl.to(lightboxImage, {
-      left: to.left,
-      top: to.top,
-      width: to.width,
-      height: to.height,
-      objectFit: 'cover',
-      duration: closeDuration,
-      ease: reduced ? 'none' : 'power3.inOut',
-    }, 0).to(
+    tl.to(
+      lightboxImage,
+      {
+        left: to.left,
+        top: to.top,
+        width: to.width,
+        height: to.height,
+        objectFit: 'cover',
+        duration: closeDuration,
+        ease: reduced ? 'none' : 'power3.inOut',
+      },
+      0,
+    ).to(
       lightbox,
       {
         opacity: 0,

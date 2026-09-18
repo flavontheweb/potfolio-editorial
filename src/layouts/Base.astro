@@ -28,6 +28,8 @@ const menuLinks = [
     <meta name="description" content={description} />
     <title>{title}</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -45,10 +47,7 @@ const menuLinks = [
       <div class="loader__panel" data-loader-panel>
         <div class="loader__monogram" aria-hidden="true">
           <span class="loader__slot">
-            <span data-loader-char>F</span>
-          </span>
-          <span class="loader__slot">
-            <span data-loader-char>G</span>
+            <img class="loader__logo" src="/logo.svg" alt="" data-loader-char />
           </span>
         </div>
         <p class="loader__meta meta" data-loader-meta>
@@ -179,9 +178,9 @@ const menuLinks = [
           <div>
             <p class="meta meta--accent">Contact</p>
             <a href="mailto:contact@flavien-gaujard.fr" class="meta roll">
-              <span data-roll-copy>contact@flavien-gaujard.fr</span>
+              <span data-roll-copy>contact@flavien-gaujard.fr ↗</span>
               <span data-roll-copy aria-hidden="true">
-                contact@flavien-gaujard.fr
+                contact@flavien-gaujard.fr ↗
               </span>
             </a>
           </div>
@@ -226,7 +225,7 @@ const menuLinks = [
                         fill="currentColor"
                       ></path>
                     </svg>
-                    <span>flavontheweb</span>
+                    <span>GitHub ↗</span>
                   </span>
                 </span>
                 <span data-roll-copy aria-hidden="true">
@@ -237,7 +236,7 @@ const menuLinks = [
                         fill="currentColor"
                       ></path>
                     </svg>
-                    <span>flavontheweb</span>
+                    <span>GitHub ↗</span>
                   </span>
                 </span>
               </a>
@@ -250,7 +249,7 @@ const menuLinks = [
                         fill="currentColor"
                       ></path>
                     </svg>
-                    <span>Flavien Gaujard</span>
+                    <span>LinkedIn ↗</span>
                   </span>
                 </span>
                 <span data-roll-copy aria-hidden="true">
@@ -261,7 +260,7 @@ const menuLinks = [
                         fill="currentColor"
                       ></path>
                     </svg>
-                    <span>Flavien Gaujard</span>
+                    <span>LinkedIn ↗</span>
                   </span>
                 </span>
               </a>
@@ -269,9 +268,9 @@ const menuLinks = [
             <div>
               <p class="meta meta--accent">Mail</p>
               <a href="mailto:contact@flavien-gaujard.fr" class="meta roll">
-                <span data-roll-copy>contact@flavien-gaujard.fr</span>
+                <span data-roll-copy>contact@flavien-gaujard.fr ↗</span>
                 <span data-roll-copy aria-hidden="true">
-                  contact@flavien-gaujard.fr
+                  contact@flavien-gaujard.fr ↗
                 </span>
               </a>
             </div>
@@ -280,7 +279,7 @@ const menuLinks = [
             <p class="meta-copyright">
               <span class="meta-copyright-line">
                 <span class="meta-copyright-icon">©</span>{' '}
-                <span>{new Date().getFullYear()} GAUJARD Flavien.</span>
+                <span>{new Date().getFullYear()} Flavien GAUJARD.</span>
               </span>
               <span class="meta-copyright-line">Tous droits réservés.</span>
             </p>
@@ -326,16 +325,16 @@ const menuLinks = [
   .loader__slot {
     display: block;
     overflow: hidden;
-    font-family: var(--font-display);
-    font-size: var(--text-h1);
-    font-weight: 400;
-    letter-spacing: -0.02em;
-    line-height: 1;
-    color: var(--paper-50);
   }
 
   .loader__slot > span {
     display: block;
+  }
+
+  .loader__logo {
+    display: block;
+    height: clamp(3rem, 6vw, 5rem);
+    width: auto;
   }
 
   .loader__meta {

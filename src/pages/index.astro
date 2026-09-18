@@ -15,6 +15,12 @@ import img11 from '../assets/pictures/IMG11.jpg';
 import img12 from '../assets/pictures/IMG12.jpg';
 import img13 from '../assets/pictures/IMG13.jpg';
 
+import projectPsk from '../assets/pictures/project-psk.jpg';
+import projectKs from '../assets/pictures/project-ks.jpg';
+import projectBui from '../assets/pictures/project-bui.jpg';
+import projectAim from '../assets/pictures/project-aim.jpg';
+import projectW3one from '../assets/pictures/project-w3one.jpg';
+
 const experiences = [
   {
     company: 'Buawei',
@@ -114,6 +120,9 @@ const skills = [
       'Micro-services',
       'Design patterns',
       'tRPC (TypeScript Remote Procedure Call)',
+      ' ',
+      ' ',
+      ' ',
     ],
   },
   {
@@ -135,14 +144,14 @@ const skills = [
     title: 'DevOps & qualité',
     desc: 'Conteneurisation d’applications et mise en place de pipelines CI/CD pour l’automatisation du flux de travail, configuration de serveurs, gestion de version.',
     label: 'Infrastructure & Outils',
-    stack: ['Docker', 'GitLab CI/CD', 'Nginx', 'SonarQube'],
+    stack: ['Docker', 'GitLab CI/CD', 'Nginx', 'SonarQube', ' ', ' ', ' '],
   },
   {
     index: '05',
     title: 'UI, UX, DX',
     desc: 'Conception d’interfaces utilisateur avec design systems, wireframing et prototyping. Conception et développement de librairies de composants frontend.',
     label: "Conception & documentation d'interfaces",
-    stack: ['Figma', 'Design systems', 'Storybook', 'HTML', 'CSS'],
+    stack: ['Figma', 'Design systems', 'Storybook', 'HTML', 'CSS', ' ', ' '],
   },
 ];
 
@@ -151,54 +160,59 @@ const projects = [
     index: '01',
     title: 'Kontrol Suite',
     status: 'En cours',
+    team: false,
     desc: "Projet personnel visant la conception et le développement d'une suite d'outils de bureautique tel que du traitement de texte, du tableur ou des présentations, le tout associé à un cloud.",
-    frontend: ['TypeScript', 'React', 'Electron', 'Shadcn', 'Tailwind'],
+    frontend: ['TypeScript', 'Turborepo', 'React', 'Electron', 'Shadcn', 'Tailwind'],
     backend: ['Java', 'SpringBoot'],
     devops: ['Docker', 'GitLab CI/CD', 'Nginx'],
     tools: ['ClickUp', 'Figma', 'Obsidian'],
-    imgSrc: img5.src,
+    imgSrc: projectKs.src,
   },
   {
     index: '02',
     title: 'AiManager',
     status: 'Terminé',
+    team: true,
     desc: "Plateforme SaaS de la société Buawei, permettant l'entraînement, l'inférence et le benchmarking de modèles d'IA destinés au contrôle qualité dans l'industrie.",
     frontend: ['TypeScript', 'React', 'SCSS', 'Bootstrap'],
     backend: ['Java', 'SpringBoot', 'Nginx', 'Docker'],
-    devops: ['Docker', 'GitLab CI/CD', 'Nginx', 'SonarQube', 'Microsoft Suite'],
+    devops: ['Docker', 'GitLab CI/CD', 'Nginx', 'SonarQube'],
     tools: ['ClickUp', 'Figma', 'Obsidian'],
-    imgSrc: img5.src,
+    imgSrc: projectAim.src,
   },
   {
     index: '03',
     title: 'Backline UI',
     status: 'Terminé',
+    team: true,
     desc: 'Librairie de composants frontend React pour la création d’interfaces utilisateur modulaires et réutilisables dans les produits de la société Buawei.',
-    frontend: ['TypeScript', 'React', 'SCSS', 'Bootstrap'],
+    frontend: ['TypeScript', 'React', 'Storybook', 'Tailwind', 'Shadcn'],
     backend: [],
-    devops: ['GitLab CI/CD', 'Gitlab Private Registry', 'SonarQube'],
-    tools: ['ClickUp', 'Figma', 'Obsidian', 'Suite Microsoft'],
-    imgSrc: img5.src,
+    devops: ['GitLab CI/CD', 'Gitlab Private Registry'],
+    tools: ['ClickUp', 'Figma', 'Obsidian'],
+    imgSrc: projectBui.src,
   },
   {
     index: '04',
     title: 'Association PSK',
     status: 'Terminé',
+    team: false,
     desc: "Site web de l'association PSK.",
     frontend: ['TypeScript', 'Astro'],
     devops: ['Netlify'],
-    imgSrc: img5.src,
+    imgSrc: projectPsk.src,
   },
   {
     index: '05',
-    title: 'La Gentiane',
+    title: 'W3R.ONE',
     status: 'Terminé',
-    desc: "Alignement du site web de La Gentiane Numérique avec la charte graphique de l'association.",
-    frontend: [],
+    team: true,
+    desc: "Projet personnel visant la conception et le développement d'une suite d'outils de bureautique tel que du traitement de texte, du tableur ou des présentations, le tout associé à un cloud.",
+    frontend: ['HTML', 'CSS'],
     backend: [],
     devops: [],
-    tools: [],
-    imgSrc: img5.src,
+    tools: ['Figma', 'Adobe Illustrator'],
+    imgSrc: projectW3one.src,
   },
 ];
 
@@ -312,6 +326,16 @@ const photos = rawPhotos.map((photo) => ({
     <p class="hero__corner hero__corner--tl meta" data-reveal>
       00 — Index
     </p>
+    <div class="hero__logo-wrap">
+      <img
+        class="hero__logo"
+        src="/logo.svg"
+        alt="Flavien Gaujard"
+        width="48"
+        height="48"
+        data-reveal
+      />
+    </div>
     <p class="hero__corner hero__corner--tr meta" data-reveal>
       Software Engineer
     </p>
@@ -573,6 +597,9 @@ const photos = rawPhotos.map((photo) => ({
               <article class="project-card project-card--editorial" data-project-card>
                 <div class="project-card__heading">
                   <p class="project-card__kicker meta">{project.index} / 05</p>
+                  <p class="project-card__team meta">
+                    {project.team ? 'Projet en entreprise' : 'Projet personnel'}
+                  </p>
                   <p class="project-card__status meta">{project.status}</p>
                 </div>
 
@@ -904,6 +931,18 @@ const photos = rawPhotos.map((photo) => ({
   .hero__corner--tr {
     top: 25%;
     right: var(--margin-x);
+  }
+  .hero__logo-wrap {
+    position: absolute;
+    z-index: 2;
+    top: 25%;
+    left: 50%;
+    translate: -50% 0;
+  }
+  .hero__logo {
+    display: block;
+    height: clamp(3rem, 6vw, 5rem);
+    width: auto;
   }
   .hero__corner--bl {
     bottom: var(--space-5);
@@ -1419,13 +1458,19 @@ const photos = rawPhotos.map((photo) => ({
   }
 
   .project-card__heading {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
     align-items: baseline;
-    justify-content: space-between;
     gap: var(--space-3);
   }
 
+  .project-card__team {
+    justify-self: center;
+    color: var(--ink-300);
+  }
+
   .project-card__status {
+    justify-self: end;
     color: var(--rust-400);
   }
 
@@ -1705,6 +1750,7 @@ const photos = rawPhotos.map((photo) => ({
     align-items: center;
     gap: var(--space-3);
     padding-block: 0.75rem;
+    min-height: calc(1.1em + 1.5rem);
     border-bottom: 1px solid color-mix(in srgb, var(--ink-950) 20%, transparent);
     font-family: var(--font-display);
     font-size: clamp(1.05rem, 1.75vw, 1.75rem);
