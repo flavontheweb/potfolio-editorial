@@ -160,6 +160,7 @@ const projects = [
     index: '01',
     title: 'Kontrol Suite',
     status: 'En cours',
+    version: '0.0.0',
     team: false,
     desc: "Projet personnel visant la conception et le développement d'une suite d'outils de bureautique tel que du traitement de texte, du tableur ou des présentations, le tout associé à un cloud.",
     frontend: ['TypeScript', 'Turborepo', 'React', 'Electron', 'Shadcn', 'Tailwind'],
@@ -172,6 +173,7 @@ const projects = [
     index: '02',
     title: 'AiManager',
     status: 'Terminé',
+    version: '1.22.1',
     team: true,
     desc: "Plateforme SaaS de la société Buawei, permettant l'entraînement, l'inférence et le benchmarking de modèles d'IA destinés au contrôle qualité dans l'industrie.",
     frontend: ['TypeScript', 'React', 'SCSS', 'Bootstrap'],
@@ -184,10 +186,10 @@ const projects = [
     index: '03',
     title: 'Backline UI',
     status: 'Terminé',
+    version: '1.1.1',
     team: true,
     desc: 'Librairie de composants frontend React pour la création d’interfaces utilisateur modulaires et réutilisables dans les produits de la société Buawei.',
     frontend: ['TypeScript', 'React', 'Storybook', 'Tailwind', 'Shadcn'],
-    backend: [],
     devops: ['GitLab CI/CD', 'Gitlab Private Registry'],
     tools: ['ClickUp', 'Figma', 'Obsidian'],
     imgSrc: projectBui.src,
@@ -196,8 +198,9 @@ const projects = [
     index: '04',
     title: 'Association PSK',
     status: 'Terminé',
+    version: '1.0.0',
     team: false,
-    desc: "Site web de l'association PSK.",
+    desc: 'Conception du la charte graphique et de la maquette du site, puis réalisation et développement de celui-ci.',
     frontend: ['TypeScript', 'Astro'],
     devops: ['Netlify'],
     imgSrc: projectPsk.src,
@@ -206,11 +209,10 @@ const projects = [
     index: '05',
     title: 'W3R.ONE',
     status: 'Terminé',
+    version: '',
     team: true,
     desc: "Projet personnel visant la conception et le développement d'une suite d'outils de bureautique tel que du traitement de texte, du tableur ou des présentations, le tout associé à un cloud.",
     frontend: ['HTML', 'CSS'],
-    backend: [],
-    devops: [],
     tools: ['Figma', 'Adobe Illustrator'],
     imgSrc: projectW3one.src,
   },
@@ -540,7 +542,7 @@ const photos = rawPhotos.map((photo) => ({
 
     <div class="projects-carousel" data-projects-carousel data-reveal>
       <div class="projects-carousel__head">
-        <div class="timer-combined" data-projects-timer aria-hidden="true">
+        <div class="timer-combined" data-projects-timer aria-hidden="true" hidden>
           <span class="timer-digits" data-projects-seconds>
             05s
           </span>
@@ -602,7 +604,10 @@ const photos = rawPhotos.map((photo) => ({
                 <p class="project-card__team meta">
                   {project.team ? 'Projet en entreprise' : 'Projet personnel'}
                 </p>
-                <h3 class="project-card__title display">{project.title}</h3>
+                <h3 class="project-card__title display">
+                  {project.title}
+                  {project.version && <span class="project-card__version">v{project.version}</span>}
+                </h3>
 
                 <div class="project-card__layout">
                   <figure class="project-card__media">
@@ -1272,11 +1277,44 @@ const photos = rawPhotos.map((photo) => ({
   }
 
   .projects-stepper {
-    display: none;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-width: 0;
   }
 
   .projects-stepper[hidden] {
     display: none;
+  }
+
+  .projects-stepper__dot {
+    --step-width: clamp(1.15rem, 6vw, 1.65rem);
+    --step-active-width: clamp(2rem, 12vw, 3rem);
+    --step-fill-start: var(--ink-800);
+    --step-fill-end: var(--ink-900);
+    --step-border: var(--ink-600);
+
+    flex: 0 0 var(--step-width);
+    width: var(--step-width);
+    height: 0.35rem;
+    border: 1px solid var(--step-border);
+    background: linear-gradient(180deg, var(--step-fill-start), var(--step-fill-end));
+    opacity: 0.72;
+    transition:
+      width 360ms var(--ease-out),
+      flex-basis 360ms var(--ease-out),
+      opacity 260ms var(--ease-out),
+      border-color 360ms var(--ease-out);
+  }
+
+  .projects-stepper__dot[aria-current='true'] {
+    --step-fill-start: var(--rust-400);
+    --step-fill-end: var(--rust-500);
+    --step-border: var(--rust-400);
+
+    flex-basis: var(--step-active-width);
+    width: var(--step-active-width);
+    opacity: 1;
   }
 
   @media (max-width: 767px) {
@@ -1300,40 +1338,6 @@ const photos = rawPhotos.map((photo) => ({
 
     .projects-stepper:not([hidden]) {
       grid-column: 1;
-      display: flex;
-      align-items: center;
-      gap: var(--space-2);
-      min-width: 0;
-    }
-
-    .projects-stepper__dot {
-      --step-width: clamp(1.15rem, 6vw, 1.65rem);
-      --step-active-width: clamp(2rem, 12vw, 3rem);
-      --step-fill-start: var(--ink-800);
-      --step-fill-end: var(--ink-900);
-      --step-border: var(--ink-600);
-
-      flex: 0 0 var(--step-width);
-      width: var(--step-width);
-      height: 0.35rem;
-      border: 1px solid var(--step-border);
-      background: linear-gradient(180deg, var(--step-fill-start), var(--step-fill-end));
-      opacity: 0.72;
-      transition:
-        width 360ms var(--ease-out),
-        flex-basis 360ms var(--ease-out),
-        opacity 260ms var(--ease-out),
-        border-color 360ms var(--ease-out);
-    }
-
-    .projects-stepper__dot[aria-current='true'] {
-      --step-fill-start: var(--rust-400);
-      --step-fill-end: var(--rust-500);
-      --step-border: var(--rust-400);
-
-      flex-basis: var(--step-active-width);
-      width: var(--step-active-width);
-      opacity: 1;
     }
 
     .projects-carousel__controls {
@@ -1505,6 +1509,13 @@ const photos = rawPhotos.map((photo) => ({
     letter-spacing: -0.025em;
     color: var(--paper-50);
     max-width: 16ch;
+  }
+
+  .project-card__version {
+    font-size: var(--text-meta);
+    font-family: var(--font-mono);
+    color: var(--ink-300);
+    margin-left: var(--space-2);
   }
 
   .project-card__text {
@@ -2187,10 +2198,18 @@ const photos = rawPhotos.map((photo) => ({
     }
 
     .hero__corner--tl,
-    .hero__corner--tr,
     .hero__corner--bl,
     .hero__corner--br {
       display: none;
+    }
+
+    .hero__corner--tr {
+      display: block;
+      top: calc(25% + clamp(3rem, 6vw, 5rem) + var(--space-2));
+      right: auto;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
     }
 
     .hero__corner--b {

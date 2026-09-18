@@ -578,19 +578,7 @@ function initProjectsCarousel({ reduced = false, mobile = false } = {}) {
   let index = cloneCount;
   let step = 0;
   let busy = false;
-  let autoplay = null;
-  let focused = false;
-  let visible = false;
-  let paused = false;
   const mobileQuery = window.matchMedia('(max-width: 767px)');
-
-  const resetAutoplay = () => {
-    if (!autoplay) return;
-    autoplay.pause(0);
-    if (!busy && !focused && visible && !paused && !document.hidden) {
-      autoplay.play();
-    }
-  };
 
   const playLeftShadowCycle = (durationMs) => {
     viewport.style.setProperty('--shadow-cycle-duration', `${durationMs}ms`);
@@ -622,10 +610,8 @@ function initProjectsCarousel({ reduced = false, mobile = false } = {}) {
   };
 
   const moveTo = (nextIndex) => {
-    resetAutoplay();
     if (busy || step === 0) return;
     busy = true;
-    autoplay?.pause(0);
     index = nextIndex;
     updateStepper?.({ animate: mobile });
     const slideDuration = mobile ? 0.28 : reduced ? 0.01 : 0.55;
@@ -651,7 +637,6 @@ function initProjectsCarousel({ reduced = false, mobile = false } = {}) {
         updateViewportHeight(index);
         viewport.classList.remove('is-sliding');
         busy = false;
-        resetAutoplay();
       },
     });
   };
@@ -669,12 +654,8 @@ function initProjectsCarousel({ reduced = false, mobile = false } = {}) {
   prev.addEventListener('click', () => moveTo(index - 1));
   next.addEventListener('click', () => moveTo(index + 1));
 
-  const timer = $('[data-projects-timer]', root);
-  const timerDigits = $$('[data-projects-seconds]', root);
-  const pauseButton = $('[data-projects-pause]', root);
   const stepper = $('[data-projects-stepper]', root);
   const stepButtons = $$('[data-projects-step]', root);
-  if (!timer || !pauseButton) return;
 
   const currentRealIndex = () => {
     const total = originals.length;
@@ -692,8 +673,6 @@ function initProjectsCarousel({ reduced = false, mobile = false } = {}) {
     stepButtons.forEach((button, buttonIndex) => {
       const active = buttonIndex === currentRealIndex();
       button.setAttribute('aria-current', String(active));
-
-      if (!mobile) return;
 
       gsap.to(button, {
         width: active ? widths.active : widths.idle,
@@ -714,62 +693,7 @@ function initProjectsCarousel({ reduced = false, mobile = false } = {}) {
   });
 
   updateStepper();
-
-  if (mobile) {
-    timer.hidden = true;
-    pauseButton.hidden = true;
-    if (stepper) stepper.hidden = false;
-    return;
-  }
-
-  if (stepper) stepper.hidden = true;
-  if (!mobile && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    timer.hidden = true;
-    return;
-  }
-
-  timer.hidden = false;
-  pauseButton.hidden = false;
-  const countdown = { remaining: 1 };
-  autoplay = gsap.to(countdown, {
-    remaining: 0,
-    duration: 5,
-    ease: 'none',
-    paused: true,
-    onUpdate: () => {
-      timer.style.setProperty('--timer-progress', String(countdown.remaining));
-      const seconds = `${String(Math.ceil(countdown.remaining * 5)).padStart(2, '0')}s`;
-      timerDigits.forEach((digits) => {
-        if (digits.textContent !== seconds) digits.textContent = seconds;
-      });
-    },
-    onComplete: () => moveTo(index + 1),
-  });
-
-  viewport.addEventListener('focusin', () => {
-    focused = true;
-    resetAutoplay();
-  });
-  viewport.addEventListener('focusout', (event) => {
-    focused = viewport.contains(event.relatedTarget);
-    resetAutoplay();
-  });
-  pauseButton.addEventListener('click', () => {
-    paused = !paused;
-    const label = paused
-      ? 'Reprendre le défilement automatique'
-      : 'Mettre le défilement automatique en pause';
-    pauseButton.setAttribute('aria-label', label);
-    pauseButton.title = label;
-    $('[data-projects-pause-icon]', pauseButton).textContent = paused ? '▶' : 'Ⅱ';
-    resetAutoplay();
-  });
-  document.addEventListener('visibilitychange', resetAutoplay);
-  const observer = new IntersectionObserver(([entry]) => {
-    visible = entry.isIntersecting;
-    resetAutoplay();
-  });
-  observer.observe(viewport);
+  if (stepper) stepper.hidden = false;
 }
 
 /* --------------------------------------------------------------------------

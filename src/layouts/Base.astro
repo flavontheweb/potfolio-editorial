@@ -185,6 +185,7 @@ const menuLinks = [
             </a>
           </div>
         </div>
+        <img class="menu__logo" src="/logo.svg" alt="" aria-hidden="true" />
       </div>
     </nav>
 
@@ -593,6 +594,15 @@ const menuLinks = [
     color: var(--paper-100);
   }
 
+  .menu__logo {
+    position: absolute;
+    right: var(--margin-x);
+    bottom: var(--space-5);
+    width: clamp(10rem, 16vw, 16rem);
+    height: auto;
+    pointer-events: none;
+  }
+
   .social-inline {
     display: inline-flex;
     align-items: center;
@@ -738,6 +748,10 @@ const menuLinks = [
 
     .menu__meta > div:last-child {
       grid-column: 1 / -1;
+    }
+
+    .menu__logo {
+      display: none;
     }
 
     .menu__meta a,
