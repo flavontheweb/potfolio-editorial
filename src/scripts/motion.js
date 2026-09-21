@@ -232,30 +232,41 @@ function playLoader(onComplete) {
 function playIntro() {
   document.body.dataset.loadState = 'ready';
 
+  const heroLine = $('[data-hero-line]');
+  const heroReveals = $$('.hero [data-reveal]');
+  if (!heroLine) return gsap.timeline();
+
   const tl = gsap.timeline();
-  tl.from('[data-hero-line]', {
+  tl.from(heroLine, {
     yPercent: 110,
     duration: 1.1,
     ease: 'power3.out',
-    stagger: 0.08,
-  }).from(
-    '.hero [data-reveal]',
-    {
-      opacity: 0,
-      y: 14,
-      duration: 0.7,
-      ease: 'power2.out',
-      stagger: 0.06,
-      clearProps: 'all',
-    },
-    '-=0.6',
-  );
+  });
+  if (heroReveals.length) {
+    tl.from(
+      heroReveals,
+      {
+        opacity: 0,
+        y: 14,
+        duration: 0.7,
+        ease: 'power2.out',
+        stagger: 0.06,
+        clearProps: 'all',
+      },
+      '-=0.6',
+    );
+  }
   return tl;
 }
 
 function playMobileIntro() {
   const heroLine = $('[data-hero-line]');
   const heroReveals = $$('.hero [data-reveal]');
+
+  if (!heroLine) {
+    document.body.dataset.loadState = 'ready';
+    return gsap.timeline();
+  }
 
   gsap.set(heroLine, { yPercent: 110 });
   gsap.set(heroReveals, { opacity: 0, y: 14 });
@@ -1109,7 +1120,7 @@ function initScrollMotion() {
 
   // Parallax footer reveal: counter-translated content
   const footerInner = $('[data-footer-inner]');
-  if (footerInner) {
+  if (footerInner && $('.hero')) {
     gsap.fromTo(
       footerInner,
       { yPercent: -30 },
@@ -1713,8 +1724,10 @@ function init() {
     initProjectsCarousel({ reduced: false });
     initPhotoLightbox({ reduced: false, lenis });
 
+    lenis.stop();
     playLoader(() => {
       playIntro();
+      lenis.start();
       initScrollMotion();
     });
 

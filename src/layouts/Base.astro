@@ -9,15 +9,18 @@ interface Props {
 
 const { title, description } = Astro.props;
 
+const isHome = Astro.url.pathname === '/';
+const homeHref = (hash: string) => (isHome ? hash : `/${hash}`);
+
 const menuLinks = [
-  { href: '#hero', label: 'Accueil', index: '01' },
-  { href: '#experiences', label: 'Expériences', index: '02' },
-  { href: '#skills', label: 'Compétences', index: '03' },
-  { href: '#projects', label: 'Projets réalisés', index: '04' },
-  { href: '#offscreen', label: 'Hors écran', index: '05' },
-  { href: '#music', label: 'Musique', index: '06' },
-  { href: '#photos', label: 'Photographie', index: '07' },
-  { href: '#contact', label: 'Contact', index: '08' },
+  { href: homeHref('#hero'), label: 'Accueil', index: '01' },
+  { href: homeHref('#experiences'), label: 'Expériences', index: '02' },
+  { href: homeHref('#skills'), label: 'Compétences', index: '03' },
+  { href: homeHref('#projects'), label: 'Projets réalisés', index: '04' },
+  { href: homeHref('#offscreen'), label: 'Hors écran', index: '05' },
+  { href: homeHref('#music'), label: 'Musique', index: '06' },
+  { href: homeHref('#photos'), label: 'Photographie', index: '07' },
+  { href: homeHref('#contact'), label: 'Contact', index: '08' },
 ];
 ---
 
@@ -69,7 +72,7 @@ const menuLinks = [
         <span></span>
       </div>
       <div class="site-header__bar container">
-        <a href="#hero" class="site-header__brand display" data-nav-link>
+        <a href={homeHref('#hero')} class="site-header__brand display" data-nav-link>
           <img
             class="site-header__brand-logo"
             src="/favicon.svg"
@@ -78,9 +81,11 @@ const menuLinks = [
             height="32"
           />
         </a>
-        <p class="site-header__clock meta" aria-hidden="true">
-          <span data-clock>17 sept. 23:59</span>
-        </p>
+        {isHome && (
+          <p class="site-header__clock meta" aria-hidden="true">
+            <span data-clock>17 sept. 23:59</span>
+          </p>
+        )}
         <div class="site-header__actions">
           <button
             class="site-header__burger"
@@ -635,15 +640,54 @@ const menuLinks = [
       gap: var(--space-4);
     }
 
+    .site-footer__legal-wrapper {
+      display: grid;
+      grid-template-columns: 1fr;
+      justify-items: center;
+      gap: var(--space-4);
+      padding-top: var(--space-5);
+      text-align: center;
+    }
+
+    .site-footer__legal {
+      min-width: 0;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .site-footer__logo {
+      height: 34px;
+      margin-top: 0;
+    }
+
     .meta-copyright {
       display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      font-size: var(--text-meta);
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: baseline;
+      gap: var(--space-1);
+      width: 100%;
+      font-size: 0.6875rem;
+      line-height: 1.5;
+      letter-spacing: 0.02em;
     }
 
     .meta-copyright-line {
+      align-items: baseline;
+      flex-wrap: nowrap;
+      line-height: inherit;
+    }
+
+    .meta-copyright-icon {
+      font-size: inherit;
+      margin-right: 0;
+      translate: 0 0.08em;
+    }
+
+    .meta-copyright-link {
       width: 100%;
+      margin-top: var(--space-2);
     }
   }
 </style>

@@ -200,6 +200,12 @@ body:focus {
   Loading states (controlled by data-load-state on <body>)
    -------------------------------------------------------------------------- */
 
+html:has(body[data-load-state='loading']),
+body[data-load-state='loading'] {
+  overflow: hidden;
+  touch-action: none;
+}
+
 body[data-load-state='loading'] .site-header,
 body[data-load-state='loading'] .page {
   opacity: 0;

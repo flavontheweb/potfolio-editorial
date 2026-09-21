@@ -1,0 +1,317 @@
+---
+import Base from '../layouts/Base.astro';
+
+const credits = [
+  {
+    title: 'Vidéo de fond',
+    videoTitle: 'Lake Between Mountains',
+    videoDesc: 'Aerial view of Château de Duingt surrounded by Annecy Lake and mountains.',
+    author: 'Adrien JACTA, sur Pexels.',
+  },
+  {
+    title: 'Modèles photographiques',
+    items: [
+      {
+        name: 'N°03',
+        model: 'Kasual Tee',
+      },
+      {
+        name: 'N°04',
+        model: 'Gabrielle Dupin-Girod',
+      },
+      {
+        name: 'N°05',
+        model: "Mamz'Hell",
+      },
+    ],
+  },
+  {
+    title: 'Inspirations web design',
+    items: [
+      { name: 'Komma Komma', url: 'https://kommakomma.is/' },
+      { name: 'Daniel Korr', url: 'https://danielkorr.site/' },
+      { name: 'A-Lign Studio', url: 'https://a-lign.studio/' },
+      { name: 'SK Visual Archive', url: 'https://sk-visualarchive.vercel.app/' },
+    ],
+  },
+];
+---
+
+<Base
+  title="Mentions légales et crédits — Flavien Gaujard"
+  description="Mentions légales, informations de confidentialité et crédits du portfolio de Flavien Gaujard."
+>
+  <section class="legal-page section container">
+    <header class="legal-hero">
+      <p class="meta meta--accent">Mentions légales</p>
+      <h1 class="legal-hero__title display">Mentions légales et crédits</h1>
+      <p class="legal-hero__intro">
+        Cette page regroupe les informations légales du portfolio, les précisions liées aux services
+        tiers et les crédits des médias ou inspirations utilisés pour sa conception.
+      </p>
+    </header>
+
+    <div class="legal-layout">
+      <aside class="legal-aside" aria-label="Résumé">
+        <div class="legal-aside__block">
+          <p class="meta">Éditeur</p>
+          <p>Flavien Gaujard</p>
+          <a href="mailto:contact@flavien-gaujard.fr">contact@flavien-gaujard.fr</a>
+        </div>
+        <div class="legal-aside__block">
+          <p class="meta">Hébergement</p>
+          <p>Netlify</p>
+          <a href="https://www.netlify.com" target="_blank" rel="noreferrer">
+            www.netlify.com
+          </a>
+        </div>
+      </aside>
+
+      <div class="legal-content">
+        <article class="legal-block">
+          <p class="legal-block__index meta">(01)</p>
+          <div class="legal-block__body">
+            <h2 class="display">Éditeur du site</h2>
+            <p>
+              Le site flavien-gaujard.fr est édité par Flavien Gaujard. Pour toute demande relative
+              au site, vous pouvez écrire à l’adresse suivante&nbsp;:&nbsp;
+              <a href="mailto:contact@flavien-gaujard.fr">contact@flavien-gaujard.fr</a>.
+            </p>
+          </div>
+        </article>
+
+        <article class="legal-block">
+          <p class="legal-block__index meta">(02)</p>
+          <div class="legal-block__body">
+            <h2 class="display">Données personnelles</h2>
+            <p>
+              Ce portfolio ne met pas en place de formulaire, de compte utilisateur ou de suivi
+              publicitaire direct. Aucune donnée personnelle n’est volontairement collectée par le
+              site pour constituer une base de prospects ou d’analyse marketing.
+            </p>
+            <p>
+              Le site peut toutefois utiliser le stockage local du navigateur pour conserver de
+              petites préférences d’affichage ou d’expérience, par exemple l’état de chargement déjà
+              vu. Ces informations restent sur votre appareil et ne servent pas à vous identifier.
+            </p>
+          </div>
+        </article>
+
+        <article class="legal-block">
+          <p class="legal-block__index meta">(03)</p>
+          <div class="legal-block__body">
+            <h2 class="display">Services tiers</h2>
+            <p>
+              La section musique intègre un lecteur SoundCloud. Ce contenu est fourni par un service
+              tiers susceptible de déposer ses propres cookies, de traiter des données techniques ou
+              de charger des ressources depuis ses serveurs lorsque le lecteur s’affiche ou est
+              utilisé. Ces traitements relèvent de SoundCloud et de sa propre politique de
+              confidentialité.
+            </p>
+          </div>
+        </article>
+
+        <article class="legal-block">
+          <p class="legal-block__index meta">(04)</p>
+          <div class="legal-block__body">
+            <h2 class="display">Propriété intellectuelle</h2>
+            <p>
+              Sauf mention contraire, les textes, interfaces, photographies, compositions graphiques
+              et éléments de code présentés sur ce portfolio appartiennent à Flavien Gaujard. Toute
+              reproduction ou réutilisation doit faire l’objet d’une autorisation préalable.
+            </p>
+          </div>
+        </article>
+
+        <article class="legal-block legal-block--credits">
+          <p class="legal-block__index meta">(05)</p>
+          <div class="legal-block__body">
+            <h2 class="display">Crédits</h2>
+            <div class="credits-list">
+              {credits.map((group) => (
+                <section class="credits-group">
+                  <h3 class="meta meta--accent">{group.title}</h3>
+                  {'items' in group ? (
+                    <div class="credits-items">
+                      {group.items?.map((item) => (
+                        <div class="credits-detail">
+                          {typeof item === 'string' ? (
+                            <p>{item}</p>
+                          ) : 'model' in item ? (
+                            <>
+                              <p class="meta">{item.name}</p>
+                              <p>{item.model}</p>
+                            </>
+                          ) : (
+                            <>
+                              <p>{item.name}</p>
+                              <a href={item.url} target="_blank" rel="noreferrer">
+                                {item.url}
+                              </a>
+                            </>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div class="credits-items">
+                      <div class="credits-detail">
+                        <p class="meta">Titre</p>
+                        <p>{group.videoTitle}</p>
+                      </div>
+                      <div class="credits-detail">
+                        <p class="meta">Description</p>
+                        <p>{group.videoDesc}</p>
+                      </div>
+                      <div class="credits-detail">
+                        <p class="meta">Auteur</p>
+                        <p>{group.author}</p>
+                      </div>
+                    </div>
+                  )}
+                </section>
+              ))}
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .legal-page {
+    min-height: 100svh;
+    padding-top: clamp(var(--space-7), 14vw, var(--space-8));
+  }
+
+  .legal-hero {
+    display: grid;
+    gap: var(--space-4);
+    max-width: 72rem;
+    padding-bottom: var(--space-6);
+  }
+
+  .legal-hero__title {
+    max-width: 14ch;
+    color: var(--paper-50);
+    font-size: clamp(2.75rem, 5.4vw, 4.75rem);
+  }
+
+  .legal-hero__intro {
+    max-width: 62ch;
+    color: var(--ink-300);
+    font-size: var(--text-lg);
+  }
+
+  .legal-layout {
+    display: grid;
+    grid-template-columns: minmax(14rem, 0.55fr) minmax(0, 1.618fr);
+    gap: var(--space-6);
+    align-items: start;
+  }
+
+  .legal-aside {
+    position: sticky;
+    top: var(--space-7);
+    display: grid;
+    gap: var(--space-4);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--ink-600);
+    color: var(--paper-100);
+  }
+
+  .legal-aside__block {
+    display: grid;
+  }
+
+  .legal-aside a,
+  .legal-block a {
+    color: var(--rust-400);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.18em;
+  }
+
+  .legal-content {
+    border-top: 1px solid var(--ink-600);
+  }
+
+  .legal-block {
+    display: grid;
+    grid-template-columns: 4ch minmax(0, 1fr);
+    gap: var(--space-5);
+    align-items: baseline;
+    padding-block: var(--space-5);
+    border-bottom: 1px solid var(--ink-600);
+  }
+
+  .legal-block__index {
+    transform: translateY(-2px);
+  }
+
+  .legal-block__body {
+    display: grid;
+    gap: var(--space-3);
+    max-width: 76ch;
+  }
+
+  .legal-block h2 {
+    color: var(--paper-50);
+    font-size: clamp(1.5rem, 2.2vw, 1.9rem);
+    line-height: 1.05;
+  }
+
+  .legal-block p:not(.meta),
+  .credits-detail p:not(.meta) {
+    color: var(--paper-100);
+  }
+
+  .credits-list {
+    display: grid;
+    gap: var(--space-4);
+    margin-top: var(--space-2);
+  }
+
+  .credits-group {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .credits-items {
+    display: grid;
+    gap: var(--space-1);
+  }
+
+  .credits-detail {
+    display: grid;
+    grid-template-columns: minmax(7rem, 0.3fr) minmax(0, 1fr);
+    gap: var(--space-3);
+    align-items: baseline;
+  }
+
+  @media (max-width: 767px) {
+    .legal-page {
+      padding-top: var(--space-7);
+    }
+
+    .legal-layout {
+      grid-template-columns: 1fr;
+      gap: var(--space-5);
+    }
+
+    .legal-aside {
+      position: static;
+    }
+
+    .legal-block {
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+    }
+
+    .credits-detail {
+      grid-template-columns: 1fr;
+      gap: var(--space-1);
+    }
+  }
+</style>

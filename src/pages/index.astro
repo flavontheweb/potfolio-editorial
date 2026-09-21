@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
-import backgroundVideo from '../assets/background.mp4';
+import backgroundGif from '../assets/background.gif';
 import img1 from '../assets/pictures/IMG1.jpg';
 import img2 from '../assets/pictures/IMG2.jpg';
 import img3 from '../assets/pictures/IMG3.jpg';
@@ -304,7 +304,7 @@ const photos = rawPhotos.map((photo) => ({
   <section class="hero" id="hero">
     <figure class="hero__frame">
       <div class="hero__media" data-hero-parallax>
-        <video src={backgroundVideo} autoplay muted loop playsinline />
+        <img src={backgroundGif.src} alt="" aria-hidden="true" />
       </div>
       <div class="hero__overlay" aria-hidden="true"></div>
     </figure>
@@ -366,10 +366,31 @@ const photos = rawPhotos.map((photo) => ({
         <span data-manifesto-line>maintenables, précises et durables.</span>
       </span>
     </h2>
-    <p class="manifesto__note" data-reveal>
-      Apprenti manager de l’ingénierie numérique, je poursuis actuellement ma dernière année de
-      Mastère d’ingénierie avancée du logiciel.
-    </p>
+    <div class="manifesto__identity" data-reveal>
+      <!-- <figure class="manifesto__portrait">
+        <Image
+          src={img13}
+          alt="Portrait de Flavien Gaujard"
+          widths={[320, 480, 640]}
+          sizes="(max-width: 767px) 42vw, 22vw"
+          quality={90}
+          loading="lazy"
+          decoding="async"
+        />
+      </figure> -->
+      <blockquote class="manifesto__testimonial">
+        <span class="manifesto__testimonial-mark" aria-hidden="true">
+          “
+        </span>
+        <p class="manifesto__testimonial-copy">
+          Apprenti manager de l’ingénierie numérique, je poursuis actuellement ma dernière année de
+          Mastère d’ingénierie avancée du logiciel.
+        </p>
+        <footer class="manifesto__testimonial-author">
+          <span>Flavien Gaujard</span>
+        </footer>
+      </blockquote>
+    </div>
   </section>
 
   <!-- ====================== EXPERIENCES ====================== -->
@@ -672,7 +693,7 @@ const photos = rawPhotos.map((photo) => ({
         <h3 class="life-block__title display">Le corps et le souffle</h3>
         <ul class="life-block__list">
           <li>Course à pied</li>
-          <li>Vélo</li>
+          <li>Cyclisme sur route</li>
           <li>Randonnée</li>
         </ul>
       </div>
@@ -847,7 +868,7 @@ const photos = rawPhotos.map((photo) => ({
     overflow: hidden;
   }
 
-  .hero__media video {
+  .hero__media img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -910,6 +931,7 @@ const photos = rawPhotos.map((photo) => ({
   .hero__corner {
     position: absolute;
     z-index: 2;
+    text-shadow: 0 1px 5px rgb(0 0 0 / 28%);
   }
 
   .hero__corner--tl {
@@ -931,6 +953,7 @@ const photos = rawPhotos.map((photo) => ({
     display: block;
     height: clamp(3rem, 6vw, 5rem);
     width: auto;
+    filter: drop-shadow(0 1px 5px rgb(0 0 0 / 24%));
   }
   .hero__corner--bl {
     bottom: var(--space-5);
@@ -948,8 +971,17 @@ const photos = rawPhotos.map((photo) => ({
 
   /* ---------- Manifesto ---------- */
   .manifesto {
-    display: grid;
-    gap: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .manifesto__text {
+    margin-top: var(--space-5);
+  }
+
+  .manifesto__identity {
+    margin-top: var(--space-6);
   }
 
   .manifesto__text {
@@ -970,10 +1002,117 @@ const photos = rawPhotos.map((photo) => ({
     overflow-wrap: anywhere;
   }
 
-  .manifesto__note {
-    max-width: 55ch;
+  .manifesto__identity {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    align-items: stretch;
+    width: min(100%, 68rem);
     margin-left: auto;
+  }
+
+  .manifesto__portrait {
+    position: relative;
+    min-height: clamp(23rem, 34vw, 31rem);
+    margin: 0;
+    overflow: hidden;
+    background: var(--ink-800);
+    border: 1px solid color-mix(in srgb, var(--ink-600) 80%, transparent);
+  }
+
+  .manifesto__portrait img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 66% center;
+    filter: grayscale(1) contrast(1.08);
+  }
+
+  .manifesto__portrait::after {
+    position: absolute;
+    content: '';
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      transparent 52%,
+      color-mix(in srgb, var(--ink-950) 72%, transparent)
+    );
+  }
+
+  .manifesto__portrait-index {
+    position: absolute;
+    z-index: 1;
+    right: var(--space-3);
+    bottom: var(--space-3);
+    left: var(--space-3);
+    color: var(--paper-50);
+    text-shadow: 0 1px 8px var(--ink-950);
+  }
+
+  .manifesto__testimonial {
+    position: relative;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    align-items: center;
+    margin: 0;
+    padding: var(--space-7) var(--space-6) var(--space-5);
+    overflow: hidden;
+    color: var(--paper-50);
+    background: var(--ink-800);
+    border: 1px solid color-mix(in srgb, var(--ink-600) 80%, transparent);
+  }
+
+  .manifesto__testimonial::after {
+    position: absolute;
+    content: '';
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    background: var(--rust-500);
+    pointer-events: none;
+  }
+
+  .manifesto__testimonial-mark {
+    position: absolute;
+    top: var(--space-7);
+    left: var(--space-5);
+    color: var(--rust-400);
+    font-family: var(--font-display);
+    font-size: clamp(6rem, 12vw, 11rem);
+    line-height: 0.5;
+    pointer-events: none;
+    text-wrap: balance;
+  }
+
+  .manifesto__testimonial-copy {
+    position: relative;
+    z-index: 1;
+    max-width: 100%;
+    margin: 0;
+    padding-top: calc(var(--space-5) + 2.5rem);
+    font-size: clamp(1.5rem, 2.5vw, 2.375rem);
+    line-height: 1.12;
+  }
+
+  .manifesto__testimonial-author {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-top: var(--space-5);
+    padding-top: var(--space-4);
+    border-top: 1px solid color-mix(in srgb, var(--paper-50) 22%, transparent);
     color: var(--ink-300);
+    font-family: var(--font-mono);
+    font-size: var(--text-meta);
+    line-height: 1.35;
+  }
+
+  .manifesto__testimonial-author span:last-child {
+    max-width: 19ch;
+    text-align: right;
   }
 
   /* ---------- Experiences ---------- */
@@ -1661,7 +1800,6 @@ const photos = rawPhotos.map((photo) => ({
   }
 
   .stack__panel--rust {
-    inset: 0 0 0 8px;
     background: var(--rust-500);
     transform: translate(9px, -9px);
   }
@@ -2182,11 +2320,52 @@ const photos = rawPhotos.map((photo) => ({
     }
 
     .manifesto {
-      gap: var(--space-4);
+      gap: 0;
     }
 
-    .manifesto__note {
-      margin-left: 0;
+    .manifesto__text {
+      margin-top: var(--space-4);
+    }
+
+    .manifesto__identity {
+      margin-top: var(--space-5);
+    }
+
+    .manifesto__identity {
+      grid-template-columns: 1fr;
+      gap: 0;
+      width: 100%;
+    }
+
+    .manifesto__portrait {
+      min-height: clamp(14rem, 62vw, 20rem);
+    }
+
+    .manifesto__testimonial {
+      padding: var(--space-6) var(--space-4) var(--space-4);
+    }
+
+    .manifesto__testimonial-mark {
+      top: var(--space-6);
+      left: var(--space-4);
+      font-size: clamp(5rem, 20vw, 6rem);
+    }
+
+    .manifesto__testimonial-copy {
+      max-width: 22ch;
+      padding-top: calc(var(--space-5) + 2rem);
+      font-size: clamp(1.25rem, 5vw, 1.6rem);
+      line-height: 1.18;
+    }
+
+    .manifesto__testimonial-author {
+      display: grid;
+      gap: var(--space-2);
+      margin-top: var(--space-5);
+    }
+
+    .manifesto__testimonial-author span:last-child {
+      text-align: left;
     }
 
     .edu-body,
