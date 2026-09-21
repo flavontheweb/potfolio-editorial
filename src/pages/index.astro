@@ -21,6 +21,8 @@ import projectBui from '../assets/pictures/project-bui.jpg';
 import projectAim from '../assets/pictures/project-aim.jpg';
 import projectW3one from '../assets/pictures/project-w3one.jpg';
 
+const pad2 = (value: number) => String(value).padStart(2, '0');
+
 const experiences = [
   {
     company: 'Buawei',
@@ -28,10 +30,7 @@ const experiences = [
     from: 'Sept. 2024',
     to: 'Juil. 2026',
     place: 'Annecy, FR',
-    desc: [
-      "Avec la supervision de mon maitre d'apprentissage Matthieu BELLAMY, j'ai contribué à la conception et au développement d’AIManager. Il s'agit d'une plateforme SaaS dédiée à la gestion de datasets ainsi qu'à l’inférence et l'entraînement de modèles d’intelligence artificielle destinés à effectuer du contrôle qualité par vision.",
-      'Mes missions ont couvert l’ensemble du cycle de production du produit :',
-    ],
+    desc: "Avec la supervision de mon maitre d'apprentissage Matthieu BELLAMY, j'ai contribué à la conception et au développement d’AIManager. Il s'agit d'une plateforme SaaS dédiée à la gestion de datasets ainsi qu'à l’inférence et l'entraînement de modèles d’intelligence artificielle destinés à effectuer du contrôle qualité par vision.",
     missions: [
       'Conception et développement de fonctionnalités clients et produits au sein d’une équipe agile.',
       'Création de maquettes et amélioration continue de l’expérience utilisateur sur Figma, avec une attention particulière portée à l’accessibilité, l’ergonomie et aux standards modernes du web.',
@@ -48,10 +47,7 @@ const experiences = [
     from: 'Fév. 2024',
     to: 'Avril 2024',
     place: 'Chartres, FR',
-    desc: [
-      'Avec mon maître de stage Charles MAUNOURY, j’ai participé à la conception de maquettes pour W3R.ONE, une entreprise spécialisée dans le développement d’applications. Pendant toute la durée du stage, nous avons travaillé en échangeant régulièrement avec notre client afin d’obtenir des retours au fur et à mesure de la conception de la direction artistique et de la création des maquettes.',
-      'J’ai ainsi pu développer mes compétences à travers les missions suivantes :',
-    ],
+    desc: 'Avec mon maître de stage Charles MAUNOURY, j’ai participé à la conception de maquettes pour W3R.ONE, une entreprise spécialisée dans le développement d’applications. Pendant toute la durée du stage, nous avons travaillé en échangeant régulièrement avec notre client afin d’obtenir des retours au fur et à mesure de la conception de la direction artistique et de la création des maquettes.',
     missions: [
       'Déclinaisons d’illustrations pour les clients du studio.',
       'Réalisation de maquettes en collaborrant au quotidien avec le graphiste.',
@@ -222,49 +218,42 @@ const rawPhotos = [
   {
     image: img1,
     alt: 'Photographie — Versailles',
-    label: '',
     exif: '50mm 1/250s F3.2 200ISO',
     place: 'Versailles, FR',
   },
   {
     image: img2,
     alt: 'Photographie — Versailles',
-    label: '',
     exif: '50mm 1/250s F3.2 200ISO',
     place: 'Versailles, FR',
   },
   {
     image: img12,
     alt: 'Photographie — Chartres',
-    label: '',
     exif: '210mm 1/400s F6.3 640ISO',
     place: 'Chartres, FR',
   },
   {
     image: img13,
     alt: 'Photographie — Chartres',
-    label: '',
     exif: '50mm 1/125s F2.8 200ISO',
     place: 'Chartres, FR',
   },
   {
     image: img3,
     alt: 'Photographie — Saint-Malo argentique',
-    label: '',
     exif: 'Argentique',
     place: 'Saint-Malo, FR',
   },
   {
     image: img4,
     alt: 'Photographie — Saint-Malo argentique',
-    label: '',
     exif: 'Argentique',
     place: 'Saint-Malo, FR',
   },
   {
     image: img5,
     alt: 'Photographie — Saint-Malo argentique',
-    label: '',
     exif: 'Argentique',
     place: 'Saint-Malo, FR',
   },
@@ -272,35 +261,30 @@ const rawPhotos = [
   {
     image: img8,
     alt: 'Photographie — Paris',
-    label: '',
     exif: '20mm 1/10s F3.5 400ISO',
     place: 'Paris, FR',
   },
   {
     image: img7,
     alt: 'Photographie — Chartres',
-    label: '',
     exif: '210mm 1/1600s F6.3 320ISO',
     place: 'Chartres, FR',
   },
   {
     image: img9,
     alt: 'Photographie — Chartres',
-    label: '',
     exif: '152mm 1/200s F5.6 800ISO',
     place: 'Chartres, FR',
   },
   {
     image: img10,
     alt: 'Photographie — Mainvilliers',
-    label: '',
     exif: '50mm 1/40s F1.8 1600ISO',
     place: 'Mainvilliers, FR',
   },
   {
     image: img11,
     alt: 'Photographie — Mainvilliers',
-    label: '',
     exif: '50mm 1/40s F1.8 800ISO',
     place: 'Mainvilliers, FR',
   },
@@ -410,16 +394,19 @@ const photos = rawPhotos.map((photo) => ({
               </span>
               <span class="xp-summary__company display">{xp.company}</span>
               <span class="xp-summary__role">{xp.role}</span>
-              <span class="xp-summary__arrow" aria-hidden="true">
-                ↓
+              <span class="xp-summary__toggle">
+                <span class="xp-summary__toggle-label xp-summary__toggle-label--more">Plus</span>
+                <span class="xp-summary__toggle-label xp-summary__toggle-label--less">Moins</span>
+                <span class="xp-summary__arrow" aria-hidden="true">
+                  <span class="xp-summary__arrow-arm xp-summary__arrow-arm--left"></span>
+                  <span class="xp-summary__arrow-arm xp-summary__arrow-arm--right"></span>
+                </span>
               </span>
             </summary>
             <div class="xp-body">
-              <p class="meta">{xp.place}</p>
+              <p class="xp-body__place meta">{xp.place}</p>
               <div class="xp-description">
-                {xp.desc.map((paragraph) => (
-                  <p>{paragraph}</p>
-                ))}
+                <p>{xp.desc}</p>
               </div>
               <ul class="xp-missions">
                 {xp.missions.map((m) => (
@@ -451,8 +438,17 @@ const photos = rawPhotos.map((photo) => ({
                   <span>{ed.diploma}</span>
                   {ed.diplomaLvl && <span class="edu-summary__level meta">{ed.diplomaLvl}</span>}
                 </span>
-                <span class="edu-summary__arrow" aria-hidden="true">
-                  ↓
+                <span class="edu-summary__toggle">
+                  <span class="edu-summary__toggle-label edu-summary__toggle-label--more">
+                    Plus
+                  </span>
+                  <span class="edu-summary__toggle-label edu-summary__toggle-label--less">
+                    Moins
+                  </span>
+                  <span class="edu-summary__arrow" aria-hidden="true">
+                    <span class="edu-summary__arrow-arm edu-summary__arrow-arm--left"></span>
+                    <span class="edu-summary__arrow-arm edu-summary__arrow-arm--right"></span>
+                  </span>
                 </span>
               </summary>
               <div class="edu-body">
@@ -487,7 +483,9 @@ const photos = rawPhotos.map((photo) => ({
         {skills.map((skill) => (
           <article class="stack__chapter" data-stack-chapter>
             <div class="stack__chapter-head">
-              <p class="meta meta--accent">{skill.index} / 05</p>
+              <p class="meta meta--accent">
+                {skill.index} / {pad2(skills.length)}
+              </p>
               <h3 class="mask-line">
                 <span class="stack__title display" data-stack-title>
                   {skill.title}
@@ -526,8 +524,8 @@ const photos = rawPhotos.map((photo) => ({
   </section>
 
   <!-- ====================== PROJECTS ====================== -->
-  <section class="projects section container" id="projects" data-bg="#1c1815">
-    <header class="section-head">
+  <section class="projects section" id="projects" data-bg="#1c1815">
+    <header class="section-head container">
       <p class="meta meta--accent" data-reveal>
         04 — Projets réalisés
       </p>
@@ -541,15 +539,7 @@ const photos = rawPhotos.map((photo) => ({
     </header>
 
     <div class="projects-carousel" data-projects-carousel data-reveal>
-      <div class="projects-carousel__head">
-        <div class="timer-combined" data-projects-timer aria-hidden="true" hidden>
-          <span class="timer-digits" data-projects-seconds>
-            05s
-          </span>
-          <div class="projects-carousel__timer">
-            <span class="projects-carousel__timer-fill"></span>
-          </div>
-        </div>
+      <div class="projects-carousel__head container">
         <div class="projects-stepper" data-projects-stepper hidden>
           {projects.map((project) => (
             <button
@@ -561,18 +551,6 @@ const photos = rawPhotos.map((photo) => ({
           ))}
         </div>
         <div class="projects-carousel__controls">
-          <button
-            type="button"
-            class="projects-carousel__arrow"
-            data-projects-pause
-            aria-label="Mettre le défilement automatique en pause"
-            title="Mettre le défilement automatique en pause"
-            hidden
-          >
-            <span data-projects-pause-icon aria-hidden="true">
-              Ⅱ
-            </span>
-          </button>
           <button
             type="button"
             class="projects-carousel__arrow"
@@ -596,9 +574,11 @@ const photos = rawPhotos.map((photo) => ({
         <ul class="projects-carousel__track" data-projects-track>
           {projects.map((project) => (
             <li class="project-slide">
-              <article class="project-card project-card--editorial" data-project-card>
+              <article class="project-card">
                 <div class="project-card__heading">
-                  <p class="project-card__kicker meta">{project.index} / 05</p>
+                  <p class="project-card__kicker meta">
+                    {project.index} / {pad2(projects.length)}
+                  </p>
                   <p class="project-card__status meta">{project.status}</p>
                 </div>
                 <p class="project-card__team meta">
@@ -707,12 +687,51 @@ const photos = rawPhotos.map((photo) => ({
     </div>
   </section>
 
+  <!-- ====================== MUSIC ====================== -->
+  <section class="music section" id="music" data-bg="#141110">
+    <div class="music__inner container">
+      <header class="section-head music__head">
+        <p class="meta meta--accent" data-reveal>
+          06 — Musique
+        </p>
+        <h2 class="section-title display" data-reveal>
+          Le home studio
+        </h2>
+        <p class="music__intro" data-reveal>
+          La musique est certainement la discipline qui m'est le plus difficile. Pourtant c'est
+          également celle qui me procure le plus d'émotions.
+        </p>
+      </header>
+
+      <div class="music__feature" data-reveal>
+        <div class="music__feature-meta">
+          <p class="meta meta--accent">DEMO</p>
+          <h3 class="life-block__title display">Untilted Project 001</h3>
+          <p class="music__feature-description">
+            Je vous recommande d'écouter ce projet sur des enceintes de monitoring ou un bon casque
+            audio pour en distinguer pleinement les détails. En effet, celui-ci n'est pas
+            parfaitement mixé et masterisé, il est donc préférable de l'écouter dans de bonnes
+            conditions.
+          </p>
+        </div>
+        <div class="music__player-wrap">
+          <iframe
+            title="Écouter Untilted Project 001 sur SoundCloud"
+            src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/tribaldistrict/untilted-project-001&color=%23c4552a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"
+            loading="lazy"
+            allow="autoplay"
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ====================== PHOTO GALLERY (horizontal travelling) ====================== -->
   <section class="gallery section" id="photos" data-gallery data-bg="#0b0a09">
     <div class="gallery__pin">
       <header class="section-head gallery__head container">
         <p class="meta meta--accent" data-reveal>
-          06 — Photographie
+          07 — Photographie
         </p>
         <h2 class="section-title display" data-reveal>
           La chambre noire
@@ -728,14 +747,14 @@ const photos = rawPhotos.map((photo) => ({
           {photos.map((photo, i) => (
             <figure class="gallery__frame" data-gallery-frame style={`--ar:${photo.ratio}`}>
               <p class="gallery__frame-head meta">
-                <span>N°{String(i + 1).padStart(2, '0')}</span>
+                <span>N°{pad2(i + 1)}</span>
                 <span>{photo.place}</span>
               </p>
               <button
                 type="button"
                 class="gallery__media"
                 data-photo-zoom
-                aria-label={`Agrandir la photo ${String(i + 1).padStart(2, '0')}`}
+                aria-label={`Agrandir la photo ${pad2(i + 1)}`}
               >
                 <Image
                   src={photo.image}
@@ -748,61 +767,25 @@ const photos = rawPhotos.map((photo) => ({
                 />
               </button>
               <figcaption class="gallery__caption meta">
-                <span>{photo.label}</span>
                 <span>{photo.exif}</span>
               </figcaption>
             </figure>
           ))}
           <div class="gallery__frame gallery__frame--end">
             <p class="meta meta--accent">Fin de pellicule</p>
-            <a href="#contact" class="gallery__end-link display" data-nav-link>
-              La suite s’écrit ensemble&nbsp;→
-            </a>
+            <span class="gallery__end-link display">La suite s’écrit ensemble&nbsp;↓</span>
           </div>
         </div>
       </div>
 
       <div class="gallery__hud container">
         <p class="meta">
-          <span data-gallery-current>01</span> / {String(photos.length).padStart(2, '0')}
+          <span data-gallery-current>01</span> / {pad2(photos.length)}
         </p>
         <div class="gallery__progress">
           <span data-gallery-progress></span>
         </div>
         <p class="meta">Défiler&nbsp;↓</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ====================== MUSIC ====================== -->
-  <section class="music section" id="music" data-bg="#141110">
-    <div class="music__inner container">
-      <header class="section-head music__head">
-        <p class="meta meta--accent" data-reveal>
-          07 — Musique
-        </p>
-        <h2 class="section-title display" data-reveal>
-          Le home studio
-        </h2>
-        <p class="music__intro" data-reveal>
-          La musique est certainement la discipline qui m'est le plus difficile. Pourtant c'est
-          également celle qui me procure le plus d'émotions.
-        </p>
-      </header>
-
-      <div class="music__feature" data-reveal>
-        <div class="music__feature-meta">
-          <p class="meta">Projet 001</p>
-          <p class="meta meta--accent">DEMO</p>
-        </div>
-        <div class="music__player-wrap">
-          <iframe
-            title="Écouter Untilted Project 001 sur SoundCloud"
-            src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/tribaldistrict/untilted-project-001&color=%23c4552a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"
-            loading="lazy"
-            allow="autoplay"
-          ></iframe>
-        </div>
       </div>
     </div>
   </section>
@@ -1036,7 +1019,12 @@ const photos = rawPhotos.map((photo) => ({
 
   .xp-summary__dates > span + span,
   .edu-summary__dates > span + span {
-    padding-left: 2ch;
+    padding-left: 0;
+  }
+
+  .xp-summary__dates > span + span::before,
+  .edu-summary__dates > span + span::before {
+    content: 'à ';
   }
 
   .xp-summary::-webkit-details-marker,
@@ -1046,6 +1034,14 @@ const photos = rawPhotos.map((photo) => ({
 
   .xp-summary:hover .xp-summary__company,
   .edu-summary:hover .edu-summary__school {
+    color: var(--rust-400);
+  }
+
+  .xp-details[open] .xp-summary__company {
+    color: var(--rust-400);
+  }
+
+  .edu-details[open] .edu-summary__school {
     color: var(--rust-400);
   }
 
@@ -1068,6 +1064,26 @@ const photos = rawPhotos.map((photo) => ({
     transition: transform var(--dur-roll) var(--ease-out);
   }
 
+  .xp-summary__arrow::before,
+  .edu-summary__arrow::before {
+    content: '↓';
+  }
+
+  .xp-summary__arrow-arm,
+  .edu-summary__arrow-arm {
+    display: none;
+  }
+
+  .xp-summary__toggle-label,
+  .edu-summary__toggle-label {
+    display: none;
+  }
+
+  .xp-summary__toggle,
+  .edu-summary__toggle {
+    display: contents;
+  }
+
   .xp-details[open] .xp-summary__arrow,
   .edu-details[open] .edu-summary__arrow {
     transform: rotate(180deg);
@@ -1082,7 +1098,7 @@ const photos = rawPhotos.map((photo) => ({
   .edu-body {
     display: grid;
     gap: var(--space-3);
-    padding: 0 0 0 calc(24ch + var(--space-4));
+    padding: 0;
     width: 100%;
     max-height: 0;
     opacity: 0;
@@ -1095,10 +1111,8 @@ const photos = rawPhotos.map((photo) => ({
       padding-bottom 420ms var(--ease-out);
   }
 
-  .xp-body {
-    padding-left: 0;
-    width: calc((100% - 24ch - 3 * var(--space-4)) / 2.618);
-    margin-left: calc(24ch + var(--space-4));
+  .edu-body {
+    padding-left: calc(24ch + var(--space-4));
   }
 
   .xp-details[open] .xp-body,
@@ -1138,6 +1152,68 @@ const photos = rawPhotos.map((photo) => ({
     gap: var(--space-3);
   }
 
+  .experience .xp-body {
+    width: 100%;
+    margin-left: 0;
+    grid-template-columns: minmax(0, 24ch) minmax(0, 1fr) minmax(0, 1.618fr);
+    column-gap: var(--space-4);
+    padding: var(--space-4) 0 var(--space-5);
+  }
+
+  .experience .xp-body__place {
+    grid-row: 1;
+    color: var(--ink-300);
+    align-self: start;
+    white-space: nowrap;
+  }
+
+  .experience .xp-description {
+    grid-column: 2;
+    width: 100%;
+    padding-right: var(--space-4);
+  }
+
+  .experience .xp-missions {
+    grid-column: 3;
+    align-self: start;
+    padding-left: 1.2em;
+    gap: var(--space-3);
+    list-style: circle;
+  }
+
+  .experience .xp-missions li {
+    color: var(--paper-100);
+  }
+
+  .experience .xp-missions li::marker {
+    color: var(--rust-400);
+  }
+
+  @media (min-width: 768px) {
+    .experience .xp-missions li::marker {
+      content: none;
+    }
+
+    .experience .xp-missions li {
+      position: relative;
+      list-style: none;
+    }
+
+    .experience .xp-missions li::before {
+      display: block;
+      position: absolute;
+      top: 0.7em;
+      left: -1.2em;
+      width: 8px;
+      height: 8px;
+
+      border: 2px solid var(--rust-400);
+      border-radius: 50%;
+      content: '';
+      transform: translateY(-50%);
+    }
+  }
+
   /* ---------- Education ---------- */
   .education {
     display: grid;
@@ -1147,11 +1223,11 @@ const photos = rawPhotos.map((photo) => ({
 
   .edu-summary__diploma {
     color: var(--ink-300);
-    line-height: 1.5;
+    line-height: 1.2;
     display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: var(--space-3);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
     container-type: inline-size;
   }
 
@@ -1161,18 +1237,12 @@ const photos = rawPhotos.map((photo) => ({
   }
 
   .edu-summary__level::before {
-    content: '—';
-    margin-right: var(--space-3);
-    color: var(--rust-500);
+    content: none;
   }
 
   @media (max-width: 1410px) {
     .edu-summary__level {
       flex-basis: 100%;
-    }
-
-    .edu-summary__level::before {
-      content: none;
     }
   }
 
@@ -1210,8 +1280,6 @@ const photos = rawPhotos.map((photo) => ({
 
   /* ---------- Projects ---------- */
   .projects {
-    --projects-bg: #1c1815;
-    --projects-shadow-color: color-mix(in srgb, var(--projects-bg) 82%, transparent);
     display: grid;
     gap: var(--space-6);
   }
@@ -1232,48 +1300,6 @@ const photos = rawPhotos.map((photo) => ({
     align-items: center;
     justify-content: space-between;
     gap: var(--space-4);
-  }
-
-  .projects-carousel__count {
-    color: var(--ink-300);
-  }
-
-  .projects-carousel__timer {
-    width: 100%;
-    height: 4px;
-    background: var(--ink-600);
-  }
-
-  .projects-carousel__timer-fill {
-    display: block;
-    width: 100%;
-    height: 100%;
-    background: var(--rust-400);
-    transform: scaleX(var(--timer-progress, 1));
-    transform-origin: left center;
-  }
-
-  .timer-digits {
-    font-family: var(--font-mono);
-    font-size: 2.5rem;
-    line-height: 1;
-    font-variant-numeric: tabular-nums;
-    letter-spacing: 0;
-    color: var(--rust-400);
-    width: 3ch;
-  }
-
-  .timer-combined {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    flex: 1 1 16rem;
-    min-width: 0;
-    align-items: center;
-    gap: var(--space-4);
-  }
-
-  .timer-combined[hidden] {
-    display: none;
   }
 
   .projects-stepper {
@@ -1324,18 +1350,6 @@ const photos = rawPhotos.map((photo) => ({
       gap: var(--space-3);
     }
 
-    .timer-combined {
-      display: grid;
-      grid-column: 1;
-      grid-template-columns: auto minmax(0, 1fr);
-      width: 100%;
-      gap: var(--space-3);
-    }
-
-    .timer-digits {
-      font-size: 1.55rem;
-    }
-
     .projects-stepper:not([hidden]) {
       grid-column: 1;
     }
@@ -1374,72 +1388,16 @@ const photos = rawPhotos.map((photo) => ({
   }
 
   .projects-carousel__viewport {
-    --shadow-cycle-duration: 550ms;
-    position: relative;
-    isolation: isolate;
     overflow: hidden;
     width: 100%;
     padding-block: var(--space-3);
   }
 
-  .projects-carousel__viewport::before,
-  .projects-carousel__viewport::after {
-    content: '';
-    position: absolute;
-    top: var(--space-3);
-    bottom: var(--space-3);
-    width: 50px;
-    pointer-events: none;
-    z-index: 2;
-  }
-
-  .projects-carousel__viewport::before {
-    left: 0;
-    opacity: 0;
-    transform-origin: left center;
-    transform: scaleX(0.06);
-    background: linear-gradient(
-      to right,
-      var(--projects-shadow-color) 0%,
-      color-mix(in srgb, var(--projects-shadow-color) 86%, transparent) 28%,
-      transparent 100%
-    );
-  }
-
-  .projects-carousel__viewport.is-sliding::before {
-    animation: projects-left-shadow-cycle var(--shadow-cycle-duration) linear;
-  }
-
-  @keyframes projects-left-shadow-cycle {
-    0% {
-      opacity: 0;
-      transform: scaleX(0.06);
-    }
-    32% {
-      opacity: 1;
-      transform: scaleX(1);
-    }
-    100% {
-      opacity: 0;
-      transform: scaleX(0);
-    }
-  }
-
-  .projects-carousel__viewport::after {
-    right: 0;
-    opacity: 1;
-    background: linear-gradient(
-      to left,
-      var(--projects-shadow-color) 0%,
-      color-mix(in srgb, var(--projects-shadow-color) 86%, transparent) 28%,
-      transparent 100%
-    );
-  }
-
   .projects-carousel__track {
     list-style: none;
     display: flex;
-    gap: var(--space-6);
+    gap: clamp(3rem, 6vw, 7rem);
+    padding-inline-start: var(--margin-x);
     will-change: transform;
     transform: translate3d(0, 0, 0);
   }
@@ -1468,6 +1426,10 @@ const photos = rawPhotos.map((photo) => ({
     gap: var(--space-3);
   }
 
+  .project-card__kicker {
+    white-space: nowrap;
+  }
+
   .project-card__team {
     color: var(--ink-300);
   }
@@ -1494,7 +1456,7 @@ const photos = rawPhotos.map((photo) => ({
 
   .project-card__media img {
     width: 100%;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 8 / 9;
     object-fit: cover;
     filter: saturate(0.88) sepia(0.06) contrast(1.02);
   }
@@ -1694,7 +1656,7 @@ const photos = rawPhotos.map((photo) => ({
   }
 
   .stack__panel--deep {
-    background: var(--ink-700);
+    background: var(--ink-800);
     transform: translate(18px, -18px);
   }
 
@@ -1736,9 +1698,6 @@ const photos = rawPhotos.map((photo) => ({
     position: relative;
     z-index: 1;
     grid-column: 1 / -1;
-  }
-
-  .stack__sheet-head {
     display: flex;
     align-items: start;
     justify-content: space-between;
@@ -1830,8 +1789,8 @@ const photos = rawPhotos.map((photo) => ({
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: calc(var(--space-4) * 6);
-    padding-block: var(--space-6) var(--space-5);
+    gap: var(--space-6);
+    padding-block: var(--space-6);
   }
 
   .gallery__head {
@@ -1898,6 +1857,10 @@ const photos = rawPhotos.map((photo) => ({
     transition: color 260ms var(--ease-out);
   }
 
+  .gallery__caption {
+    justify-content: flex-end;
+  }
+
   .gallery__media {
     height: min(52vh, 520px);
     width: fit-content;
@@ -1944,8 +1907,22 @@ const photos = rawPhotos.map((photo) => ({
     transition: color var(--dur-fast) var(--ease-out);
   }
 
-  .gallery__end-link:hover {
-    color: var(--rust-400);
+  @media (hover: none), (pointer: coarse) {
+    .xp-details:not([open]) .xp-summary:hover .xp-summary__company,
+    .edu-details:not([open]) .edu-summary:hover .edu-summary__school {
+      color: var(--paper-50);
+    }
+
+    .projects-carousel__arrow:hover {
+      color: var(--paper-50);
+      border-color: var(--ink-600);
+      background: color-mix(in srgb, var(--ink-900) 70%, transparent);
+    }
+
+    .photo-lightbox__close:hover {
+      color: var(--paper-50);
+      border-color: var(--ink-600);
+    }
   }
 
   .gallery__hud {
@@ -2006,6 +1983,10 @@ const photos = rawPhotos.map((photo) => ({
     align-content: start;
   }
 
+  .music__feature-description {
+    color: var(--ink-300);
+  }
+
   .music__player-wrap {
     position: relative;
     width: calc(100% - 9px);
@@ -2061,21 +2042,10 @@ const photos = rawPhotos.map((photo) => ({
     color: var(--paper-100);
   }
 
-  .life-block__note {
-    max-width: 34ch;
-    font-size: var(--text-sm);
-    color: var(--ink-300);
-  }
-
   /* ---------- Responsive ---------- */
   @media (max-width: 1605px) {
     .project-slide {
-      flex-basis: 100%;
-    }
-
-    .projects-carousel__viewport::before,
-    .projects-carousel__viewport::after {
-      display: none;
+      flex-basis: calc(100% - var(--margin-x));
     }
   }
 
@@ -2092,11 +2062,6 @@ const photos = rawPhotos.map((photo) => ({
     .xp-summary__dates {
       grid-column: 1;
       grid-row: 1;
-    }
-
-    .xp-body {
-      width: 20ch;
-      margin-left: calc(20ch + var(--space-4));
     }
 
     .edu-summary {
@@ -2165,7 +2130,7 @@ const photos = rawPhotos.map((photo) => ({
 
     .hero__frame {
       inset: var(--space-2);
-      top: 0;
+      top: -24px;
       border-radius: 0 0 1rem 1rem;
     }
 
@@ -2231,6 +2196,21 @@ const photos = rawPhotos.map((photo) => ({
       width: 100%;
     }
 
+    .experience .xp-body,
+    .education .edu-body {
+      width: 100%;
+      margin-left: 0;
+      grid-template-columns: 1fr;
+      transition: none;
+    }
+
+    .experience .xp-body__place,
+    .experience .xp-description,
+    .experience .xp-missions {
+      grid-column: auto;
+      grid-row: auto;
+    }
+
     .xp-summary,
     .edu-summary {
       grid-template-columns: minmax(0, 1fr) auto;
@@ -2252,7 +2232,7 @@ const photos = rawPhotos.map((photo) => ({
       grid-row: 1;
       align-self: last baseline;
       justify-self: end;
-      text-align: left;
+      text-align: right;
     }
 
     .xp-summary__role,
@@ -2273,12 +2253,116 @@ const photos = rawPhotos.map((photo) => ({
 
     .xp-summary__dates > span + span,
     .edu-summary__dates > span + span {
-      padding-left: 2ch;
+      padding-left: 0;
     }
 
     .xp-summary__arrow,
     .edu-summary__arrow {
+      position: absolute;
+      display: block;
+      grid-column: auto;
+      grid-row: auto;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 0.8rem;
+      margin: 0;
+      font-size: 0;
+      transform: translateY(-50%) !important;
+      transition: none;
+    }
+
+    .xp-summary__toggle,
+    .edu-summary__toggle {
+      position: relative;
+      display: block;
+      grid-column: 1 / -1;
+      grid-row: 3;
+      width: 100%;
+      height: 42px;
+      margin-top: var(--space-5);
+      margin-bottom: var(--space-5);
+    }
+
+    .xp-summary__toggle-label,
+    .edu-summary__toggle-label {
+      display: block;
+      color: var(--ink-300);
+      font-family: var(--font-mono);
+      font-size: var(--text-meta);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      width: 9ch;
+      white-space: nowrap;
+      text-align: center;
+      position: absolute;
+      z-index: 1;
+      top: -24px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .xp-summary__toggle-label--less,
+    .edu-summary__toggle-label--less {
       display: none;
+    }
+
+    .xp-summary__toggle-label--more,
+    .edu-summary__toggle-label--more,
+    .xp-summary__toggle-label--less,
+    .edu-summary__toggle-label--less {
+      color: var(--rust-400);
+    }
+
+    .xp-details[open] .xp-summary__toggle,
+    .edu-details[open] .edu-summary__toggle {
+      margin-bottom: var(--space-5);
+    }
+
+    .xp-details[open] .xp-summary__toggle-label--more,
+    .edu-details[open] .edu-summary__toggle-label--more {
+      display: none;
+    }
+
+    .xp-details[open] .xp-summary__toggle-label--less,
+    .edu-details[open] .edu-summary__toggle-label--less {
+      display: block;
+    }
+
+    .xp-details[open] .xp-summary__arrow,
+    .edu-details[open] .edu-summary__arrow,
+    .xp-details.is-closing .xp-summary__arrow,
+    .edu-details.is-closing .edu-summary__arrow {
+      transform: translateY(-50%) !important;
+    }
+
+    .xp-summary__arrow::before,
+    .edu-summary__arrow::before {
+      content: none;
+    }
+
+    .xp-summary__arrow-arm,
+    .edu-summary__arrow-arm {
+      display: block;
+      position: absolute;
+      top: 50%;
+      width: 50%;
+      height: 2px;
+      background: currentColor;
+    }
+
+    .xp-summary__arrow-arm--left,
+    .edu-summary__arrow-arm--left {
+      left: 0;
+      transform: rotate(8deg);
+      transform-origin: right center;
+    }
+
+    .xp-summary__arrow-arm--right,
+    .edu-summary__arrow-arm--right {
+      right: 0;
+      transform: rotate(-8deg);
+      transform-origin: left center;
     }
 
     .stack {
@@ -2395,27 +2479,18 @@ const photos = rawPhotos.map((photo) => ({
     }
 
     .project-slide {
-      flex-basis: 100%;
+      flex-basis: calc(100% - var(--margin-x));
       min-width: 0;
     }
 
     .projects-carousel__track {
       align-items: flex-start;
-      gap: 0;
+      gap: var(--margin-x);
       will-change: auto;
     }
 
     .projects-carousel__viewport {
       padding-block: 0;
-    }
-
-    .projects-carousel__viewport::before,
-    .projects-carousel__viewport::after {
-      display: none;
-    }
-
-    .project-card--editorial {
-      grid-template-columns: 1fr;
     }
 
     .project-card {
@@ -2441,7 +2516,7 @@ const photos = rawPhotos.map((photo) => ({
     }
 
     .project-card__media img {
-      aspect-ratio: 5 / 4;
+      aspect-ratio: 7 / 5;
     }
 
     .project-card__meta-row {

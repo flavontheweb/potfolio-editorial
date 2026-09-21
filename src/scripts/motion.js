@@ -20,11 +20,18 @@ function initClock() {
   const el = $('[data-clock]');
   if (!el) return;
   const fmt = new Intl.DateTimeFormat('fr-FR', {
+    day: 'numeric',
+    month: 'short',
     hour: '2-digit',
     minute: '2-digit',
     timeZone: 'Europe/Paris',
   });
-  const tick = () => (el.textContent = fmt.format(new Date()));
+  const tick = () => {
+    const parts = Object.fromEntries(
+      fmt.formatToParts(new Date()).map(({ type, value }) => [type, value]),
+    );
+    el.textContent = `${parts.day} ${parts.month} ${parts.hour}:${parts.minute}`;
+  };
   tick();
   setInterval(tick, 30_000);
 }
@@ -41,44 +48,115 @@ function initAccordions() {
   $$('.xp-details, .edu-details').forEach((details) => {
     const summary = $('summary', details);
     const body = $('.xp-body, .edu-body', details);
+    const arrow = $('.xp-summary__arrow, .edu-summary__arrow', details);
+    const arrowArms = arrow ? $$('.xp-summary__arrow-arm, .edu-summary__arrow-arm', arrow) : [];
     if (!summary || !body) return;
 
     let closeTimer;
 
+    const animateChevron = (isOpen) => {
+      if (!mobileQuery.matches || !arrowArms.length) return;
+      gsap.to(arrowArms, {
+        rotation: (index) => (isOpen ? (index === 0 ? -8 : 8) : index === 0 ? 8 : -8),
+        duration: 0.42,
+        ease: 'power2.inOut',
+        overwrite: true,
+      });
+    };
+
+    const animateBody = (isOpen) => {
+      if (!mobileQuery.matches) return;
+      if (isOpen) {
+        const openHeight = body.scrollHeight;
+        const openPadding = getComputedStyle(body).paddingBottom;
+        gsap.fromTo(
+          body,
+          {
+            maxHeight: 0,
+            paddingBottom: 0,
+            opacity: 0,
+            y: -8,
+            clipPath: 'inset(0 0 100% 0)',
+          },
+          {
+            maxHeight: openHeight,
+            paddingBottom: openPadding,
+            opacity: 1,
+            y: 0,
+            clipPath: 'inset(0 0 0% 0)',
+            duration: 0.52,
+            ease: 'power3.out',
+            overwrite: 'auto',
+          },
+        );
+      } else {
+        gsap.killTweensOf(body);
+        gsap.set(body, {
+          opacity: 0,
+          y: -8,
+          clipPath: 'inset(0 0 100% 0)',
+        });
+      }
+    };
+
     const syncMode = () => {
       window.clearTimeout(closeTimer);
       details.classList.remove('is-closing');
-      details.open = mobileQuery.matches;
+      if (mobileQuery.matches) {
+        details.open = false;
+        animateChevron(false);
+      }
     };
 
     syncMode();
     mobileQuery.addEventListener('change', syncMode);
-    details.addEventListener('toggle', refreshScrollTriggers);
+    details.addEventListener('toggle', () => {
+      animateBody(details.open);
+      animateChevron(details.open);
+      refreshScrollTriggers();
+    });
     body.addEventListener('transitionend', (event) => {
       if (event.propertyName === 'max-height') refreshScrollTriggers();
     });
 
     summary.addEventListener('click', (event) => {
-      if (mobileQuery.matches) {
-        event.preventDefault();
-        return;
-      }
-
       if (details.classList.contains('is-closing')) {
         event.preventDefault();
         return;
       }
 
-      if (!details.open) return;
+      if (!details.open) {
+        if (!mobileQuery.matches) {
+          body.style.removeProperty('max-height');
+          body.style.removeProperty('padding-bottom');
+          body.style.removeProperty('opacity');
+          body.style.removeProperty('transform');
+          body.style.removeProperty('clip-path');
+          body.style.removeProperty('transition');
+        }
+        return;
+      }
 
       event.preventDefault();
+      gsap.killTweensOf(body);
+      gsap.set(body, { clearProps: 'opacity,transform,clipPath' });
+      const openHeight = body.getBoundingClientRect().height;
+      if (!mobileQuery.matches) body.style.maxHeight = `${openHeight}px`;
       details.classList.add('is-closing');
+      animateChevron(false);
 
       const finishClosing = () => {
         window.clearTimeout(closeTimer);
         body.removeEventListener('transitionend', onTransitionEnd);
+        gsap.killTweensOf(body);
         details.open = false;
         details.classList.remove('is-closing');
+        body.style.transition = 'none';
+        body.style.maxHeight = '0px';
+        body.style.paddingBottom = '0px';
+        body.style.opacity = '0';
+        body.style.transform = 'translateY(-8px)';
+        body.style.clipPath = 'inset(0 0 100% 0)';
         refreshScrollTriggers();
       };
 
@@ -86,35 +164,59 @@ function initAccordions() {
         if (transitionEvent.propertyName === 'max-height') finishClosing();
       };
 
-      body.addEventListener('transitionend', onTransitionEnd);
-      closeTimer = window.setTimeout(finishClosing, 500);
+      const openPadding = getComputedStyle(body).paddingBottom;
+      gsap.set(body, {
+        transition: 'none',
+        maxHeight: openHeight,
+        paddingBottom: openPadding,
+        opacity: 1,
+        y: 0,
+        clipPath: 'inset(0 0 0% 0)',
+      });
+      gsap.to(body, {
+        maxHeight: 0,
+        opacity: 0,
+        y: -8,
+        clipPath: 'inset(0 0 100% 0)',
+        paddingBottom: 0,
+        duration: 0.42,
+        ease: 'power3.in',
+        overwrite: 'auto',
+        onComplete: finishClosing,
+      });
     });
   });
 }
 
 /* --------------------------------------------------------------------------
-  Curtain loader — first visit only, <= 2 s
+  Curtain loader
    -------------------------------------------------------------------------- */
-
-const VISITED_KEY = 'fg-visited';
 
 function playLoader(onComplete) {
   const loader = $('[data-loader]');
   const chars = $$('[data-loader-char]');
+  const rule = $('[data-loader-rule]');
   const meta = $('[data-loader-meta]');
   const curve = $('[data-loader-curve]');
 
   const tl = gsap.timeline({ onComplete });
 
-  // "Slot machine" monogram in masked columns
+  // "Slot machine" monogram in a masked column
   tl.from(chars, {
     yPercent: 110,
     duration: 0.6,
     ease: 'power3.out',
     stagger: 0.08,
   })
-    .from(meta, { opacity: 0, y: 8, duration: 0.4, ease: 'power2.out' }, '-=0.2')
-    .to({}, { duration: 0.35 }) // reading time
+    // A rust rule draws under the mark, then the caption types in behind it
+    .fromTo(rule, { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: 'power3.inOut' }, '-=0.15')
+    .fromTo(
+      meta,
+      { clipPath: 'inset(0 100% 0 0)' },
+      { clipPath: 'inset(0 0% 0 0)', duration: 0.55, ease: 'power3.inOut' },
+      '-=0.25',
+    )
+    .to({}, { duration: 0.6 }) // reading time
     // Curtain lift: the bottom edge curves (scaleY -> 0, top origin)
     .to(loader, { y: '-100vh', duration: 0.85, ease: 'power4.inOut' })
     .to(curve, { scaleY: 0, duration: 0.85, ease: 'power4.inOut' }, '<')
@@ -385,8 +487,10 @@ function createMenu({ lenis, reduced }) {
     if (open) {
       lockScroll();
       lenis?.stop();
+      window.dispatchEvent(new CustomEvent('menu:statechange', { detail: { open, reduced } }));
       playOpen();
     } else {
+      window.dispatchEvent(new CustomEvent('menu:statechange', { detail: { open, reduced } }));
       lenis?.start();
       playClose();
     }
@@ -428,7 +532,6 @@ function createMenu({ lenis, reduced }) {
       }
       setState(false, { onClosed, force: true });
     },
-    isOpen: () => open,
     destroy: () => {
       listeners.abort();
       stopActiveTimeline();
@@ -438,53 +541,10 @@ function createMenu({ lenis, reduced }) {
 }
 
 /* --------------------------------------------------------------------------
-  Transition "rust panel" — the only large accent surface
-   -------------------------------------------------------------------------- */
-
-function createTransition({ lenis, reduced }) {
-  const wrapper = $('[data-transition]');
-  const panel = $('[data-transition-panel]');
-  let running = false;
-
-  const jumpTo = (target) => {
-    if (lenis) lenis.scrollTo(target, { immediate: true, force: true });
-    else target.scrollIntoView();
-  };
-
-  return (target) => {
-    if (reduced || !wrapper || !panel) {
-      target.scrollIntoView();
-      return;
-    }
-    if (running) return;
-    running = true;
-
-    gsap.killTweensOf(panel);
-
-    const tl = gsap.timeline({
-      onComplete: () => {
-        running = false;
-      },
-    });
-    tl.set(wrapper, { visibility: 'visible' })
-      .set(panel, { yPercent: 102 })
-      .fromTo(panel, { yPercent: 102 }, { yPercent: 0, duration: 0.45, ease: 'power4.in' })
-      .add(() => jumpTo(target))
-      .to(panel, {
-        yPercent: -102,
-        duration: 0.6,
-        ease: 'expo.out',
-        delay: 0.08,
-      })
-      .set(wrapper, { visibility: 'hidden' });
-  };
-}
-
-/* --------------------------------------------------------------------------
   Anchor navigation
    -------------------------------------------------------------------------- */
 
-function initNavigation({ lenis, menu, transition, reduced }) {
+function initNavigation({ lenis, menu }) {
   $$('[data-nav-link]').forEach((link) => {
     link.addEventListener('click', (e) => {
       const href = link.getAttribute('href');
@@ -514,6 +574,13 @@ function initNavigation({ lenis, menu, transition, reduced }) {
    -------------------------------------------------------------------------- */
 
 function bindTextRolls() {
+  if (
+    window.matchMedia('(max-width: 767px)').matches ||
+    window.matchMedia('(pointer: coarse)').matches
+  ) {
+    return;
+  }
+
   $$('.roll').forEach((el) => {
     const copies = el.querySelectorAll('[data-roll-copy]');
     if (copies.length < 2) return;
@@ -580,13 +647,6 @@ function initProjectsCarousel({ reduced = false, mobile = false } = {}) {
   let busy = false;
   const mobileQuery = window.matchMedia('(max-width: 767px)');
 
-  const playLeftShadowCycle = (durationMs) => {
-    viewport.style.setProperty('--shadow-cycle-duration', `${durationMs}ms`);
-    viewport.classList.remove('is-sliding');
-    void viewport.offsetWidth;
-    viewport.classList.add('is-sliding');
-  };
-
   const measureStep = () => {
     const all = slides();
     if (all.length < 2) return 0;
@@ -615,7 +675,6 @@ function initProjectsCarousel({ reduced = false, mobile = false } = {}) {
     index = nextIndex;
     updateStepper?.({ animate: mobile });
     const slideDuration = mobile ? 0.28 : reduced ? 0.01 : 0.55;
-    if (!mobile) playLeftShadowCycle(Math.round(slideDuration * 1000));
     updateViewportHeight(index);
 
     gsap.to(track, {
@@ -635,7 +694,6 @@ function initProjectsCarousel({ reduced = false, mobile = false } = {}) {
         }
         updateStepper?.({ animate: false });
         updateViewportHeight(index);
-        viewport.classList.remove('is-sliding');
         busy = false;
       },
     });
@@ -717,17 +775,44 @@ function initPhotoLightbox({ reduced = false, lenis = null } = {}) {
 
   let activeImage = null;
   let animating = false;
-  let activeRect = null;
+  let lockedScrollY = 0;
+  let usesFixedBodyLock = false;
 
+  // overflow:hidden alone doesn't stop touch rubber-banding on iOS/Android,
+  // which briefly exposes the area beyond <body> as a white flash on close.
   const lockScroll = () => {
-    document.body.style.overflow = 'hidden';
-    document.documentElement.style.overflow = 'hidden';
+    lockedScrollY = window.scrollY;
     lenis?.stop();
+
+    // Lenis already blocks desktop scrolling. Keeping the document geometry
+    // untouched prevents pinned ScrollTriggers from jumping back to scroll 0.
+    usesFixedBodyLock = !lenis;
+    if (!usesFixedBodyLock) return;
+
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${lockedScrollY}px`;
+    document.body.style.left = '0';
+    document.body.style.right = '0';
+    document.body.style.width = '100%';
   };
 
   const unlockScroll = () => {
-    document.body.style.overflow = '';
+    if (!usesFixedBodyLock) {
+      lenis?.start();
+      return;
+    }
+
     document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.left = '';
+    document.body.style.right = '';
+    document.body.style.width = '';
+    window.scrollTo(0, lockedScrollY);
+    usesFixedBodyLock = false;
     lenis?.start();
   };
 
@@ -771,7 +856,6 @@ function initPhotoLightbox({ reduced = false, lenis = null } = {}) {
 
     const from = origin.getBoundingClientRect();
     const to = computeTargetRect(origin);
-    activeRect = to;
 
     lightboxImage.src = origin.currentSrc || origin.src;
     lightboxImage.alt = origin.alt;
@@ -846,6 +930,10 @@ function initPhotoLightbox({ reduced = false, lenis = null } = {}) {
     const to = activeImage.getBoundingClientRect();
     const origin = activeImage;
 
+    // Avoid focus falling back onto <body>, which renders a default
+    // browser focus outline (visible as a white frame on real mobile devices).
+    if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
+
     gsap.killTweensOf([backdrop, lightboxImage]);
     gsap.killTweensOf(closeBtn);
     const tl = gsap.timeline({
@@ -858,7 +946,6 @@ function initPhotoLightbox({ reduced = false, lenis = null } = {}) {
         gsap.set(lightboxImage, { clearProps: 'all' });
         if (closeBtn) gsap.set(closeBtn, { clearProps: 'all' });
         activeImage = null;
-        activeRect = null;
         animating = false;
         unlockScroll();
       },
@@ -957,9 +1044,8 @@ function initPhotoLightbox({ reduced = false, lenis = null } = {}) {
   window.addEventListener(
     'resize',
     () => {
-      if (!activeImage || !activeRect || !closeBtn) return;
+      if (!activeImage || !closeBtn) return;
       const to = computeTargetRect(activeImage);
-      activeRect = to;
       gsap.set(lightboxImage, {
         left: to.left,
         top: to.top,
@@ -977,6 +1063,8 @@ function initPhotoLightbox({ reduced = false, lenis = null } = {}) {
    -------------------------------------------------------------------------- */
 
 function initScrollMotion() {
+  initDesktopHeaderMotion();
+
   // Sections: fade + lift
   $$('[data-reveal]').forEach((el) => {
     if (el.closest('.hero')) return; // The hero is handled by the intro.
@@ -1019,21 +1107,6 @@ function initScrollMotion() {
     );
   }
 
-  // Media parallax (gallery) — depth clamped to 2-14%
-  $$('[data-parallax]').forEach((el) => {
-    const depth = gsap.utils.clamp(2, 14, Number(el.dataset.parallaxDepth || 8));
-    gsap.fromTo(
-      el.querySelector('img'),
-      { yPercent: -depth, scale: 1 + depth / 50 },
-      {
-        yPercent: depth,
-        scale: 1 + depth / 50,
-        ease: 'none',
-        scrollTrigger: { trigger: el, scrub: 0.6 },
-      },
-    );
-  });
-
   // Parallax footer reveal: counter-translated content
   const footerInner = $('[data-footer-inner]');
   if (footerInner) {
@@ -1058,6 +1131,108 @@ function initScrollMotion() {
   initGalleryPin();
   initMarquee();
   initBackgroundDrift();
+}
+
+function initDesktopHeaderMotion() {
+  const bar = $('.site-header__bar');
+  const brand = $('.site-header__brand');
+  const brandLogo = $('.site-header__brand-logo', brand || document);
+  const clock = $('.site-header__clock');
+  const clockContent = $('[data-clock]', clock || document);
+  const logo = $('.hero__logo');
+  if (!bar || !brand || !brandLogo || !clock || !clockContent || !logo) return;
+
+  gsap.set(brand, { autoAlpha: 0 });
+  const metaColor = getComputedStyle(document.documentElement).getPropertyValue('--ink-300').trim();
+  const topColor = getComputedStyle(document.documentElement).getPropertyValue('--paper-50').trim();
+
+  const getCenterShift = () => {
+    const barRect = bar.getBoundingClientRect();
+    const clockRect = clock.getBoundingClientRect();
+    return barRect.left + barRect.width / 2 - (clockRect.left + clockRect.width / 2);
+  };
+
+  const clockMotion = gsap.timeline({
+    scrollTrigger: {
+      trigger: '.hero',
+      endTrigger: logo,
+      start: 'top top',
+      end: 'bottom top',
+      scrub: 0.7,
+      invalidateOnRefresh: true,
+    },
+  });
+
+  clockMotion.to(clock, {
+    x: getCenterShift,
+    color: metaColor,
+    duration: 1,
+    ease: 'power2.inOut',
+  });
+
+  gsap.to(brand, {
+    autoAlpha: 1,
+    y: 0,
+    ease: 'power2.out',
+    scrollTrigger: {
+      trigger: logo,
+      start: 'bottom top',
+      end: '+=120',
+      scrub: 0.5,
+      invalidateOnRefresh: true,
+    },
+  });
+
+  bar.__headerMenuAbortController?.abort();
+  const listeners = new AbortController();
+  bar.__headerMenuAbortController = listeners;
+
+  window.addEventListener(
+    'menu:statechange',
+    (event) => {
+      const { open, reduced } = event.detail;
+      const duration = reduced ? 0.01 : 0.5;
+
+      gsap.killTweensOf([clockContent, brandLogo]);
+      gsap.set(clockContent, { display: 'inline-block' });
+
+      if (open) {
+        const clockX = Number(gsap.getProperty(clock, 'x')) || 0;
+
+        gsap.to(clockContent, {
+          x: -clockX,
+          color: topColor,
+          duration,
+          ease: 'power2.inOut',
+          overwrite: true,
+        });
+        gsap.to(brandLogo, {
+          autoAlpha: 0,
+          duration,
+          ease: 'power2.inOut',
+          overwrite: true,
+        });
+        return;
+      }
+
+      const scrollColor = getComputedStyle(clock).color;
+      gsap.to(clockContent, {
+        x: 0,
+        color: scrollColor,
+        duration,
+        ease: 'power2.inOut',
+        overwrite: true,
+        onComplete: () => gsap.set(clockContent, { clearProps: 'transform,color' }),
+      });
+      gsap.to(brandLogo, {
+        autoAlpha: 1,
+        duration,
+        ease: 'power2.inOut',
+        overwrite: true,
+      });
+    },
+    { signal: listeners.signal },
+  );
 }
 
 function initMobileReveals() {
@@ -1087,10 +1262,7 @@ function initMobileReveals() {
     transformOrigin: 'center center',
   });
   stackChapters.forEach((chapter) => {
-    const surfaces = [
-      ...chapter.querySelectorAll('[data-stack-panel]'),
-      chapter.querySelector('[data-stack-sheet]'),
-    ].filter(Boolean);
+    const surfaces = getStackSurfaces(chapter);
 
     gsap.set(chapter.querySelector('[data-stack-title]'), { yPercent: 110 });
     gsap.set(chapter.querySelector('[data-stack-desc]'), { opacity: 0, y: 14 });
@@ -1119,10 +1291,7 @@ function initMobileReveals() {
       }
 
       if (target.matches('[data-stack-chapter]')) {
-        const surfaces = [
-          ...target.querySelectorAll('[data-stack-panel]'),
-          target.querySelector('[data-stack-sheet]'),
-        ].filter(Boolean);
+        const surfaces = getStackSurfaces(target);
 
         gsap
           .timeline()
@@ -1238,6 +1407,12 @@ function initMobileReveals() {
 
 const pad2 = (n) => String(n).padStart(2, '0');
 
+const getStackSurfaces = (chapter) =>
+  [
+    ...chapter.querySelectorAll('[data-stack-panel]'),
+    chapter.querySelector('[data-stack-sheet]'),
+  ].filter(Boolean);
+
 function initStackPin() {
   const section = $('[data-stack]');
   if (!section) return;
@@ -1254,10 +1429,7 @@ function initStackPin() {
 
   // First chapter enters as the section approaches (before pinning)
   const first = chapters[0];
-  const firstSurfaces = [
-    ...first.querySelectorAll('[data-stack-panel]'),
-    first.querySelector('[data-stack-sheet]'),
-  ].filter(Boolean);
+  const firstSurfaces = getStackSurfaces(first);
   gsap
     .timeline({
       scrollTrigger: { trigger: section, start: 'top 65%', once: true },
@@ -1311,10 +1483,7 @@ function initStackPin() {
     const title = chapter.querySelector('[data-stack-title]');
     const desc = chapter.querySelector('[data-stack-desc]');
     const items = chapter.querySelectorAll('[data-stack-item]');
-    const surfaces = [
-      ...chapter.querySelectorAll('[data-stack-panel]'),
-      chapter.querySelector('[data-stack-sheet]'),
-    ].filter(Boolean);
+    const surfaces = getStackSurfaces(chapter);
 
     if (i > 0) {
       tl.fromTo(chapter, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.15 }, i)
@@ -1391,6 +1560,7 @@ function initGalleryPin() {
       start: 'top top',
       end: () => '+=' + Math.max(distance(), window.innerHeight),
       pin: true,
+      anticipatePin: 1,
       scrub: 0.6,
       invalidateOnRefresh: true,
       onUpdate(self) {
@@ -1494,8 +1664,7 @@ function init() {
     document.body.dataset.loadState = 'ready';
     $('[data-loader]')?.remove();
     const menu = createMenu({ lenis: null, reduced: true });
-    const transition = createTransition({ lenis: null, reduced: true });
-    initNavigation({ lenis: null, menu, transition, reduced: true });
+    initNavigation({ lenis: null, menu });
     initProjectsCarousel({ reduced: true });
     initPhotoLightbox({ reduced: true, lenis: null });
   };
@@ -1503,8 +1672,7 @@ function init() {
   const initMobileExperience = () => {
     $('[data-loader]')?.remove();
     const menu = createMenu({ lenis: null, reduced: false });
-    const transition = createTransition({ lenis: null, reduced: true });
-    initNavigation({ lenis: null, menu, transition, reduced: true });
+    initNavigation({ lenis: null, menu });
     bindTextRolls();
     initProjectsCarousel({ reduced: true, mobile: true });
     initPhotoLightbox({ reduced: false, lenis: null });
@@ -1540,25 +1708,15 @@ function init() {
     gsap.ticker.lagSmoothing(0);
 
     const menu = createMenu({ lenis, reduced: false });
-    const transition = createTransition({ lenis, reduced: false });
-    initNavigation({ lenis, menu, transition, reduced: false });
+    initNavigation({ lenis, menu });
     bindTextRolls();
     initProjectsCarousel({ reduced: false });
     initPhotoLightbox({ reduced: false, lenis });
 
-    // Loader: first visit only
-    const firstVisit = !sessionStorage.getItem(VISITED_KEY);
-    if (firstVisit) {
-      sessionStorage.setItem(VISITED_KEY, '1');
-      playLoader(() => {
-        playIntro();
-        initScrollMotion();
-      });
-    } else {
-      $('[data-loader]')?.remove();
+    playLoader(() => {
       playIntro();
       initScrollMotion();
-    }
+    });
 
     return () => {
       ScrollTrigger.getAll().forEach((t) => t.kill());

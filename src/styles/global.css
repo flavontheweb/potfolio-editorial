@@ -16,7 +16,6 @@
   --rust-400: #e06a38;
   --rust-700: #8a3a1d;
   --ok: #7a9b6d;
-  --err: #c24444;
 
   /* Typography */
   --font-display: 'General Sans', system-ui, sans-serif;
@@ -24,7 +23,6 @@
   --font-mono: 'Fragment Mono', monospace;
 
   --text-hero: clamp(3.4375rem, 7.5vw, 6.875rem); /* 55 → 110px */
-  --text-h1: clamp(3.4375rem, 6.2vw, 5.5625rem); /* 89px cap */
   --text-h2: clamp(2.125rem, 3.8vw, 3.4375rem); /* 55px cap */
   --text-h3: clamp(1.3125rem, 2.4vw, 2.125rem); /* 34px cap */
   --text-lg: 1.3125rem;
@@ -50,8 +48,6 @@
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --dur-fast: 200ms;
   --dur-roll: 250ms;
-  --dur-reveal: 700ms;
-  --dur-transition: 1000ms;
 }
 
 /* --------------------------------------------------------------------------
@@ -68,6 +64,9 @@
 
 html {
   color-scheme: dark;
+  background: var(--ink-950);
+  overscroll-behavior-y: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -78,6 +77,7 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: clip;
+  overscroll-behavior-y: none;
 }
 
 img {
@@ -110,6 +110,11 @@ button {
   outline-offset: 2px;
 }
 
+html:focus,
+body:focus {
+  outline: none;
+}
+
 /* --------------------------------------------------------------------------
   Utility typography
    -------------------------------------------------------------------------- */
@@ -134,12 +139,6 @@ button {
   color: var(--rust-400);
 }
 
-/* 1px horizontal rule */
-.rule {
-  border: none;
-  border-top: 1px solid var(--ink-600);
-}
-
 /* --------------------------------------------------------------------------
    Layout
    -------------------------------------------------------------------------- */
@@ -150,27 +149,6 @@ button {
 
 .section {
   padding-block: clamp(var(--space-6), 10vw, var(--space-8));
-}
-
-/* Skip link */
-.skip-link {
-  position: fixed;
-  top: var(--space-3);
-  left: var(--space-3);
-  z-index: 200;
-  padding: var(--space-3) var(--space-4);
-  background: var(--rust-500);
-  color: var(--paper-50);
-  font-family: var(--font-mono);
-  font-size: var(--text-meta);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  transform: translateY(-200%);
-  transition: transform var(--dur-fast) var(--ease-out);
-}
-
-.skip-link:focus-visible {
-  transform: translateY(0);
 }
 
 /* --------------------------------------------------------------------------
@@ -250,7 +228,6 @@ body[data-load-state='ready'] .page {
 @media (max-width: 767px) {
   :root {
     --text-hero: 2.75rem;
-    --text-h1: 2.75rem;
     --text-h2: 2.125rem;
     --text-h3: 1.5rem;
     --text-lg: 1.125rem;

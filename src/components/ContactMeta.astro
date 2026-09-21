@@ -1,0 +1,51 @@
+---
+import Link from './Link.astro';
+
+const links = [
+  {
+    href: 'https://github.com/flavontheweb',
+    label: 'GitHub',
+    path: 'M12 2C6.477 2 2 6.589 2 12.25c0 4.528 2.865 8.37 6.839 9.726.5.096.682-.22.682-.49 0-.241-.009-.879-.014-1.726-2.782.617-3.369-1.373-3.369-1.373-.455-1.183-1.11-1.498-1.11-1.498-.908-.636.069-.623.069-.623 1.004.072 1.532 1.054 1.532 1.054.892 1.566 2.341 1.114 2.91.852.09-.666.349-1.114.635-1.37-2.221-.259-4.556-1.139-4.556-5.069 0-1.119.39-2.034 1.029-2.751-.103-.261-.446-1.313.098-2.737 0 0 .84-.276 2.75 1.051A9.35 9.35 0 0 1 12 6.939a9.35 9.35 0 0 1 2.504.348c1.909-1.327 2.748-1.051 2.748-1.051.546 1.424.203 2.476.1 2.737.64.717 1.028 1.632 1.028 2.751 0 3.94-2.338 4.807-4.566 5.061.359.317.679.943.679 1.901 0 1.373-.013 2.48-.013 2.817 0 .273.18.59.688.49C19.138 20.616 22 16.776 22 12.25 22 6.589 17.523 2 12 2Z',
+  },
+  {
+    href: 'https://www.linkedin.com/',
+    label: 'LinkedIn',
+    path: 'M6.94 8.5a1.56 1.56 0 1 0 0-3.12 1.56 1.56 0 0 0 0 3.12ZM5.56 10.06h2.75V19H5.56v-8.94Zm4.38 0h2.64v1.22h.04c.37-.7 1.27-1.44 2.61-1.44 2.8 0 3.31 1.88 3.31 4.33V19H15.8v-4.25c0-1.01-.02-2.31-1.38-2.31-1.38 0-1.59 1.1-1.59 2.24V19H9.94v-8.94Z',
+  },
+];
+---
+
+<div class="contact-meta__column">
+  <p class="meta meta--accent">Statut</p>
+  <p class="meta contact-meta__value">Open to work</p>
+  <p class="meta contact-meta__value">Annecy, FR</p>
+</div>
+<div class="contact-meta__column">
+  <p class="meta meta--accent">Réseaux</p>
+  {links.map((link) => (
+    <Link {...link} target="_blank" />
+  ))}
+</div>
+<div class="contact-meta__column contact-meta__column--mail">
+  <p class="meta meta--accent">Mail</p>
+  <Link href="mailto:contact@flavien-gaujard.fr" label="contact@flavien-gaujard.fr" />
+</div>
+
+<style is:global>
+  .contact-meta__column {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    gap: var(--space-2);
+  }
+
+  .contact-meta__value {
+    color: var(--paper-100);
+  }
+
+  @media (max-width: 767px) {
+    .contact-meta__column--mail {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

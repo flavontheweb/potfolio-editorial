@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import ContactMeta from '../components/ContactMeta.astro';
 
 interface Props {
   title: string;
@@ -14,8 +15,8 @@ const menuLinks = [
   { href: '#skills', label: 'Compétences', index: '03' },
   { href: '#projects', label: 'Projets réalisés', index: '04' },
   { href: '#offscreen', label: 'Hors écran', index: '05' },
-  { href: '#photos', label: 'Photographie', index: '06' },
-  { href: '#music', label: 'Musique', index: '07' },
+  { href: '#music', label: 'Musique', index: '06' },
+  { href: '#photos', label: 'Photographie', index: '07' },
   { href: '#contact', label: 'Contact', index: '08' },
 ];
 ---
@@ -44,22 +45,18 @@ const menuLinks = [
   <body data-load-state="loading">
     <!-- Curtain loader — first visit only -->
     <div class="loader" data-loader aria-hidden="true">
-      <div class="loader__panel" data-loader-panel>
+      <div class="loader__panel">
         <div class="loader__monogram" aria-hidden="true">
           <span class="loader__slot">
             <img class="loader__logo" src="/logo.svg" alt="" data-loader-char />
           </span>
         </div>
+        <span class="loader__rule" data-loader-rule></span>
         <p class="loader__meta meta" data-loader-meta>
           Software Engineer
         </p>
       </div>
       <div class="loader__curve" data-loader-curve></div>
-    </div>
-
-    <!-- Page transition: rust panel (the only large accent surface) -->
-    <div class="transition" data-transition aria-hidden="true">
-      <div class="transition__panel" data-transition-panel></div>
     </div>
 
     <!-- Progressive blur header -->
@@ -73,10 +70,16 @@ const menuLinks = [
       </div>
       <div class="site-header__bar container">
         <a href="#hero" class="site-header__brand display" data-nav-link>
-          FG
+          <img
+            class="site-header__brand-logo"
+            src="/favicon.svg"
+            alt="Flavien Gaujard"
+            width="32"
+            height="32"
+          />
         </a>
         <p class="site-header__clock meta" aria-hidden="true">
-          ANNECY — <span data-clock>00:00</span>
+          <span data-clock>17 sept. 23:59</span>
         </p>
         <div class="site-header__actions">
           <button
@@ -114,76 +117,7 @@ const menuLinks = [
           ))}
         </ul>
         <div class="menu__meta">
-          <div>
-            <p class="meta meta--accent">Statut</p>
-            <p class="meta">Open to work</p>
-            <p class="meta">Annecy, FR</p>
-          </div>
-          <div>
-            <p class="meta meta--accent">Réseaux</p>
-            <a
-              href="https://github.com/flavontheweb"
-              class="meta roll"
-              rel="noopener"
-              target="_blank"
-            >
-              <span data-roll-copy>
-                <span class="social-inline">
-                  <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
-                    <path
-                      d="M12 2C6.477 2 2 6.589 2 12.25c0 4.528 2.865 8.37 6.839 9.726.5.096.682-.22.682-.49 0-.241-.009-.879-.014-1.726-2.782.617-3.369-1.373-3.369-1.373-.455-1.183-1.11-1.498-1.11-1.498-.908-.636.069-.623.069-.623 1.004.072 1.532 1.054 1.532 1.054.892 1.566 2.341 1.114 2.91.852.09-.666.349-1.114.635-1.37-2.221-.259-4.556-1.139-4.556-5.069 0-1.119.39-2.034 1.029-2.751-.103-.261-.446-1.313.098-2.737 0 0 .84-.276 2.75 1.051A9.35 9.35 0 0 1 12 6.939a9.35 9.35 0 0 1 2.504.348c1.909-1.327 2.748-1.051 2.748-1.051.546 1.424.203 2.476.1 2.737.64.717 1.028 1.632 1.028 2.751 0 3.94-2.338 4.807-4.566 5.061.359.317.679.943.679 1.901 0 1.373-.013 2.48-.013 2.817 0 .273.18.59.688.49C19.138 20.616 22 16.776 22 12.25 22 6.589 17.523 2 12 2Z"
-                      fill="currentColor"
-                    ></path>
-                  </svg>
-                  <span>GitHub ↗</span>
-                </span>
-              </span>
-              <span data-roll-copy aria-hidden="true">
-                <span class="social-inline">
-                  <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
-                    <path
-                      d="M12 2C6.477 2 2 6.589 2 12.25c0 4.528 2.865 8.37 6.839 9.726.5.096.682-.22.682-.49 0-.241-.009-.879-.014-1.726-2.782.617-3.369-1.373-3.369-1.373-.455-1.183-1.11-1.498-1.11-1.498-.908-.636.069-.623.069-.623 1.004.072 1.532 1.054 1.532 1.054.892 1.566 2.341 1.114 2.91.852.09-.666.349-1.114.635-1.37-2.221-.259-4.556-1.139-4.556-5.069 0-1.119.39-2.034 1.029-2.751-.103-.261-.446-1.313.098-2.737 0 0 .84-.276 2.75 1.051A9.35 9.35 0 0 1 12 6.939a9.35 9.35 0 0 1 2.504.348c1.909-1.327 2.748-1.051 2.748-1.051.546 1.424.203 2.476.1 2.737.64.717 1.028 1.632 1.028 2.751 0 3.94-2.338 4.807-4.566 5.061.359.317.679.943.679 1.901 0 1.373-.013 2.48-.013 2.817 0 .273.18.59.688.49C19.138 20.616 22 16.776 22 12.25 22 6.589 17.523 2 12 2Z"
-                      fill="currentColor"
-                    ></path>
-                  </svg>
-                  <span>GitHub ↗</span>
-                </span>
-              </span>
-            </a>
-            <a href="https://www.linkedin.com/" class="meta roll" rel="noopener" target="_blank">
-              <span data-roll-copy>
-                <span class="social-inline">
-                  <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
-                    <path
-                      d="M6.94 8.5a1.56 1.56 0 1 0 0-3.12 1.56 1.56 0 0 0 0 3.12ZM5.56 10.06h2.75V19H5.56v-8.94Zm4.38 0h2.64v1.22h.04c.37-.7 1.27-1.44 2.61-1.44 2.8 0 3.31 1.88 3.31 4.33V19H15.8v-4.25c0-1.01-.02-2.31-1.38-2.31-1.38 0-1.59 1.1-1.59 2.24V19H9.94v-8.94Z"
-                      fill="currentColor"
-                    ></path>
-                  </svg>
-                  <span>LinkedIn ↗</span>
-                </span>
-              </span>
-              <span data-roll-copy aria-hidden="true">
-                <span class="social-inline">
-                  <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
-                    <path
-                      d="M6.94 8.5a1.56 1.56 0 1 0 0-3.12 1.56 1.56 0 0 0 0 3.12ZM5.56 10.06h2.75V19H5.56v-8.94Zm4.38 0h2.64v1.22h.04c.37-.7 1.27-1.44 2.61-1.44 2.8 0 3.31 1.88 3.31 4.33V19H15.8v-4.25c0-1.01-.02-2.31-1.38-2.31-1.38 0-1.59 1.1-1.59 2.24V19H9.94v-8.94Z"
-                      fill="currentColor"
-                    ></path>
-                  </svg>
-                  <span>LinkedIn ↗</span>
-                </span>
-              </span>
-            </a>
-          </div>
-          <div>
-            <p class="meta meta--accent">Contact</p>
-            <a href="mailto:contact@flavien-gaujard.fr" class="meta roll">
-              <span data-roll-copy>contact@flavien-gaujard.fr ↗</span>
-              <span data-roll-copy aria-hidden="true">
-                contact@flavien-gaujard.fr ↗
-              </span>
-            </a>
-          </div>
+          <ContactMeta />
         </div>
         <img class="menu__logo" src="/logo.svg" alt="" aria-hidden="true" />
       </div>
@@ -205,85 +139,22 @@ const menuLinks = [
             </span>
           </a>
           <div class="site-footer__grid">
-            <div>
-              <p class="meta meta--accent">Statut</p>
-              <p class="meta">Open to work</p>
-              <p class="meta">Annecy, FR</p>
-            </div>
-            <div>
-              <p class="meta meta--accent">Réseaux</p>
-              <a
-                href="https://github.com/flavontheweb"
-                class="meta roll"
-                rel="noopener"
-                target="_blank"
-              >
-                <span data-roll-copy>
-                  <span class="social-inline">
-                    <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
-                      <path
-                        d="M12 2C6.477 2 2 6.589 2 12.25c0 4.528 2.865 8.37 6.839 9.726.5.096.682-.22.682-.49 0-.241-.009-.879-.014-1.726-2.782.617-3.369-1.373-3.369-1.373-.455-1.183-1.11-1.498-1.11-1.498-.908-.636.069-.623.069-.623 1.004.072 1.532 1.054 1.532 1.054.892 1.566 2.341 1.114 2.91.852.09-.666.349-1.114.635-1.37-2.221-.259-4.556-1.139-4.556-5.069 0-1.119.39-2.034 1.029-2.751-.103-.261-.446-1.313.098-2.737 0 0 .84-.276 2.75 1.051A9.35 9.35 0 0 1 12 6.939a9.35 9.35 0 0 1 2.504.348c1.909-1.327 2.748-1.051 2.748-1.051.546 1.424.203 2.476.1 2.737.64.717 1.028 1.632 1.028 2.751 0 3.94-2.338 4.807-4.566 5.061.359.317.679.943.679 1.901 0 1.373-.013 2.48-.013 2.817 0 .273.18.59.688.49C19.138 20.616 22 16.776 22 12.25 22 6.589 17.523 2 12 2Z"
-                        fill="currentColor"
-                      ></path>
-                    </svg>
-                    <span>GitHub ↗</span>
-                  </span>
-                </span>
-                <span data-roll-copy aria-hidden="true">
-                  <span class="social-inline">
-                    <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
-                      <path
-                        d="M12 2C6.477 2 2 6.589 2 12.25c0 4.528 2.865 8.37 6.839 9.726.5.096.682-.22.682-.49 0-.241-.009-.879-.014-1.726-2.782.617-3.369-1.373-3.369-1.373-.455-1.183-1.11-1.498-1.11-1.498-.908-.636.069-.623.069-.623 1.004.072 1.532 1.054 1.532 1.054.892 1.566 2.341 1.114 2.91.852.09-.666.349-1.114.635-1.37-2.221-.259-4.556-1.139-4.556-5.069 0-1.119.39-2.034 1.029-2.751-.103-.261-.446-1.313.098-2.737 0 0 .84-.276 2.75 1.051A9.35 9.35 0 0 1 12 6.939a9.35 9.35 0 0 1 2.504.348c1.909-1.327 2.748-1.051 2.748-1.051.546 1.424.203 2.476.1 2.737.64.717 1.028 1.632 1.028 2.751 0 3.94-2.338 4.807-4.566 5.061.359.317.679.943.679 1.901 0 1.373-.013 2.48-.013 2.817 0 .273.18.59.688.49C19.138 20.616 22 16.776 22 12.25 22 6.589 17.523 2 12 2Z"
-                        fill="currentColor"
-                      ></path>
-                    </svg>
-                    <span>GitHub ↗</span>
-                  </span>
-                </span>
-              </a>
-              <a href="https://www.linkedin.com/" class="meta roll" rel="noopener" target="_blank">
-                <span data-roll-copy>
-                  <span class="social-inline">
-                    <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
-                      <path
-                        d="M6.94 8.5a1.56 1.56 0 1 0 0-3.12 1.56 1.56 0 0 0 0 3.12ZM5.56 10.06h2.75V19H5.56v-8.94Zm4.38 0h2.64v1.22h.04c.37-.7 1.27-1.44 2.61-1.44 2.8 0 3.31 1.88 3.31 4.33V19H15.8v-4.25c0-1.01-.02-2.31-1.38-2.31-1.38 0-1.59 1.1-1.59 2.24V19H9.94v-8.94Z"
-                        fill="currentColor"
-                      ></path>
-                    </svg>
-                    <span>LinkedIn ↗</span>
-                  </span>
-                </span>
-                <span data-roll-copy aria-hidden="true">
-                  <span class="social-inline">
-                    <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
-                      <path
-                        d="M6.94 8.5a1.56 1.56 0 1 0 0-3.12 1.56 1.56 0 0 0 0 3.12ZM5.56 10.06h2.75V19H5.56v-8.94Zm4.38 0h2.64v1.22h.04c.37-.7 1.27-1.44 2.61-1.44 2.8 0 3.31 1.88 3.31 4.33V19H15.8v-4.25c0-1.01-.02-2.31-1.38-2.31-1.38 0-1.59 1.1-1.59 2.24V19H9.94v-8.94Z"
-                        fill="currentColor"
-                      ></path>
-                    </svg>
-                    <span>LinkedIn ↗</span>
-                  </span>
-                </span>
-              </a>
-            </div>
-            <div>
-              <p class="meta meta--accent">Mail</p>
-              <a href="mailto:contact@flavien-gaujard.fr" class="meta roll">
-                <span data-roll-copy>contact@flavien-gaujard.fr ↗</span>
-                <span data-roll-copy aria-hidden="true">
-                  contact@flavien-gaujard.fr ↗
-                </span>
-              </a>
-            </div>
+            <ContactMeta />
           </div>
-          <div class="site-footer__legal">
-            <p class="meta-copyright">
-              <span class="meta-copyright-line">
-                <span class="meta-copyright-icon">©</span>{' '}
-                <span>{new Date().getFullYear()} Flavien GAUJARD.</span>
-              </span>
-              <span class="meta-copyright-line">Tous droits réservés.</span>
-            </p>
+          <div class="site-footer__legal-wrapper">
+            <div class="site-footer__legal">
+              <p class="meta-copyright">
+                <span class="meta-copyright-line">
+                  <span class="meta-copyright-icon">©</span>{' '}
+                  <span>{new Date().getFullYear()} Flavien GAUJARD.</span>
+                </span>
+                <span class="meta-copyright-line">Tous droits réservés.</span>
+                <a href="/legal" class="meta-copyright-link">
+                  Mentions légales et crédits
+                </a>
+              </p>
+            </div>
+            <img class="site-footer__logo" src="/logo.svg" alt="" height="40" aria-hidden="true" />
           </div>
         </div>
       </footer>
@@ -328,18 +199,26 @@ const menuLinks = [
     overflow: hidden;
   }
 
-  .loader__slot > span {
-    display: block;
-  }
-
   .loader__logo {
     display: block;
     height: clamp(3rem, 6vw, 5rem);
     width: auto;
   }
 
+  .loader__rule {
+    display: block;
+    width: clamp(2.5rem, 6vw, 4rem);
+    height: 1px;
+    margin: 0 auto;
+    background: var(--rust-500);
+    box-shadow: 0 0 8px 0 var(--rust-400);
+    transform-origin: center;
+    transform: scaleX(0);
+  }
+
   .loader__meta {
     text-align: center;
+    clip-path: inset(0 100% 0 0);
   }
 
   .loader__curve {
@@ -355,22 +234,6 @@ const menuLinks = [
 
   body:not([data-load-state='loading']) .loader {
     display: none;
-  }
-
-  /* ---------- Transition ---------- */
-  .transition {
-    position: fixed;
-    inset: 0;
-    z-index: 140;
-    pointer-events: none;
-    visibility: hidden;
-  }
-
-  .transition__panel {
-    position: absolute;
-    inset: -2% 0;
-    background: var(--rust-500);
-    transform: translateY(102%);
   }
 
   /* ---------- Header ---------- */
@@ -426,20 +289,22 @@ const menuLinks = [
     color: var(--paper-50);
   }
 
+  .site-header__brand-logo {
+    display: block;
+    width: 32px;
+    height: 32px;
+  }
+
   .site-header__clock {
     position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    left: var(--margin-x);
+    color: var(--paper-50);
   }
 
   .site-header__actions {
     display: flex;
     align-items: center;
     gap: var(--space-5);
-  }
-
-  .site-header__cta {
-    color: var(--paper-100);
   }
 
   .site-header__burger {
@@ -584,16 +449,6 @@ const menuLinks = [
     margin-top: auto;
   }
 
-  .menu__meta > div {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-  }
-
-  .menu__meta .meta:not(.meta--accent) {
-    color: var(--paper-100);
-  }
-
   .menu__logo {
     position: absolute;
     right: var(--margin-x);
@@ -601,16 +456,6 @@ const menuLinks = [
     width: clamp(10rem, 16vw, 16rem);
     height: auto;
     pointer-events: none;
-  }
-
-  .social-inline {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45em;
-  }
-
-  .social-inline svg {
-    flex: 0 0 auto;
   }
 
   /* ---------- Page ---------- */
@@ -655,40 +500,26 @@ const menuLinks = [
     border-top: 1px solid var(--ink-600);
   }
 
-  .site-footer__grid > div {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-    justify-content: start;
-  }
-
-  .site-footer__grid .meta:not(.meta--accent) {
-    color: var(--paper-100);
-  }
-
-  .site-footer__pill {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
-    padding: var(--space-2) var(--space-3);
-    border: 1px solid var(--ink-600);
-    border-radius: 999px;
-  }
-
-  .site-footer__dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--ok);
-  }
-
   .site-footer__legal {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     gap: var(--space-3);
+  }
+
+  .site-footer__legal-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-4);
     padding-top: var(--space-4);
     border-top: 1px solid var(--ink-600);
+  }
+
+  .site-footer__logo {
+    display: block;
+    margin-top: var(--space-4);
+    height: 50px;
   }
 
   .meta-copyright {
@@ -696,7 +527,7 @@ const menuLinks = [
     align-items: center;
     gap: var(--space-1);
     font-family: var(--font-mono);
-    font-size: var(--text-sm);
+    font-size: var(--text-meta);
     letter-spacing: 0.04em;
     color: var(--ink-300);
   }
@@ -711,6 +542,11 @@ const menuLinks = [
   .meta-copyright-icon {
     font-size: var(--text-lg);
     translate: 0 1px;
+  }
+
+  .meta-copyright-link {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
   }
 
   @media (max-width: 767px) {
@@ -746,10 +582,6 @@ const menuLinks = [
       margin-top: 0;
     }
 
-    .menu__meta > div:last-child {
-      grid-column: 1 / -1;
-    }
-
     .menu__logo {
       display: none;
     }
@@ -757,6 +589,19 @@ const menuLinks = [
     .menu__meta a,
     .site-footer a {
       overflow-wrap: anywhere;
+    }
+
+    a[href^='mailto:'] {
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+    }
+
+    a[href^='mailto:'].roll {
+      overflow: visible;
+    }
+
+    a[href^='mailto:'].roll [data-roll-copy]:last-child {
+      display: none;
     }
 
     .site-footer__inner {
@@ -770,13 +615,24 @@ const menuLinks = [
       font-size: 2.5rem;
     }
 
+    .site-footer__cta .mask-line {
+      overflow: visible;
+    }
+
+    .site-footer__cta .mask-line > span {
+      text-decoration: underline;
+      text-decoration-color: currentColor;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.2em;
+    }
+
+    .site-footer__cta:hover {
+      color: var(--paper-50);
+    }
+
     .site-footer__grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: var(--space-4);
-    }
-
-    .site-footer__grid > div:last-child {
-      grid-column: 1 / -1;
     }
 
     .meta-copyright {

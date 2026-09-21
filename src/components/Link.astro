@@ -1,0 +1,85 @@
+---
+interface Props {
+  label: string;
+  href: string;
+  path?: string;
+  target?: string;
+}
+
+const { label, href, path, target } = Astro.props;
+---
+
+<a
+  href={href}
+  class:list={['link', 'meta', 'roll', { 'link--icon': path }]}
+  target={target}
+  rel={target === '_blank' ? 'noopener noreferrer' : undefined}
+>
+  <span class="link__copy" data-roll-copy>
+    {path && (
+      <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+        <path d={path} fill="currentColor" />
+      </svg>
+    )}
+    <span class="link__content">
+      <span>{label}</span>
+      <span class="link__arrow" aria-hidden="true">
+        ↗
+      </span>
+    </span>
+  </span>
+  <span class="link__copy" data-roll-copy aria-hidden="true">
+    {path && (
+      <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+        <path d={path} fill="currentColor" />
+      </svg>
+    )}
+    <span class="link__content">
+      <span>{label}</span>
+      <span class="link__arrow" aria-hidden="true">
+        ↗
+      </span>
+    </span>
+  </span>
+</a>
+
+<style is:global>
+  .link {
+    color: var(--paper-100);
+  }
+
+  .link .link__copy {
+    display: flex;
+    align-items: center;
+    gap: 0.45em;
+    width: max-content;
+  }
+
+  .link .link__copy svg {
+    flex: 0 0 auto;
+  }
+
+  .link__content {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 2px;
+  }
+
+  .link__arrow {
+    font-size: 1.6em;
+    line-height: 1;
+  }
+
+  @media (max-width: 767px) {
+    .link {
+      overflow: visible;
+      overflow-wrap: anywhere;
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+    }
+
+    .link [data-roll-copy]:last-child {
+      display: none;
+    }
+  }
+</style>
