@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://flavien-gaujard.fr/sitemap-index.xml

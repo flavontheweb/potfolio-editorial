@@ -18,9 +18,7 @@
   --ok: #7a9b6d;
 
   /* Typography */
-  --font-display: 'General Sans', system-ui, sans-serif;
-  --font-body: 'General Sans', system-ui, sans-serif;
-  --font-mono: 'Fragment Mono', monospace;
+  --font-body: var(--font-display);
 
   --text-hero: clamp(3.4375rem, 7.5vw, 6.875rem); /* 55 → 110px */
   --text-h2: clamp(2.125rem, 3.8vw, 3.4375rem); /* 55px cap */

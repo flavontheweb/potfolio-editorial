@@ -1,13 +1,27 @@
 ---
+import { Font } from 'astro:assets';
 import '../styles/global.css';
 import ContactMeta from '../components/ContactMeta.astro';
 
 interface Props {
-  title: string;
-  description: string;
+  title?: string;
+  description?: string;
+  image?: string;
+  lang?: string;
 }
 
-const { title, description } = Astro.props;
+const siteTitle = 'Flavien Gaujard — Portfolio';
+const siteDescription =
+  "Ingénieur logiciel full-stack avec un intérêt singulier pour le design, la photographie, la musique et bien d'autres disciplines.";
+const {
+  title = siteTitle,
+  description = siteDescription,
+  image = '/preview.png',
+  lang = 'fr',
+} = Astro.props;
+const siteUrl = Astro.site ?? Astro.url.origin;
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl);
+const socialImageUrl = new URL(image, siteUrl);
 
 const isHome = Astro.url.pathname === '/';
 const homeHref = (hash: string) => (isHome ? hash : `/${hash}`);
@@ -24,26 +38,43 @@ const menuLinks = [
 ];
 ---
 
-<html lang="fr">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="description" content={description} />
-    <title>{title}</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="alternate icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500&display=swap"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Fragment+Mono&display=swap"
-    />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="theme-color" content="#0a0a0a" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="application-name" content="Flavien Gaujard" />
+    <meta name="apple-mobile-web-app-title" content="Flavien Gaujard" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:site_name" content="Flavien Gaujard" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={socialImageUrl} />
+    <meta property="og:image:alt" content="Portfolio de Flavien Gaujard" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalUrl} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImageUrl} />
+    <meta name="twitter:image:alt" content="Portfolio de Flavien Gaujard" />
+    <Font cssVariable="--font-display" preload />
+    <Font cssVariable="--font-mono" preload />
   </head>
   <body data-load-state="loading">
     <!-- Curtain loader — first visit only -->
