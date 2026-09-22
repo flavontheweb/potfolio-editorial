@@ -4,9 +4,10 @@ import Base from '../layouts/Base.astro';
 const credits = [
   {
     title: 'Vidéo de fond',
-    videoTitle: 'Lake Between Mountains',
-    videoDesc: 'Aerial view of Château de Duingt surrounded by Annecy Lake and mountains.',
-    author: 'Adrien JACTA, sur Pexels.',
+    videoTitle: 'Vue aérienne époustouflante des Alpes enneigées.',
+    videoDesc:
+      "Séquences aériennes par drone des Alpes enneigées, mettant en valeur des paysages d'hiver à couper le souffle et la beauté alpine.",
+    author: 'Oskar Gross, sur Pexels.com.',
   },
   {
     title: 'Modèles photographiques',
@@ -40,6 +41,7 @@ const credits = [
 <Base
   title="Mentions légales et crédits — Flavien Gaujard"
   description="Mentions légales, informations de confidentialité et crédits du portfolio de Flavien Gaujard."
+  showLoader={false}
 >
   <section class="legal-page section container">
     <header class="legal-hero">
@@ -64,6 +66,10 @@ const credits = [
           <a href="https://www.netlify.com" target="_blank" rel="noreferrer">
             www.netlify.com
           </a>
+        </div>
+        <div class="legal-aside__block">
+          <p class="meta">Stack Technique</p>
+          <p>Typescript, Astro, GSAP, Lenis</p>
         </div>
       </aside>
 

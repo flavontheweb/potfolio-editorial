@@ -959,6 +959,12 @@ function initPhotoLightbox({ reduced = false, lenis = null } = {}) {
         activeImage = null;
         animating = false;
         unlockScroll();
+
+        // Locking scroll takes <body> out of flow (position: fixed), which
+        // temporarily collapses the document height and can leave pinned
+        // ScrollTrigger spacers (hero/gallery) mis-sized — refresh once the
+        // real layout is restored to avoid a stray gap/freeze on next scroll.
+        requestAnimationFrame(() => ScrollTrigger.refresh());
       },
     });
 
@@ -1724,12 +1730,18 @@ function init() {
     initProjectsCarousel({ reduced: false });
     initPhotoLightbox({ reduced: false, lenis });
 
-    lenis.stop();
-    playLoader(() => {
+    // Pages without the curtain loader in the DOM skip straight to ready
+    if ($('[data-loader]')) {
+      lenis.stop();
+      playLoader(() => {
+        playIntro();
+        lenis.start();
+        initScrollMotion();
+      });
+    } else {
       playIntro();
-      lenis.start();
       initScrollMotion();
-    });
+    }
 
     return () => {
       ScrollTrigger.getAll().forEach((t) => t.kill());

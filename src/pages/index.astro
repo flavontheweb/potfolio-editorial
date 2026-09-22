@@ -200,6 +200,7 @@ const projects = [
     frontend: ['TypeScript', 'Astro'],
     devops: ['Netlify'],
     imgSrc: projectPsk.src,
+    url: 'https://assopsk.fr',
   },
   {
     index: '05',
@@ -207,10 +208,11 @@ const projects = [
     status: 'Terminé',
     version: '',
     team: true,
-    desc: "Projet personnel visant la conception et le développement d'une suite d'outils de bureautique tel que du traitement de texte, du tableur ou des présentations, le tout associé à un cloud.",
+    desc: "J'ai pu travailler sur le développement de différentes maquettes du site web de W3R.ONE lors de mon stage au studio de design O'Rabbit.",
     frontend: ['HTML', 'CSS'],
     tools: ['Figma', 'Adobe Illustrator'],
     imgSrc: projectW3one.src,
+    url: 'https://w3r.one/fr',
   },
 ];
 
@@ -379,15 +381,13 @@ const photos = rawPhotos.map((photo) => ({
         />
       </figure> -->
       <blockquote class="manifesto__testimonial">
-        <span class="manifesto__testimonial-mark" aria-hidden="true">
-          “
-        </span>
         <p class="manifesto__testimonial-copy">
-          Apprenti manager de l’ingénierie numérique, je poursuis actuellement ma dernière année de
-          Mastère d’ingénierie avancée du logiciel.
+          Apprenti manager de l’ingénierie numérique, je suis actuellement à la recherche d'une
+          opportunité d'alternance afin de réaliser ma dernière année de Mastère d’ingénierie
+          avancée du logiciel.
         </p>
         <footer class="manifesto__testimonial-author">
-          <span>Flavien Gaujard</span>
+          <span>21 Sept. 2026</span>
         </footer>
       </blockquote>
     </div>
@@ -554,8 +554,9 @@ const photos = rawPhotos.map((photo) => ({
         De l'idée au produit final
       </h2>
       <p class="projects__intro" data-reveal>
-        Une sélection de produits conçus entre exigence technique, direction artistique et usage
-        réel.
+        Il est toujours difficile de présenter les projets d'études ou personnels desquels on est le
+        plus fier. En effet, l'apprentissage continue change notre regarde critique au fil du temps.
+        Toutefois, en voici une sélection dont je suis satisfait.
       </p>
     </header>
 
@@ -719,8 +720,9 @@ const photos = rawPhotos.map((photo) => ({
           Le home studio
         </h2>
         <p class="music__intro" data-reveal>
-          La musique est certainement la discipline qui m'est le plus difficile. Pourtant c'est
-          également celle qui me procure le plus d'émotions.
+          La musique est certainement la discipline qui m'est le plus difficile, autant pour la
+          recherche créative que dans l'exécution technique. Pourtant c'est également celle qui me
+          procure le plus d'émotions.
         </p>
       </header>
 
@@ -1055,7 +1057,7 @@ const photos = rawPhotos.map((photo) => ({
     grid-template-rows: 1fr auto;
     align-items: center;
     margin: 0;
-    padding: var(--space-7) var(--space-6) var(--space-5);
+    padding: var(--space-6) var(--space-6) var(--space-5);
     overflow: hidden;
     color: var(--paper-50);
     background: var(--ink-800);
@@ -1090,7 +1092,6 @@ const photos = rawPhotos.map((photo) => ({
     z-index: 1;
     max-width: 100%;
     margin: 0;
-    padding-top: calc(var(--space-5) + 2.5rem);
     font-size: clamp(1.5rem, 2.5vw, 2.375rem);
     line-height: 1.12;
   }
@@ -2342,7 +2343,7 @@ const photos = rawPhotos.map((photo) => ({
     }
 
     .manifesto__testimonial {
-      padding: var(--space-6) var(--space-4) var(--space-4);
+      padding: var(--space-5) var(--space-4) var(--space-4);
     }
 
     .manifesto__testimonial-mark {
@@ -2352,8 +2353,7 @@ const photos = rawPhotos.map((photo) => ({
     }
 
     .manifesto__testimonial-copy {
-      max-width: 22ch;
-      padding-top: calc(var(--space-5) + 2rem);
+      max-width: 100%;
       font-size: clamp(1.25rem, 5vw, 1.6rem);
       line-height: 1.18;
     }

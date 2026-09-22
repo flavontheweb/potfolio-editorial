@@ -8,16 +8,18 @@ interface Props {
   description?: string;
   image?: string;
   lang?: string;
+  showLoader?: boolean;
 }
 
 const siteTitle = 'Flavien Gaujard — Portfolio';
 const siteDescription =
-  "Ingénieur logiciel full-stack avec un intérêt singulier pour le design, la photographie, la musique et bien d'autres disciplines.";
+  'Ingénieur logiciel full-stack avec un intérêt singulier pour le design, la photographie et la musique.';
 const {
   title = siteTitle,
   description = siteDescription,
   image = '/preview.png',
   lang = 'fr',
+  showLoader = true,
 } = Astro.props;
 const siteUrl = Astro.site ?? Astro.url.origin;
 const canonicalUrl = new URL(Astro.url.pathname, siteUrl);
@@ -77,21 +79,23 @@ const menuLinks = [
     <Font cssVariable="--font-mono" preload />
   </head>
   <body data-load-state="loading">
-    <!-- Curtain loader — first visit only -->
-    <div class="loader" data-loader aria-hidden="true">
-      <div class="loader__panel">
-        <div class="loader__monogram" aria-hidden="true">
-          <span class="loader__slot">
-            <img class="loader__logo" src="/logo.svg" alt="" data-loader-char />
-          </span>
+    <!-- Curtain loader — first visit only, skipped on lightweight pages -->
+    {showLoader && (
+      <div class="loader" data-loader aria-hidden="true">
+        <div class="loader__panel">
+          <div class="loader__monogram" aria-hidden="true">
+            <span class="loader__slot">
+              <img class="loader__logo" src="/logo.svg" alt="" data-loader-char />
+            </span>
+          </div>
+          <span class="loader__rule" data-loader-rule></span>
+          <p class="loader__meta meta" data-loader-meta>
+            Software Engineer
+          </p>
         </div>
-        <span class="loader__rule" data-loader-rule></span>
-        <p class="loader__meta meta" data-loader-meta>
-          Software Engineer
-        </p>
+        <div class="loader__curve" data-loader-curve></div>
       </div>
-      <div class="loader__curve" data-loader-curve></div>
-    </div>
+    )}
 
     <!-- Progressive blur header -->
     <header class="site-header">
@@ -114,7 +118,7 @@ const menuLinks = [
         </a>
         {isHome && (
           <p class="site-header__clock meta" aria-hidden="true">
-            <span data-clock>17 sept. 23:59</span>
+            <span data-clock>21 sept. 23:59</span>
           </p>
         )}
         <div class="site-header__actions">
